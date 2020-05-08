@@ -1,0 +1,16 @@
+/* Style Sheet For basic HTML */
+
+p {
+    /* Width */
+    width: 20%;
+
+    /* Border */
+    border: 2px solid blue;
+
+    /* Padding */
+    padding: auto;
+
+    /* Margin */
+    margin: 5% auto;
+
+}

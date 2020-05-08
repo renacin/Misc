@@ -1,0 +1,69 @@
+Title: Introduction To Front End Development
+Date: 03/15/2019
+
+Following The Udemy Course: "The Web-Developer Bootcamp"
+Course # : Section 6, Lecture 56 - 71
+
+# Pre-lecture Questions:
+    + How do I make good looking webpages
+    + Color Coordination & Appropriate Layout
+
+# IMPORTANT RESOURCES
+    + Google Fonts
+        - https://fonts.google.com/
+    + CSS Font Stack
+        - https://www.cssfontstack.com/
+
+# Lecture Notes:
+    + Appropriate Fonts
+        - You need fonts that work with the style of the page to help information flow
+
+    + What fonts work for webpages?
+        - Not all fonts work, different on every computer!
+            + System Fonts that come on each machine
+        - Can Include custom fonts
+
+    + Like CSS Before, Use the Selector & Attribute Method
+        Can change:
+            + font-family
+                - Obvs the font style
+            + font-size
+                - Size, can use pixels or em
+                - em being a relative font size
+                - Extremely important in responsive websites
+            + font-weight
+            + line-weight
+            + line-height
+            + text-align
+            + text-decoration
+
+    + Introduction To The Box Model
+        - On CSS every element has a box around it
+        - Can style different aspects of the box of an element
+            + Content
+                - What goes inside
+            + Padding
+                - The spacing between the content and the border
+            + Border
+                - Border itself, refer to border style
+            + Margin
+                - The spacing between the border and everything else
+
+
+# SIDE NOTES:
+    + By default an element goes all the way across the screen
+
+    + Applies only to the content, everything else is built on these values
+        - To change the width of the paragraph I can use the width: property
+        - To change the height of the element you can use the height: property
+            + Aren't limited to pixels, can use percentages (Responsive Design)
+
+    + Padding can be applied to just one side
+        - There are different attributes
+
+    + Just like Padding, Margin can be applied to different sides
+        - But in this case it applies to the outside of the border
+            + Like border, shortcuts can be used when defining complex margins
+
+        - Can Use Margin & Auto To Center Elements
+            + margin: top right bottom left

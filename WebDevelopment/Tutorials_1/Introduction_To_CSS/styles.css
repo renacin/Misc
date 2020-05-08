@@ -1,0 +1,10 @@
+/* Style The To-Do List */
+
+body {
+    color: rgba(255, 255, 255, 1);
+    background-color: rgba(49, 51, 64, 1);
+}
+
+div {
+    background-color: rgba(36, 38, 51, 1);
+}

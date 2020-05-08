@@ -1,0 +1,22 @@
+Title: Introduction To Front End Development
+Date: 03/18/2019
+
+Following The Udemy Course: "The Web-Developer Bootcamp"
+Course # : Section 6, Lecture 56 - 71
+
+# Pre-lecture Questions:
+    +
+
+# IMPORTANT RESOURCES
+    + Google Fonts
+        - https://fonts.google.com/
+    + CSS Font Stack
+        - https://www.cssfontstack.com/
+
+# Lecture Notes:
+    + Remember DIVs are block level elements
+    + If you want them to be on the same line you need to make use of the FLOAT property
+        - Gives much more control
+
+# SIDE NOTES:
+    +

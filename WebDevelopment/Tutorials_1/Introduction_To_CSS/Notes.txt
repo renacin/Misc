@@ -1,0 +1,109 @@
+Title: Introduction To Front End Development
+Date: 03/06/2019
+
+Following The Udemy Course: "The Web-Developer Bootcamp"
+Course # : Section 5, Lecture 41 - 55
+
+# Pre-lecture Questions:
+    + How do I make good looking webpages
+    + Main Objectives:
+        + What is CSS, and how does it work?
+
+# IMPORTANT RESOURCES
+    - Mozilla Development Network
+        + Tons of resources for developers getting started
+        + https://developer.mozilla.org/en-US/
+
+    - CSS Zen Garden
+        + Teaches, and shows how CSS works, and can be manipulated for a certain style
+        + Cool because all content is the same, but style is radically different between pages
+        + http://www.csszengarden.com/
+
+# Lecture Notes:
+    + Cascading Style Sheets (CSS) adds flavor to the bulk of your content
+    + CSS must be separate from HTML file, thus the same style sheets
+
+    + General Rule Of CSS:
+        - SELECT AN ONJECT --> APPLY STYLES INSIDE OF CURLY BRACES
+
+    + Colors in CSS
+        - Defining colors by name is inaccurate, we can overcome this by implementing more robust color systems
+            + Hexadecimal colors
+                - Most useful, uses base 16 range
+                - Start with Octathorp
+                - Uses additive color scheme
+
+            + RGB colors
+
+            + RGBA colors
+                - Can be used when transparency is needed rgba(255, 255, 255, 1)
+
+    + Background & Border
+        - As the name suggest you can change the background and border of an object
+            + In CSS, add a background attribute and add the color you would like to use
+                - ex background: rgba(100, 200, 100, 1)
+
+        - The background can also be an image
+            + Pass background: url(LINK) to set an image as the background
+            + If the image isn't big enough it will be repeated
+                - Can use a tiled friendly image
+                - Or pass background-repeat: -- as another attribute within the body tag in CSS
+                    + no-repeat;
+                    + can also pass background-size: cover; to get a full cover background
+
+        - A border can be added to each object
+            + Like other attributes, but can needs three characters
+                border-color: ;
+                border-width: ;
+                border-style: ;
+
+            + To make it easier can pass border: (SIZE) (STYLE) (COLOUR);
+
+    + CSS Selectors
+        - Remember, to style a CSS element we use a selector then add and attribute within the curly brackets
+            + Not forgetting to add ; at the end
+
+        - If you want to single out just one element you can do so with an ID selector
+        - <p id = "NAME">
+            + And when stating it in CSS list an octothorp then the name listed (HOOK)
+
+        - To do the same thing but for multiple elements use the class hook
+        - <p class = "NAME">
+            + In CSS use a . & NAME when connecting to it
+
+
+    + Inheritance & Specificity
+        - If you change the CSS of a parent element, it will influence the child element within it
+            + Type selectors are the least specific (Not So Specific)
+            + Class, Attributes, Pseudo-Class (Moderately Specific)
+            + ID Selector (Fairly Specific)
+
+
+
+
+
+# SIDE NOTES:
+    + CSS must be referenced in HTML file, as the metadata
+        + Use a link tag in head
+    + CSS can be written as inline code, or even within a style tag, however it is best to be written as a separate sheet
+        - Separation of Concerns
+
+    + Base Number Systems
+        - Base 10, Min 0 | Max 9  | Ten Digits      | 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+        - Base 16, Min 0 | Max 15 | Sixteen Digits  | 0 - 1, A - F
+
+    + DONT FORGET THE ; AT THE END OF EVERY LINE IN CSS, YOU WILL MAKE MISTAKES BECAUSE OF IT!!!!!!!!!
+
+    + &nbsp = space between characters
+    + <br> = new line between characters
+
+    + There are many types of CSS selectors:
+        - Element
+        - Class
+        - ID
+        - Star
+        - Descendant
+        - Adjacent
+        - Attribute
+        - Nth Of Type
+            + Can apply to even, or odd elements

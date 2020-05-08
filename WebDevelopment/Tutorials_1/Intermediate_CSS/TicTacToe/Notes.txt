@@ -1,0 +1,20 @@
+Title: Introduction To Front End Development
+Date: 03/15/2019
+
+Following The Udemy Course: "The Web-Developer Bootcamp"
+Course # : Section 6, Lecture 56 - 71
+
+# Pre-lecture Questions:
+    + How do you structure HTML, and style it effectively?
+
+# IMPORTANT RESOURCES
+    + Google Fonts
+        - https://fonts.google.com/
+    + CSS Font Stack
+        - https://www.cssfontstack.com/
+
+# Lecture Notes:
+    + Can have multiple classes on one element, just add a space when designating style 
+
+# SIDE NOTES:
+    +
