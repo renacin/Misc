@@ -1,65 +1,16 @@
-Title: Introduction To Front End Development
-Date: 03/04/2019
+Title: Getting back into Web-Development
+Date: 08/05/2020
 
-Following The Udemy Course: "The Web-Developer Bootcamp"
-Course # : Section 3, Lecture 19 - 27
+Goal:
+    + Create a basic website and host it on a github folder
+    + Make it responsive on both desktop, and mobile devices
 
-# Pre-lecture Questions:
-    + How do I effectively use HTML?
-    + What are the differences between closing, and self closing tags?
-    + How do I add attributes to tags?
+Resources Used:
 
-# IMPORTANT RESOURCES
-    - Mozilla Development Network
-        + Tons of resources for developers getting started
-        + https://developer.mozilla.org/en-US/
+SIDE NOTES:
+    + To make a note in an html document use
+        <!--
+        THIS IS THE HEAD TAG - The Main Information Of Your Site Goes Here
+        -->
 
-# Lecture Notes:
-    + History Of HTML
-        - Created in 1989/1990
-            + During this time only text could have been sent through the internet
-        - Allowed publishing of scientific & technical documents
-            + It was a standardized way to send information
-        - Allowed electronic linking of documents via hyperlinks
-            + Important when referencing other scientific documents
-        - Due to its simplicity it quickly moved into public use
-
-    + General Rule Of Tags
-        - Sandwich content in-between opening, and closing tags
-            + EX:
-                - <h1> Heading 1 </h1>
-
-    + All Webpages Need Structure
-        - You need DOCTYPE, HEAD, BODY, HTML
-            + Metadata In Head
-                - Provides general information:
-                    + Title
-                    + Links (CSS, FONTS, JavaScript)
-
-            + Content In Body
-                - Meat of the Webpage
-
-    + Adding Comments:
-        - Single Line Comments: <!-- CONTENT -->
-            + In Atom The Shortcut Is Command /
-
-    + The title is important!
-        - Especially in terms of Search Engine Optimization
-
-    + Lists are really important,
-        - Unordered list can be used as a nav bar,
-        - Ordered lists can be used for directions where order is important
-
-        - Many things can be stored within a list item,
-            + Another List
-            + Paragraphs
-            + Etc...
-
-    + Block Elements Vs. Inline Elements
-        - In the case of headings, nothing comes after a block element, with respect to the same line
-        - In contrast, things can come after inline elements, ex hyperlink, line breaks
-        - Important when differentiating between div & span
-
-# SIDE NOTES:
-    + Don't use inline <b> for bolding, it's deprecated
-        - Follows HTML5 and semantic markup
+    + In Emmet ! + TAB auto creates an HTML template
