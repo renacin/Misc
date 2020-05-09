@@ -7,10 +7,13 @@ Goal:
 
 Resources Used:
 
-SIDE NOTES:
+NOTES:
     + To make a note in an html document use
         <!--
         THIS IS THE HEAD TAG - The Main Information Of Your Site Goes Here
         -->
+
+    + Div tags can be used to separate your HTML document into different sections
+        - Helps with organization, and styling
 
     + In Emmet ! + TAB auto creates an HTML template
