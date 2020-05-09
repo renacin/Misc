@@ -51,8 +51,10 @@ p {
 }
 
 .blog_entry:hover {
+    padding: 2rem;
     background-color: rgba(85, 100, 117, 0.5);
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.3);
+    font-size: 110%;
 }
 
 .Date {
