@@ -1,0 +1,63 @@
+body {
+  background: linear-gradient(#141e30, #243b55);
+  margin:0;
+  padding:0;
+  border: 0;
+  font-weight: 400;
+  font-size: 90%;
+}
+
+.title {
+    margin:0;
+    padding:0;
+    border: 0;
+    font-family: 'Fira Code', sans-serif;
+    font-weight: 400;
+    font-size: 200%;
+}
+
+.subtitle {
+    margin:0;
+    padding:0;
+    border: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 100%;
+    font-style: italic;
+}
+
+.MainContainer {
+    margin:0;
+    padding:0;
+    border: 0;
+    font-family: 'Fira Code', monospace;
+    font-weight: 400;
+    color: #adb3ba;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.Blog_Entry {
+    margin:0;
+    padding:0;
+    border: 0;
+    font-family: 'Fira Code', sans-serif;
+    font-weight: 300;
+    font-size: 100%;
+}
+
+
+.blog_body {
+    margin:0;
+    padding:0;
+    border: 0;
+    font-weight: 300;
+    font-size: 100%;
+
+}
+
+.Date {
+    font-weight: 300;
+    font-size: 80%;
+    text-transform: uppercase;
+    text-align: right;
+}

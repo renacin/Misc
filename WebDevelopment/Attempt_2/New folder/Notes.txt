@@ -1,0 +1,19 @@
+Title: Getting back into Web-Development
+Date: 08/05/2020
+
+Goal:
+    + Create a basic website and host it on a github folder
+    + Make it responsive on both desktop, and mobile devices
+
+Resources Used:
+
+NOTES:
+    + To make a note in an html document use
+        <!--
+        THIS IS THE HEAD TAG - The Main Information Of Your Site Goes Here
+        -->
+
+    + Div tags can be used to separate your HTML document into different sections
+        - Helps with organization, and styling
+
+    + In Emmet ! + TAB auto creates an HTML template
