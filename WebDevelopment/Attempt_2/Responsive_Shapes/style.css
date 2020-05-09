@@ -12,3 +12,13 @@ html, body {
     font-size: 100%;
     color: #adb3ba;
 }
+
+#MainContent{
+    background: rgba(85, 100, 117, 0.08);
+    margin: 50px auto;
+    min-width: 1000px;
+    width: 80%;
+    height: 80%;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+}
