@@ -1,0 +1,14 @@
+/* If you want to apply general settings, apply it to both the HTML, and BODY tags */
+html, body {
+    height: 100%;
+    background: linear-gradient(#141e30, #243b55);
+
+    margin:0;
+    padding:0;
+    border: 0;
+
+    font-family: 'Fira Code', sans-serif;
+    font-weight: 400;
+    font-size: 100%;
+    color: #adb3ba;
+}
