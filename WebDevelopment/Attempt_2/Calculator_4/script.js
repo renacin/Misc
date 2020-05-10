@@ -13,8 +13,19 @@ function UpdateClock() {
                   "July", "August", "September", "October", "Novermber", "December"];
 
     var time_24hr = myDate.getHours();
-    var time_minutes = myDate.getMinutes();
-    var time_seconds = myDate.getSeconds();
+
+
+
+    var time_minutes;
+    var time_minutes_r = myDate.getMinutes();
+    if (time_minutes_r < 10) {time_minutes = "0" + String(time_minutes_r);}
+    else {time_minutes = time_minutes_r}
+
+
+    var time_seconds;
+    var time_seconds_r = myDate.getSeconds();
+    if (time_seconds_r < 10) {time_seconds = "0" + String(time_seconds_r);}
+    else {time_seconds = time_seconds_r}
 
     // Determine Which Half Of The Day
     var am_pm;
