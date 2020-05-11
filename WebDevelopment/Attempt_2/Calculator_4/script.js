@@ -40,7 +40,7 @@ function UpdateClock() {
     else if (time_24hr_r >= 7 && time_24hr_r <= 11) {greeting = "Good Morning Everyone!";}
     else if (time_24hr_r >= 12 && time_24hr_r <= 16) {greeting = "Good Afternoon Everyone!";}
     else if (time_24hr_r >= 17 && time_24hr_r <= 20) {greeting = "Good Evening Everyone!";}
-    else if (time_24hr_r >= 23) {greeting = "Good Night Everyone!";}
+    else if (time_24hr_r >= 21) {greeting = "Good Night Everyone!";}
 
 
     // ---------------  Print Information To A Specific Tag   ---------------
