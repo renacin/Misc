@@ -25,17 +25,32 @@ function JavascriptBasics() {
 
     for (index = 1; index < index_upperlimit; index++) {
         text += index + "<br>";
-        console.log(index);
+        // console.log(index);
     }
 
-    //
+    // Javascript Supports Try and Except, in this case however it's called try and catch
+    /*
+    var numm = 5;
+    try {fin_num = numm + nummber;}
+    catch(err){console.log("An Error Was Detected")}
+    */
 
+    // Printing To The Console Log, and An Element
+    /*
+    console.log();
     document.getElementById("Data").innerHTML = text;
+    */
+}
+
+function UserInput() {
+    var user_val = document.getElementById('fname').value;
+    var greeting = "Hello " + user_val;
+    document.getElementById("parsed_greeting").innerHTML = greeting;
 }
 
 
 
 
 
+
 // --------------------------------------------------------------------------------------------------------------------
-JavascriptBasics(); // Measured In Milliseconds

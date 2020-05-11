@@ -21,12 +21,27 @@
 
     <div id="MainContent">
         <div id="Workspace">
-            <p id="Data"></p>
+
+            <!--Add General Greeting Ask For Name -->
+            <p>Hey, What's Your Name?</p>
+
+            <!--Give User Chance To Input Name-->
+            <input type="text" id="fname" name="fname" placeholder="ex. John Doe"><br>
+
+            <!-- Add A Button So User Can Input Information -->
+            <button onclick="UserInput()">Enter</button>
+
+            <br>
+            
+            <!--Add General Greeting Ask For Name -->
+            <p id="parsed_greeting"></p>
+
         </div>
     </div>
 
 
-
+    <!-- Scripts -->
     <script type="text/javascript" src="script.js"></script>
+
 </body>
 </html>
