@@ -27,6 +27,7 @@ def grablocationdata(path):
                     "Activity_Conf": []
                     }
 
+
     for raw_data in json_data["locations"]:
 
         # Capture Time Data
@@ -59,9 +60,14 @@ def grablocationdata(path):
 
         # Additional Not Mission Critical | Capture Activity Data
         try:
-            act_r = raw_data["activity"]
-            act_type = act_r[0]["type"]
-            act_conf = act_r[0]["conf"]
+            act_raw = raw_data["activity"]
+            act_elem = act_raw[0]
+            act_list = act_elem["activity"]
+            act_dict = act_list[0]
+
+            act_type = act_dict["type"]
+            act_conf = act_dict["confidence"]
+
         except KeyError as e:
             act_type = ""
             act_conf = ""
