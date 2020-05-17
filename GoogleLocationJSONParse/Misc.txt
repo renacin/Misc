@@ -1,0 +1,24 @@
+"activity" :
+
+[ {
+    "timestampMs" : "1587997878237",
+    "activity" :
+
+                [ {"type" : "STILL", "confidence" : 71},
+                    {"type" : "IN_VEHICLE", "confidence" : 14},
+                    {"type" : "IN_ROAD_VEHICLE", "confidence" : 14},
+                    {"type" : "IN_FOUR_WHEELER_VEHICLE", "confidence" : 14},
+                    {"type" : "IN_CAR","confidence" : 14},
+                    {"type" : "ON_FOOT","confidence" : 10},
+                    {"type" : "WALKING","confidence" : 10},
+                    {"type" : "IN_RAIL_VEHICLE", "confidence" : 4},
+                    {"type" : "ON_BICYCLE","confidence" : 1}
+                ]
+
+} ]
+
+
+
+act_r = raw_data["activity"]
+act_type = act_r[0]["type"]
+act_conf = act_r[0]["conf"]
