@@ -12,13 +12,17 @@ import re
 def addr_in_street_row(text):
 
     #Returns String Of Digits, With Possibly An Alphabetic Character
-    pattern = r"\d+[A-Z]?"
-    list_of_addresses = re.findall(pattern, text)
+    pattern = r"\d+[.]?\d+[A-Z]?"
+    list_of_addresses = list(re.findall(pattern, text))
 
     # Return Just The Street Name
     streetname = text
     for addr in list_of_addresses:
         streetname = streetname.replace(addr, "")
+
+    streetname = streetname.replace(" A ", "")
+    streetname = streetname.split(",")
+    streetname = streetname[-1].replace("  ", "")
 
     return list_of_addresses, streetname
 
@@ -57,8 +61,28 @@ def main():
             for col in col_names:
                 cleaned_data[col].append(row[col])
 
-        print(cleaned_data)
-        break
+        else:
+            for addr_ in list_of_addresses:
+
+
+                # Grab Full Addr
+                full_addr = (addr_ + " " + streetname)
+                full_addr = full_addr.replace("  ", " ")
+
+                # Append Data For Each New Addr
+                for col in col_names:
+                    if (col == "Street"):
+                        cleaned_data[col].append(full_addr)
+
+                    else:
+                        cleaned_data[col].append(row[col])
+
+    # Dictionary To Dataframe
+    final_df = pd.DataFrame.from_dict(cleaned_data)
+    final_df.to_csv(r"C:\Users\renac\Desktop\Heritage\HeritageSites_Cleaned.csv", index=False)
+    print("Finished Writting")
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 if __name__ == "__main__":
     main()
