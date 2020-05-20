@@ -10,17 +10,33 @@ import re
 
 # SECONDARY FUNCTION | Determine How Many Addresses In The Street Row
 def addr_in_street_row(text):
+    # Check To See If Text Entry Is Range Of Rows
+    pattern_rangeofaddrs = r"\d+\s?[-]\s?\d+"
+    rangeofaddrs = list(re.findall(pattern_rangeofaddrs, text))
 
-    #Returns String Of Digits, With Possibly An Alphabetic Character
-    pattern = r"\d+[.]?\d+[A-Z]?"
-    list_of_addresses = list(re.findall(pattern, text))
+    # If Text Is A Range Create list_of_addresses Based On It
+    if (len(rangeofaddrs) != 0):
+        range_values = rangeofaddrs[0].split("-")
+        min_val = int(range_values[0])
+        max_val = int(range_values[1])
+        list_of_addresses = list(range(min_val, max_val + 2, 2))
+
+    # Else Do Usual Thing | Returns String Of Digits, With Possibly An Alphabetic Character
+    else:
+        pattern_addrs = r"\d+[.]?[0-9]?[A-Z]?"
+        list_of_addresses = list(re.findall(pattern_addrs, text))
 
     # Return Just The Street Name
     streetname = text
     for addr in list_of_addresses:
-        streetname = streetname.replace(addr, "")
+        streetname = streetname.replace(str(addr), "")
 
+    # Catch Leftover Bits, Remove Becareful Though
     streetname = streetname.replace(" A ", "")
+    streetname = streetname.replace(" .5 ", "")
+    streetname = streetname.replace(" 0 ", "")
+    streetname = streetname.replace("- ", "")
+
     streetname = streetname.split(",")
     streetname = streetname[-1].replace("  ", "")
 
@@ -64,9 +80,8 @@ def main():
         else:
             for addr_ in list_of_addresses:
 
-
                 # Grab Full Addr
-                full_addr = (addr_ + " " + streetname)
+                full_addr = (str(addr_) + " " + streetname)
                 full_addr = full_addr.replace("  ", " ")
 
                 # Append Data For Each New Addr
