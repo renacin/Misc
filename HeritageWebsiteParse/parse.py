@@ -28,7 +28,7 @@ def parsedata(fullpath):
 
         # Visit Site | Get Source HTML
         chrome.get(fullpath)
-        time.sleep(5)
+        time.sleep(2)
         html_ = chrome.page_source
 
         # Using RegEx Find Location
@@ -70,8 +70,8 @@ def parsedata(fullpath):
 
         # Close Driver & Append Data
         chrome.close()
-
         print("School: {}, Address: {}, Neighbourhood: {}, Construction Date: {}".format(name_, addr_, neigh_, yearbuilt_))
+        return name_, addr_, neigh_, yearbuilt_
 
 
 # Main Function
@@ -97,7 +97,7 @@ def main():
         full_path = website + cleaned_id
 
         # Parse Data
-        parsedata(full_path)
+        name_, addr_, neigh_, yearbuilt_ = parsedata(full_path)
 
 
         # Append To Dictionary
