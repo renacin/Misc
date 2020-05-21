@@ -38,39 +38,34 @@ def addr_in_street_row(text):
     streetname = streetname.replace("- ", "")
 
     streetname = streetname.split(",")
-    streetname = streetname[-1].replace("  ", "")
+    streetname_ = streetname[-1].replace("  ", "")
 
-    return list_of_addresses, streetname
+    return list_of_addresses, streetname_
 
 
 # MAIN FUNCTION | Clean Up Heritage Data
 def main():
-    # List Of Column Name
-    col_names = ["AssociatedProject", "Street","NumberOfAddresses", "DateOfConstruction",
-                "Typology", "Nominated_TF", "Nominated", "Decision", "Notes", "Status"]
 
-    # Create Dictionary To Store Cleaned Results
-    cleaned_data = {
-                    "AssociatedProject": [],
-                    "Street": [],
-                    "NumberOfAddresses": [],
-                    "DateOfConstruction": [],
-                    "Typology": [],
-                    "Nominated_TF": [],
-                    "Nominated": [],
-                    "Decision": [],
-                    "Notes": [],
-                    "Status": []
-                   }
+    # Name Of Street Column
+    streetcol = "Street"
 
     # Import CSV
-    heritage_df = pd.read_csv(r"C:\Users\renac\Desktop\Heritage\HeritageSites_C.csv")
+    heritage_df = pd.read_csv(r"C:\Users\renac\Desktop\Heritage\HeritageNominations_C.csv")
+
+    # Get Column Names As List
+    col_names = [col for col in heritage_df.columns]
+
+    # Create A Data Dictionary To Store Cleaned Results
+    cleaned_data = {}
+    for col in col_names:
+        cleaned_data[col] = []
 
     # Loop Through Each Row
     for index, row in heritage_df.iterrows():
 
         # How Many Streets?
-        list_of_addresses, streetname = addr_in_street_row(row["Street"])
+        list_of_addresses, streetname = addr_in_street_row(row[streetcol])
+
 
         # If 1 Address Just Append To Data, Else Iterate Through & Create Individual Addresses
         if (len(list_of_addresses) == 1):
@@ -81,12 +76,12 @@ def main():
             for addr_ in list_of_addresses:
 
                 # Grab Full Addr
-                full_addr = (str(addr_) + " " + streetname)
+                full_addr = (str(addr_) + " " + streetname.upper())
                 full_addr = full_addr.replace("  ", " ")
 
                 # Append Data For Each New Addr
                 for col in col_names:
-                    if (col == "Street"):
+                    if (col == streetcol):
                         cleaned_data[col].append(full_addr)
 
                     else:
@@ -94,7 +89,7 @@ def main():
 
     # Dictionary To Dataframe
     final_df = pd.DataFrame.from_dict(cleaned_data)
-    final_df.to_csv(r"C:\Users\renac\Desktop\Heritage\HeritageSites_Cleaned.csv", index=False)
+    final_df.to_csv(r"C:\Users\renac\Desktop\Heritage\HeritageNominations_Cleaned.csv", index=False)
     print("Finished Writting")
 
 
