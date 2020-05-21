@@ -6,9 +6,7 @@
 import re
 import time
 import pandas as pd
-
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 # ----------------------------------------------------------------------------------------------------------------------
 
 
@@ -28,41 +26,52 @@ def parsedata(fullpath):
         path = r"C:\Users\renac\Documents\Programming\Python\Selenium\chromedriver.exe"
         chrome = webdriver.Chrome(executable_path=path)
 
-        # Visit Site
+        # Visit Site | Get Source HTML
         chrome.get(fullpath)
-        time.sleep(2)
+        time.sleep(5)
+        html_ = chrome.page_source
 
-        # Grab Location Data | Match With Search Pattern
-        location_path = chrome.find_element_by_xpath("//*[@id=\"container\"]/div[7]/div[2]/span")
-        location_text = location_path.get_attribute('innerText')
+        # Using RegEx Find Location
+        location_pattern = r'<span style="line-height:1em;"><b>(.*)</span>'
+        instances = re.findall(location_pattern, html_)
 
-        try:
-            loc_info = location_text.split("\n")
-            name_ = loc_info[0]
-            addr_ = loc_info[1]
-            genloc_ = loc_info[2]
+        # Clean Location Data
+        instance = instances[0]
+        instance = instance.replace("</b><br> ", "\n")
+        instance = instance.replace("<br>", "\n")
+        instances = instance.split("\n")
 
-        except:
-            name_ = fullpath
-            addr_ = ""
-            genloc_ = ""
+        name_ = instances[0]
+        addr_ = instances[1]
+        neigh_ = instances[2]
 
-        # Grab Construction Data | Match With Search Pattern
-        construction_path = chrome.find_element_by_xpath("//*[@id=\"container\"]/div[11]")
-        construction_text = construction_path.get_attribute('innerText')
+        # Using RegEx Find Date Of Construction
+        construct_pattern = r'#333333;">(\s?.{5,50}\s?)</div>'
+        construction_texts = re.findall(construct_pattern, html_)
+        year_pattern = r'[0-9]{4}'
 
-        try:
-            year_info = construction_text.split("\n")
-            year_ = year_info[1]
+        # Have A helper Counter
+        counter = 0
+        for text in construction_texts:
+            y_pattern = re.findall(year_pattern, text)
 
-        except:
-            year_ = ""
+            try:
+                yb = y_pattern[0]
+                counter += 1
 
+            except:
+                pass
+
+        if (counter > 0):
+            yearbuilt_ = yb
+
+        else:
+            yearbuilt_ = ""
 
         # Close Driver & Append Data
         chrome.close()
-        print("School: {}, Address: {}, Neighbourhood: {}, Construction Date: {}".format(name_, addr_, genloc_, year_))
-        return name_, addr_, genloc_, year_
+
+        print("School: {}, Address: {}, Neighbourhood: {}, Construction Date: {}".format(name_, addr_, neigh_, yearbuilt_))
 
 
 # Main Function
@@ -88,14 +97,14 @@ def main():
         full_path = website + cleaned_id
 
         # Parse Data
-        name_, addr_, genloc_, year_ = parsedata(full_path)
+        parsedata(full_path)
+
 
         # Append To Dictionary
         data_dictionary["School"].append(name_)
         data_dictionary["Address"].append(addr_)
-        data_dictionary["Neighbourhood"].append(genloc_)
-        data_dictionary["Construction"].append(year_)
-        break
+        data_dictionary["Neighbourhood"].append(neigh_)
+        data_dictionary["Construction"].append(yearbuilt_)
 
     # Write Data To CSV
     final_df = pd.DataFrame.from_dict(data_dictionary)
