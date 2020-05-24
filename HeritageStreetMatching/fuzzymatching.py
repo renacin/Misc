@@ -66,8 +66,18 @@ def main():
     matched_addr = []
 
     for index, row in cln_maindf.iterrows():
-        school_address = row[col_street]
-        fuzzymatch = process.extractOne(school_address, cln_secondarydf[col_street], score_cutoff = 90)
+
+        # Make The Column That Will Be Searched Against Smaller, Dont Compare The Entire DF - EXPENSIVE
+        school_address_main = row[col_street] # Single Value
+
+        # Comparison Terms | Row Value & New Comparison DF
+        compval = str(row[col_street].split(" ")[1])
+
+        filtered_df = cln_secondarydf[cln_secondarydf[col_street].str.contains(compval)]
+
+        # Find An Appropriate Match
+        fuzzymatch = process.extractOne(school_address_main, filtered_df[col_street], score_cutoff = 90)
+
 
         # Using Values Index, Return The Metric Of Focus
         try:
@@ -85,7 +95,7 @@ def main():
     cln_maindf["MATCH_ADDR"] = matched_addr
 
     # Write DF To CSV
-    cln_maindf.to_csv(r"C:\Users\renac\Desktop\CityPatternsProject\TDSB_ContructDates.csv", index=False)
+    cln_maindf.to_csv(r"C:\Users\renac\Desktop\Test.csv", index=False)
     print("Finished Writting")
 
 
