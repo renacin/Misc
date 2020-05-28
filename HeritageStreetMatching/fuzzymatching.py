@@ -51,7 +51,7 @@ def main():
 
     # Import CSVs
     secondarydf = pd.read_csv(r"C:\Users\renac\Desktop\CityPatternsProject\Toronto_Schools_ConstructionDates.csv")
-    maindf = pd.read_csv(r"C:\Users\renac\Desktop\CityPatternsProject\Toronto_Schools_TDSB.csv")
+    maindf = pd.read_csv(r"C:\Users\renac\Desktop\CityPatternsProject\Toronto_Schools_TCSB.csv")
 
     # Important Info Stored In This Column | Make Common Names!
     contrc_dates = "BUILT"
@@ -101,7 +101,6 @@ def main():
             matc_addr = ""
 
         matched_constructiondates.append(build_date)
-        matched_addr.append(matc_addr)
 
     maindf_NaN["BUILT"] = matched_constructiondates
     final_secondarydf = maindf_NaN[~maindf_NaN[contrc_dates].isnull()]
@@ -110,7 +109,7 @@ def main():
     final_merged = pd.concat([final_maindf, final_secondarydf])
 
     # Write DF To CSV
-    final_merged.to_csv(r"C:\Users\renac\Desktop\Test.csv", index=False)
+    final_merged.to_csv(r"C:\Users\renac\Desktop\TCSB.csv", index=False)
     print("Finished Writting")
 
 
