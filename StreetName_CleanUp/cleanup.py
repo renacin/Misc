@@ -1,32 +1,63 @@
 # Name:                                            Renacin Matadeen
-# Date:                                               05/19/2020
-# Title                                          HeritageStreetNameCleanUp
+# Date:                                               05/28/2020
+# Title                           Precursor To Street Cleaning Program - Understand The Data
 #
 # ----------------------------------------------------------------------------------------------------------------------
-from fuzzywuzzy import process, fuzz
 import pandas as pd
 # ----------------------------------------------------------------------------------------------------------------------
 
 
-# SECONDARY FUNCTION | Full Street Name
-def clean_addr(addr):
+# SECONDARY FUNCTION | Remove Direction If There
+def remove_direction(street_text):
 
-    # Convert To Upper | Upper doesn't help with fuzzy match, but helps with street type conversion
-    address_ = addr.upper()
+    # Convert, Just Incase Spelt Version Is Also There
+    list_dir = [" N ", " E ", " S ", " W ", " NORTH ", " EAST ", " SOUTH ", " WEST "]
 
-    # Replace Concat Street Types
-    street_concat = {" ST ": " STREET ", " AVE ":" AVENUE ", " LN ":" LANE ", " TRL ":" TRAIL ",
-                     " DR ":" DRIVE", " CRES ":" CRESCENT ", " BLVD ":" BOULEVARD ", " RD ":" ROAD ",
-                     " TER ":" TERRACE ", " SQ ":" SQUARE ", " GT ":" GATE ", " PKWY ":" PARKWAY ",
-                     " CRCL ":" CIRCLE "}
+    # Prelim Conversions
+    street_text = street_text.upper()
+    street_text = str(street_text) + " "
 
-    # Prelim Clean Up
-    addr_raw = str(address_) + " "
-    addr_raw = addr_raw.replace(" W ", " WEST")
-    addr_raw = addr_raw.replace(" E ", " EAST")
-    addr_raw = addr_raw.replace(" N ", " NORTH")
-    addr_raw = addr_raw.replace(" S ", " SOUTH")
-    addr_raw = addr_raw.replace("  ", " ")
+    # Replace Direction To FullS
+    for s_dir in list_dir:
+        street_text = street_text.replace(s_dir, " ")
+
+    street_text = street_text.replace("  ", " ")
+    return street_text
+
+
+# MAIN FUNCTION |
+def main():
+
+    # Column Of Focus
+    street_name_col = "NAME"
+
+    # Import The CSV File | Drop Duplicates
+    raw_data = pd.read_csv(r"C:\Users\renac\Desktop\Misc\TorontoStreetData.csv")
+    raw_data = raw_data.drop_duplicates(subset=[street_name_col])
+
+    # Type Of Street Add To This List
+    type_of_street = []
+
+    # Remove West, East, North, or South
+    for index, row in raw_data.iterrows():
+
+        # Clean And Sepertate
+        street_name = remove_direction(row[street_name_col])
+        street_vars = street_name.split(" ")
+
+        # Be Careful Of Empty Strings
+        if (len(street_vars[-1]) == 0):
+            street_type = street_vars[-2]
+        else:
+            street_type = street_vars[-1]
+
+        # Append Data
+        if street_type not in type_of_street:
+            type_of_street.append(street_type)
+
+    file = open(r"C:\Users\renac\Desktop\Misc\StreetTypeData.csv", "w")
+    file.write(str(type_of_street))
+    file.close()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
