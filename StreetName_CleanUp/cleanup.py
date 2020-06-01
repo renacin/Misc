@@ -10,8 +10,48 @@ import pandas as pd
 # SECONDARY FUNCTION | Remove Direction If There
 def remove_direction(street_text):
 
-    # Convert, Just Incase Spelt Version Is Also There
-    list_dir = [" N ", " E ", " S ", " W ", " NORTH ", " EAST ", " SOUTH ", " WEST "]
+    # Street Abbreviations Stored Here | BE CAREFUL OF CANADIAN SPELLING | FOR TORONTO ONLY | BETTER AS JSON?
+    street_dictionary = {
+                        "ALLEY" : [" ALLEE ", " ALLEY ", " ALLY ", " ALY "],
+                        "ANEX" : [" ANEX ", " ANNEX ", " ANNX ", " ANX "],
+                        "AVENUE" : [" AV ", " AVE " , " AVEN " , " AVENU " , " AVENUE " , " AVN " , " AVNUE "],
+                        "BOTTOM" : [" BOT ", " BTM ", " BOTTM "],
+                        "BOULEVARD" : [" BLVD ", " BOUL ", " BOULV ", " BLVRD "],
+                        "CENTRE" : [" CEN ", " CTR ", " CENT ", " CENTR ", " CENTR ", " CNTER ", " CNTR "],
+                        "COMMON" : [" CMN "],
+                        "CORNER" : [" COR "],
+                        "COURSE" : [" CRSE "],
+                        "COURT" : [" CRT ", " CT "],
+                        "CREEK" : [" CRK "],
+                        "CRESCENT" : [" CRES ", " CRSENT ", " CRSNT ", " CRSNT "],
+                        "CROSSING" : [" CROSSING ", " XING ", " CRSSNG "],
+                        "CIRCLE" : [" CRCL "],
+                        "DRIVE" : [" DR ", " DRIV ", " DRV "],
+                        "EXPRESSWAY" : [" EXP ", " EXPY ", " EXPR ", " EXPRESS ", " EXPW ", " EXPY "],
+                        "GARDEN" : [" GDN ", " GARDN ", " GRDEN ", " GRDN "],
+                        "GATE" : [" GT "],
+                        "GATEWAY" : [" GTWY ", " GATEWY ", " GATWAY ", " GTWAY ", " GTWAY ", " GTWY "],
+                        "HIGHWAY" : [" HWY ", " HIGHWY ", " HIWAY ", " HIWY ", " HWAY "],
+                        "HILL" : [" HL "],
+                        "JUNCTION" : [" JCT ", " JCTION ", " JUNCTN ", " JUNCTON "],
+                        "LANE" : [" LN "],
+                        "PARK" : [" PRK "],
+                        "PARKWAY" : [" PARKWY ", " PKWAY ", " PKWY ", " PKY "],
+                        "PATH" : [" PTH "],
+                        "PLAZA" : [" PLZ ", " PLZA "],
+                        "POINT" : [" PT "],
+                        "RIVER" : [" RIV ", " RIVR ", " RVR "],
+                        "ROAD" : [" RD "],
+                        "ROUTE" : [" RTE "],
+                        "SHORE" : [" SHOAR ", " SHR "],
+                        "SQUARE" : [" SQ ", " SQR ", " SQRE ", " SQU "],
+                        "STATION" : [" STA ", " STATN ", " STN "],
+                        "STREET" : [" ST ", " STR ", " STRT "],
+                        "TRAIL" : [" TRL "],
+                        "TERRACE" : [" TER "],
+                        "VILLE" : [" VL ", " VIL "],
+                        "WAY" : [" WY "]
+                        }
 
     # Prelim Conversions
     street_text = street_text.upper()
@@ -43,21 +83,7 @@ def main():
 
         # Clean And Sepertate
         street_name = remove_direction(row[street_name_col])
-        street_vars = street_name.split(" ")
 
-        # Be Careful Of Empty Strings
-        if (len(street_vars[-1]) == 0):
-            street_type = street_vars[-2]
-        else:
-            street_type = street_vars[-1]
-
-        # Append Data
-        if street_type not in type_of_street:
-            type_of_street.append(street_type)
-
-    file = open(r"C:\Users\renac\Desktop\Misc\StreetTypeData.csv", "w")
-    file.write(str(type_of_street))
-    file.close()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
