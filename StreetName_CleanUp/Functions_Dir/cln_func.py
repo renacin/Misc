@@ -5,6 +5,24 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 
+# SECONDARY FUNCTION | Expand Prelim Designations
+def expand_prelim(street_text):
+
+    print(street_text)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # SECONDARY FUNCTION | Expand Street Direction
 def expand_dir(street_text):
 
@@ -126,10 +144,12 @@ def expand_str(street_text):
 # MAIN FUNCTION | Clean Street Input
 def main_clean(street_text):
 
-    dir_expanded = expand_dir(street_text)
-    str_cleaned = expand_str(dir_expanded)
+    prelim_expanded = expand_prelim(street_text)
 
-    return str_cleaned
+    # dir_expanded = expand_dir(street_text)
+    # str_cleaned = expand_str(dir_expanded)
+    #
+    # return 1
 
 
 # ----------------------------------------------------------------------------------------------------------------------
