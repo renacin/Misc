@@ -21,7 +21,8 @@ def expand_dir(street_text):
     street_as_list = street_text.split(" ")
     street_text_edge = street_text + " "
 
-    # For Each Entry In The Dictionary Try To Replace
+    # For Each Entry In The Dictionary Try To Replace | Len Of Original Metric Either Cont/End
+    orig_len = len(street_text_edge)
     for key_, value_ in dir_dictionary.items():
 
         # Try To Replace
@@ -29,12 +30,12 @@ def expand_dir(street_text):
         key_repl = " " + str(key_) + " "
         dir_expand = street_text_edge.replace(str_repl, key_repl)
 
-        # If Value Expanded break out Of Loop
-        if len(dir_expand) > len(street_text_edge):
-            break
+        # Always Loop Through All Directions Edge Cases That Contain More Than One
+        if len(dir_expand) > orig_len:
+            return_text = dir_expand
+            street_text_edge = dir_expand
 
-    return_val = str(dir_expand)
-    return return_val
+    return dir_expand
 
 
 # SECONDARY FUNCTION | Expand Street Type For Easier Comparison & Search
@@ -69,6 +70,7 @@ def expand_str(street_text):
                         "JUNCTION" : ["JCT", "JCTION", "JUNCTN", "JUNCTON"],
                         "LANE" : ["LN", "Ln"],
                         "LAWN" : ["LWN"],
+                        "LINE" : ["LI"],
                         "PARK" : ["PRK", "PK"],
                         "PARKWAY" : ["PARKWY", "PKWAY", "PKWY", "PKY"],
                         "PATH" : ["PTH"],
@@ -93,7 +95,7 @@ def expand_str(street_text):
     # Prelim Text Cleaning
     street_text = street_text.upper()
     street_as_list = street_text.split(" ")
-    street_text_edge = street_text + " "
+    street_text_edge = " " + street_text + " "
 
 
     # For Each Entry In The Dictionary Compare And Exand The Street Type | Set Default Just Incase
@@ -108,6 +110,11 @@ def expand_str(street_text):
             key_repl = " " + key_ + " "
             str_expand = street_text_edge.replace(str_repl, key_repl)
             break
+
+
+    # Final Touch-Ups | Remove Whitespace Infront
+    if str_expand[0] == " ":
+        str_expand = str_expand[1:]
 
     return str_expand
 
