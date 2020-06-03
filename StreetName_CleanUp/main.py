@@ -20,14 +20,24 @@ def main():
     # Type Of Street Add To This List
     type_of_street = []
 
+    # For Debugging
+    data_dictionary = {"Raw_Address": [], "Cleaned_Address": []}
+
     # Remove West, East, North, or South
     for index, row in raw_data.iterrows():
 
-        # Clean And Sepertate
-        cln_street = expand_clean(row[street_name_col])
-        print(cln_street)
+        # Clean Street Inputs
+        cln_str = main_clean(row[street_name_col])
+        print(cln_str)
+        break
 
-
+    #     data_dictionary["Raw_Address"].append(row[street_name_col])
+    #     data_dictionary["Cleaned_Address"].append(cln_street)
+    #
+    # # DEBUGGING
+    # final_df = pd.DataFrame.from_dict(data_dictionary)
+    # final_df.to_csv(r"C:\Users\renac\Desktop\Test.csv", index=False)
+    # print("Finished Writting")
 
 # ----------------------------------------------------------------------------------------------------------------------
 if __name__ == "__main__":
