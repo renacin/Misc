@@ -32,7 +32,6 @@ def expand_dir(street_text):
 
         # Always Loop Through All Directions Edge Cases That Contain More Than One
         if len(dir_expand) > orig_len:
-            return_text = dir_expand
             street_text_edge = dir_expand
 
     return dir_expand
@@ -57,6 +56,7 @@ def expand_str(street_text):
                         "CRESCENT" : ["CRES", "CRSENT", "CRSNT", "CRSNT"],
                         "CROSSING" : ["CROSSING", "XING", "CRSSNG"],
                         "CIRCLE" : ["CRCL"],
+                        "CREEK" : ["CR"],
                         "DRIVE" : ["DR", "DRIV", "DRV"],
                         "EXPRESSWAY" : ["EXP", "EXPY", "EXPR", "EXPRESS", "EXPW", "EXPY"],
                         "GARDEN" : ["GDN", "GARDN", "GRDEN", "GRDN"],
@@ -100,17 +100,21 @@ def expand_str(street_text):
 
     # For Each Entry In The Dictionary Compare And Exand The Street Type | Set Default Just Incase
     str_expand = street_text
+    orig_len = len(str_expand)
     for key_, value_ in street_dictionary.items():
 
         # Look For Match And Query Match Type
         common_val = list(set(street_as_list) & set(value_))
 
         if len(common_val) > 0:
+
             str_repl = " " + common_val[0] + " "
             key_repl = " " + key_ + " "
             str_expand = street_text_edge.replace(str_repl, key_repl)
-            break
 
+            # Always Loop Through All Directions Edge Cases That Contain More Than One
+            if len(str_expand) > orig_len:
+                street_text_edge = str_expand
 
     # Final Touch-Ups | Remove Whitespace Infront
     if str_expand[0] == " ":
