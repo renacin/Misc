@@ -8,27 +8,28 @@ import pandas as pd
 # ----------------------------------------------------------------------------------------------------------------------
 
 
+# MAIN FUNCTION | Stores General Flow Of Program
 def main():
 
-    # Column Of Focus
-    street_name_col = "NAME"
+    # Read Street Abbrv To Be Passed Into Function: expand_str
+    str_abbrv = pd.read_csv(r"C:\Users\renac\Documents\Programming\Python\Misc\StreetName_CleanUp\Data\StreetAbbrv.csv")
+    str_full_list = list(str_abbrv["Full"])
+    str_abbrv_list = list(str_abbrv["Abbrv"])
 
     # Import The CSV File | Drop Duplicates
+    street_name_col = "NAME"
     raw_data = pd.read_csv(r"C:\Users\renac\Desktop\Misc\TorontoStreetData.csv")
     raw_data = raw_data.drop_duplicates(subset=[street_name_col])
 
-    # Type Of Street Add To This List
-    type_of_street = []
-
-    # For Debugging
+    # Final Data Dicitonary
     data_dictionary = {"Raw_Address": [], "Cleaned_Address": []}
 
     # Remove West, East, North, or South
     for index, row in raw_data.iterrows():
 
         # Clean Street Inputs
-        cln_str = main_clean(row[street_name_col])
-        
+        cln_str = main_clean(row[street_name_col], str_full_list, str_abbrv_list)
+
         data_dictionary["Raw_Address"].append(row[street_name_col])
         data_dictionary["Cleaned_Address"].append(cln_str)
 
@@ -37,6 +38,8 @@ def main():
     final_df.to_csv(r"C:\Users\renac\Desktop\Test.csv", index=False)
     print("Finished Writting")
 
+
 # ----------------------------------------------------------------------------------------------------------------------
+
 if __name__ == "__main__":
     main()
