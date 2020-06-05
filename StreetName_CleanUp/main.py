@@ -28,15 +28,14 @@ def main():
 
         # Clean Street Inputs
         cln_str = main_clean(row[street_name_col])
-        break
+        
+        data_dictionary["Raw_Address"].append(row[street_name_col])
+        data_dictionary["Cleaned_Address"].append(cln_str)
 
-    #     data_dictionary["Raw_Address"].append(row[street_name_col])
-    #     data_dictionary["Cleaned_Address"].append(cln_str)
-    #
-    # # DEBUGGING
-    # final_df = pd.DataFrame.from_dict(data_dictionary)
-    # final_df.to_csv(r"C:\Users\renac\Desktop\Test.csv", index=False)
-    # print("Finished Writting")
+    # DEBUGGING
+    final_df = pd.DataFrame.from_dict(data_dictionary)
+    final_df.to_csv(r"C:\Users\renac\Desktop\Test.csv", index=False)
+    print("Finished Writting")
 
 # ----------------------------------------------------------------------------------------------------------------------
 if __name__ == "__main__":

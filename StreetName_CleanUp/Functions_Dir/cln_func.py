@@ -3,24 +3,25 @@
 # Title                                Dunctions Used To Clean Up Street Inputs
 #
 # ----------------------------------------------------------------------------------------------------------------------
+import re
+# ----------------------------------------------------------------------------------------------------------------------
 
+"""
+Notes:
+    + Regular Expressions Are Extremely Important
+        - Can Greatly Reduce Time Complexity In Most Cases, If Implemented Correctly
 
-# SECONDARY FUNCTION | Expand Prelim Designations
-def expand_prelim(street_text):
+    + EXTENSION NOTATION:
+        - saint_pattern = r"(?(" + '|'.join(string_lst) + r"))"
+            +     '|'.join(string_lst) --> This Will Create A String Where The Values Are Glued Together By |
+                                 (?= ) --> Matches if ... matches next, but doesn’t consume any of the string.
+                                           This is called a lookahead assertion.
+                                           Ex: Isaac (?=Asimov) will match 'Isaac ' only if it’s followed by 'Asimov'.
 
-    print(street_text)
+        - saint_pattern = r"'|'.join(string_lst)(?!(" + '|'.join(dir_designations) + r"))"
+            +     '|'.join(string_lst) --> This Will Create A String Where The Values Are Glued Together By |
 
-
-
-
-
-
-
-
-
-
-
-
+"""
 
 
 # SECONDARY FUNCTION | Expand Street Direction
@@ -52,7 +53,39 @@ def expand_dir(street_text):
         if len(dir_expand) > orig_len:
             street_text_edge = dir_expand
 
+    # Final Touch-Ups | Remove Whitespace Infront
+    if dir_expand[-1] == " ":
+        dir_expand = dir_expand[:-1]
+
     return dir_expand
+
+
+# SECONDARY FUNCTION | Expand Prelim Designations
+def expand_prelim(street_text):
+    # Unique End Of Line Designator
+    endline_desig = "ENDOFSEARCHLINE"
+
+    # Add Padding
+    street_text = street_text.upper()
+    padded_st_text = " " + street_text + " " + endline_desig + " "
+
+    # Check To See If Text Entry Is Range Of Rows
+    saint_designations = [" ST\.? "]
+    dir_designations = ["NORTH", "EAST", "SOUTH", "WEST", endline_desig] # The + Indicated The End Of The Line
+
+    # Pattern To Match
+    saint_or_pattern = "|".join(saint_designations)
+    dir_or_pattern = "|".join(dir_designations)
+
+    saint_pattern = saint_or_pattern + "(?!" + dir_or_pattern + ")"
+    st_expand = re.sub(saint_pattern, " SAINT ", padded_st_text)
+
+    # Final Touch Ups
+    st_expand = st_expand.replace(" " + endline_desig + " ", "")
+    if st_expand[0] == " ":
+        st_expand = st_expand[1:]
+
+    return st_expand
 
 
 # SECONDARY FUNCTION | Expand Street Type For Easier Comparison & Search
@@ -64,7 +97,7 @@ def expand_str(street_text):
                         "ANEX" : ["ANEX", "ANNEX", "ANNX", "ANX"],
                         "AVENUE" : ["AV", "AVE" , "AVEN" , "AVENU" , "AVENUE" , "AVN" , "AVNUE"],
                         "BOTTOM" : ["BOT", "BTM", "BOTTM"],
-                        "BOULEVARD" : ["BLVD", "BOUL", "BOULV", "BLVRD"],
+                        "BOULEVARD" : ["BLVD", "BOUL", "BOULV", "BLVRD", "BV"],
                         "CENTRE" : ["CEN", "CTR", "CENT", "CENTR", "CENTR", "CNTER", "CNTR"],
                         "COMMON" : ["CMN"],
                         "CORNER" : ["COR"],
@@ -144,12 +177,11 @@ def expand_str(street_text):
 # MAIN FUNCTION | Clean Street Input
 def main_clean(street_text):
 
-    prelim_expanded = expand_prelim(street_text)
+    dir_expanded = expand_dir(street_text)
+    prelim_expanded = expand_prelim(dir_expanded)
+    str_cleaned = expand_str(prelim_expanded)
 
-    # dir_expanded = expand_dir(street_text)
-    # str_cleaned = expand_str(dir_expanded)
-    #
-    # return 1
+    return str_cleaned
 
 
 # ----------------------------------------------------------------------------------------------------------------------
