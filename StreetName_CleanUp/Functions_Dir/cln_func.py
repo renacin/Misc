@@ -74,9 +74,13 @@ def expand_str(street_text, str_full, str_abbrv):
 
 # MAIN FUNCTION | Clean Street Input
 def main_clean(street_text, str_full, str_abbrv):
+    # Prelim Conversion
+    street_text = street_text.upper()
 
+    # Main Clean Up
     dir_expanded = expand_dir(street_text)
     prelim_expanded = expand_prelim(dir_expanded)
     str_cleaned = expand_str(prelim_expanded, str_full, str_abbrv)
 
+    # Return Value
     return str_cleaned

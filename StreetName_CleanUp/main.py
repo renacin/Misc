@@ -5,6 +5,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 from Functions_Dir.cln_func import *
 import pandas as pd
+import time
 # ----------------------------------------------------------------------------------------------------------------------
 
 
@@ -21,22 +22,12 @@ def main():
     raw_data = pd.read_csv(r"C:\Users\renac\Desktop\Misc\TorontoStreetData.csv")
     raw_data = raw_data.drop_duplicates(subset=[street_name_col])
 
-    # Final Data Dicitonary
-    data_dictionary = {"Raw_Address": [], "Cleaned_Address": []}
-
-    # Remove West, East, North, or South
-    for index, row in raw_data.iterrows():
-
-        # Clean Street Inputs
-        street_text = row[street_name_col].upper()
-        cln_str = main_clean(street_text, str_full_list, str_abbrv_list)
-
-        data_dictionary["Raw_Address"].append(row[street_name_col])
-        data_dictionary["Cleaned_Address"].append(cln_str)
+    # Use List Comprehension To Create Another List
+    cln_addr = [main_clean(x, str_full_list, str_abbrv_list) for x in raw_data[street_name_col]]
 
     # DEBUGGING
-    final_df = pd.DataFrame.from_dict(data_dictionary)
-    final_df.to_csv(r"C:\Users\renac\Desktop\Test.csv", index=False)
+    raw_data["Cleaned_ADDR"] = cln_addr
+    raw_data.to_csv(r"C:\Users\renac\Desktop\Test.csv", index=False)
     print("Finished Writting")
 
 
@@ -44,3 +35,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+#
