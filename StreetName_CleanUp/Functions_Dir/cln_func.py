@@ -59,9 +59,6 @@ def expand_dir(street_text):
     if dir_expand[-1] == " ":
         dir_expand = dir_expand[:-1]
 
-    # Delete Every Variable
-    del dir_dictionary, street_text, street_as_list, street_text_edge, orig_len
-
     return dir_expand
 
 
@@ -91,9 +88,6 @@ def expand_prelim(street_text):
     if st_expand[0] == " ":
         st_expand = st_expand[1:]
 
-    # Delete Every Variable
-    del endline_desig, street_text, padded_st_text, saint_designations, dir_designations, saint_or_pattern, dir_or_pattern, saint_pattern
-
     return st_expand
 
 
@@ -107,22 +101,15 @@ def expand_str(street_text, str_full, str_abbrv):
     # Look For Match And Query Match Type
     common_val = list(set(street_as_list) & set(str_abbrv))
 
-    # Get Index, Find Associated Full Value
-    full_list = []
-    for val_ in common_val:
-        abbrv_index = str_abbrv.index(val_)
-        full_list.append(str_full[abbrv_index])
-
-    # Replace Values In String
-    for abbrv, full in zip(common_val, full_list):
+    # Get Index, Find Associated Full Value & Replace
+    for abbrv in common_val:
+        full = str_full[str_abbrv.index(abbrv)]
         orginal_text = " " + abbrv + " "
         replace_text = " " + full + " "
         street_text_padding = street_text_padding.replace(orginal_text, replace_text)
 
+    # Get Rid Of Padding
     str_clean = street_text_padding[1:-1]
-
-    # Delete Every Variable
-    del street_text_padding, street_as_list, common_val, full_list
 
     return str_clean
 
