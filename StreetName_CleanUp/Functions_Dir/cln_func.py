@@ -6,75 +6,39 @@
 import re
 # ----------------------------------------------------------------------------------------------------------------------
 
-"""
-Notes:
-    + Regular Expressions Are Extremely Important
-        - Can Greatly Reduce Time Complexity In Most Cases, If Implemented Correctly
-
-    + EXTENSION NOTATION:
-        - saint_pattern = r"(?(" + '|'.join(string_lst) + r"))"
-            +     '|'.join(string_lst) --> This Will Create A String Where The Values Are Glued Together By |
-                                 (?= ) --> Matches if ... matches next, but doesn’t consume any of the string.
-                                           This is called a lookahead assertion.
-                                           Ex: Isaac (?=Asimov) will match 'Isaac ' only if it’s followed by 'Asimov'.
-
-        - saint_pattern = r"'|'.join(string_lst)(?!(" + '|'.join(dir_designations) + r"))"
-            +     '|'.join(string_lst) --> This Will Create A String Where The Values Are Glued Together By |
-
-"""
-
-# ----------------------------------------------------------------------------------------------------------------------
-
 
 # SECONDARY FUNCTION | Expand Street Direction
 def expand_dir(street_text):
 
-    # Comparison Dictionary
-    dir_dictionary = {
-                        "NORTH" : ["N"],
-                        "EAST" : ["E"],
-                        "SOUTH" : ["S"],
-                        "WEST" : ["W"]
-                    }
-
     # Prelim Text Cleaning
-    street_text = street_text.upper()
-    street_as_list = street_text.split(" ")
-    street_text_edge = street_text + " "
+    street_as_list_dir = street_text.split(" ")
+    street_dir_padding = " " + street_text + " "
 
-    # For Each Entry In The Dictionary Try To Replace | Len Of Original Metric Either Cont/End
-    orig_len = len(street_text_edge)
-    for key_, value_ in dir_dictionary.items():
+    # Comparison Dictionary
+    dir_abbr = ["N", "E", "S", "W"]
+    dir_full = ["NORTH", "EAST", "SOUTH", "WEST"]
 
-        # Try To Replace
-        str_repl = " " + str(value_[0]) + " "
-        key_repl = " " + str(key_) + " "
-        dir_expand = street_text_edge.replace(str_repl, key_repl)
+    # Find Values To Replace
+    common_dir = list(set(street_as_list_dir) & set(dir_abbr))
 
-        # Always Loop Through All Directions Edge Cases That Contain More Than One
-        if len(dir_expand) > orig_len:
-            street_text_edge = dir_expand
+    for abbrv_dir in common_dir:
+        full_direction = dir_full[dir_abbr.index(abbrv_dir)]
+        orginal_dir = " " + abbrv_dir + " "
+        replace_dir = " " + full_direction + " "
+        street_dir_padding = street_dir_padding.replace(orginal_dir, replace_dir)
 
-    # Final Touch-Ups | Remove Whitespace Infront
-    if dir_expand[-1] == " ":
-        dir_expand = dir_expand[:-1]
-
-    return dir_expand
+    return street_dir_padding[1:-1]
 
 
 # SECONDARY FUNCTION | Expand Prelim Designations
 def expand_prelim(street_text):
 
-    # Unique End Of Line Designator
-    endline_desig = "ENDOFSEARCHLINE"
-
     # Add Padding
-    street_text = street_text.upper()
-    padded_st_text = " " + street_text + " " + endline_desig + " "
+    padded_st_text = " " + street_text + " ENDOFSEARCHLINE "
 
     # Check To See If Text Entry Is Range Of Rows
     saint_designations = [" ST\.? "]
-    dir_designations = ["NORTH", "EAST", "SOUTH", "WEST", endline_desig] # The + Indicated The End Of The Line
+    dir_designations = ["NORTH", "EAST", "SOUTH", "WEST", "ENDOFSEARCHLINE"] # The + Indicated The End Of The Line
 
     # Pattern To Match
     saint_or_pattern = "|".join(saint_designations)
@@ -83,12 +47,7 @@ def expand_prelim(street_text):
     saint_pattern = saint_or_pattern + "(?!" + dir_or_pattern + ")"
     st_expand = re.sub(saint_pattern, " SAINT ", padded_st_text)
 
-    # Final Touch Ups
-    st_expand = st_expand.replace(" " + endline_desig + " ", "")
-    if st_expand[0] == " ":
-        st_expand = st_expand[1:]
-
-    return st_expand
+    return st_expand[1:-17]
 
 
 # SECONDARY FUNCTION | Expand Street Type For Easier Comparison & Search | Pass List Of Full & Abbrv Street Types
@@ -108,10 +67,7 @@ def expand_str(street_text, str_full, str_abbrv):
         replace_text = " " + full + " "
         street_text_padding = street_text_padding.replace(orginal_text, replace_text)
 
-    # Get Rid Of Padding
-    str_clean = street_text_padding[1:-1]
-
-    return str_clean
+    return street_text_padding[1:-1]
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -124,8 +80,3 @@ def main_clean(street_text, str_full, str_abbrv):
     str_cleaned = expand_str(prelim_expanded, str_full, str_abbrv)
 
     return str_cleaned
-
-# ----------------------------------------------------------------------------------------------------------------------
-
-if __name__ == "__main__":
-    pass

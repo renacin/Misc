@@ -28,7 +28,8 @@ def main():
     for index, row in raw_data.iterrows():
 
         # Clean Street Inputs
-        cln_str = main_clean(row[street_name_col], str_full_list, str_abbrv_list)
+        street_text = row[street_name_col].upper()
+        cln_str = main_clean(street_text, str_full_list, str_abbrv_list)
 
         data_dictionary["Raw_Address"].append(row[street_name_col])
         data_dictionary["Cleaned_Address"].append(cln_str)
