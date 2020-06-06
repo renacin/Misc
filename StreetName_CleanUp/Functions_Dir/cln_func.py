@@ -60,15 +60,15 @@ def expand_dir(street_text):
     if dir_expand[-1] == " ":
         dir_expand = dir_expand[:-1]
 
+    # Delete Every Variable
+    del dir_dictionary, street_text, street_as_list, street_text_edge, orig_len
+
     return dir_expand
-
-
-
-
 
 
 # SECONDARY FUNCTION | Expand Prelim Designations
 def expand_prelim(street_text):
+    
     # Unique End Of Line Designator
     endline_desig = "ENDOFSEARCHLINE"
 
@@ -91,6 +91,9 @@ def expand_prelim(street_text):
     st_expand = st_expand.replace(" " + endline_desig + " ", "")
     if st_expand[0] == " ":
         st_expand = st_expand[1:]
+
+    # Delete Every Variable
+    del endline_desig, street_text, padded_st_text, saint_designations, dir_designations, saint_or_pattern, dir_or_pattern, saint_pattern
 
     return st_expand
 
@@ -119,15 +122,16 @@ def expand_str(street_text, str_full, str_abbrv):
 
     str_clean = street_text_padding[1:-1]
 
+    # Delete Every Variable
+    del street_text_padding, street_as_list, common_val, full_list, abbrv_index, orginal_text, replace_text
+
     return str_clean
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-
 # MAIN FUNCTION | Clean Street Input
 def main_clean(street_text, str_full, str_abbrv):
-
 
     dir_expanded = expand_dir(street_text)
     prelim_expanded = expand_prelim(dir_expanded)
@@ -135,9 +139,8 @@ def main_clean(street_text, str_full, str_abbrv):
 
     return str_cleaned
 
-
 # ----------------------------------------------------------------------------------------------------------------------
 
-
 if __name__ == "__main__":
+
     pass
