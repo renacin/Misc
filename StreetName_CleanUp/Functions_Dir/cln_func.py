@@ -3,7 +3,6 @@
 # Title                                Dunctions Used To Clean Up Street Inputs
 #
 # ----------------------------------------------------------------------------------------------------------------------
-import pandas as pd
 import re
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -68,7 +67,7 @@ def expand_dir(street_text):
 
 # SECONDARY FUNCTION | Expand Prelim Designations
 def expand_prelim(street_text):
-    
+
     # Unique End Of Line Designator
     endline_desig = "ENDOFSEARCHLINE"
 
@@ -123,7 +122,7 @@ def expand_str(street_text, str_full, str_abbrv):
     str_clean = street_text_padding[1:-1]
 
     # Delete Every Variable
-    del street_text_padding, street_as_list, common_val, full_list, abbrv_index, orginal_text, replace_text
+    del street_text_padding, street_as_list, common_val, full_list
 
     return str_clean
 
@@ -142,5 +141,4 @@ def main_clean(street_text, str_full, str_abbrv):
 # ----------------------------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
-
     pass
