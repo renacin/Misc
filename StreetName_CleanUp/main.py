@@ -17,8 +17,8 @@ def main():
     str_abbrv_list = list(str_abbrv["Abbrv"])
 
     # Import The CSV File | Drop Duplicates
-    street_name_col = "NAME"
-    raw_data = pd.read_csv(r"C:\Users\renac\Desktop\Misc\TorontoStreetData.csv")
+    street_name_col = "LF_NAME"
+    raw_data = pd.read_csv(r"C:\Users\renac\Desktop\Misc\CityCentreLine\Data.csv")
     raw_data = raw_data.drop_duplicates(subset=[street_name_col])
 
     # New Column Equal List Comprehension Creation
@@ -32,6 +32,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-#

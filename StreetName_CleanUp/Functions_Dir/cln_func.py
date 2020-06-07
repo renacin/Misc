@@ -12,7 +12,7 @@ def expand_dir(street_text):
 
     # Prelim Text Cleaning
     street_as_list_dir = street_text.split(" ")
-    street_dir_padding = " " + street_text + " "
+    street_dir_padding = " {} ".format(street_text)
 
     # Comparison Dictionary
     dir_abbr = ["N", "E", "S", "W"]
@@ -23,8 +23,8 @@ def expand_dir(street_text):
 
     for abbrv_dir in common_dir:
         full_direction = dir_full[dir_abbr.index(abbrv_dir)]
-        orginal_dir = " " + abbrv_dir + " "
-        replace_dir = " " + full_direction + " "
+        orginal_dir = " {} ".format(abbrv_dir)
+        replace_dir = " {} ".format(full_direction)
         street_dir_padding = street_dir_padding.replace(orginal_dir, replace_dir)
 
     return street_dir_padding[1:-1]
@@ -34,7 +34,7 @@ def expand_dir(street_text):
 def expand_prelim(street_text):
 
     # Add Padding
-    padded_st_text = " " + street_text + " ENDOFSEARCHLINE "
+    padded_st_text = " {} ENDOFSEARCHLINE ".format(street_text)
 
     # Check To See If Text Entry Is Range Of Rows
     saint_designations = [" ST\.? "]
@@ -54,7 +54,7 @@ def expand_prelim(street_text):
 def expand_str(street_text, str_full, str_abbrv):
 
     # Prelim Text Cleaning
-    street_text_padding = " " + street_text + " "
+    street_text_padding = " {} ".format(street_text)
     street_as_list = street_text.split(" ")
 
     # Look For Match And Query Match Type
@@ -63,8 +63,9 @@ def expand_str(street_text, str_full, str_abbrv):
     # Get Index, Find Associated Full Value & Replace
     for abbrv in common_val:
         full = str_full[str_abbrv.index(abbrv)]
-        orginal_text = " " + abbrv + " "
-        replace_text = " " + full + " "
+        orginal_text = " {} ".format(abbrv)
+        replace_text = " {} ".format(full)
+
         street_text_padding = street_text_padding.replace(orginal_text, replace_text)
 
     return street_text_padding[1:-1]
