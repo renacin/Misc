@@ -5,7 +5,6 @@
 # ----------------------------------------------------------------------------------------------------------------------
 from Functions_Dir.cln_func import *
 import pandas as pd
-import time
 # ----------------------------------------------------------------------------------------------------------------------
 
 
@@ -22,13 +21,11 @@ def main():
     raw_data = pd.read_csv(r"C:\Users\renac\Desktop\Misc\TorontoStreetData.csv")
     raw_data = raw_data.drop_duplicates(subset=[street_name_col])
 
-    # Use List Comprehension To Create Another List
-    cln_addr = [main_clean(x, str_full_list, str_abbrv_list) for x in raw_data[street_name_col]]
+    # New Column Equal List Comprehension Creation
+    raw_data["Cleaned_ADDR"] = [main_clean(x, str_full_list, str_abbrv_list) for x in raw_data[street_name_col]]
 
-    # DEBUGGING
-    raw_data["Cleaned_ADDR"] = cln_addr
+    # Export Data
     raw_data.to_csv(r"C:\Users\renac\Desktop\Test.csv", index=False)
-    print("Finished Writting")
 
 
 # ----------------------------------------------------------------------------------------------------------------------
