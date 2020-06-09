@@ -73,10 +73,8 @@ def expand_str(street_text, str_full, str_abbrv):
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-
 # MAIN FUNCTION | Clean Street Input
-def combined_clean(street_text, str_full, str_abbrv):
-
+def main_clean(street_text, str_full, str_abbrv):
     # Prelim Conversion
     street_text = street_text.upper()
 
@@ -87,13 +85,3 @@ def combined_clean(street_text, str_full, str_abbrv):
 
     # Return Value
     return str_cleaned
-
-
-# MAIN FUNCTION | Implementation For Multiprocessing Attempt
-def main_function(street_list, str_full, str_abbrv, processor_id, return_data):
-
-    # Compute Data & Return Data To Manager
-    cleaned_data = [combined_clean(x, str_full, str_abbrv) for x in street_list]
-    return_data["Processor" + str(processor_id)] = cleaned_data
-
-# ----------------------------------------------------------------------------------------------------------------------
