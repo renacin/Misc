@@ -21,7 +21,7 @@ def main():
     raw_data = pd.read_csv(r"C:\Users\renac\Desktop\Misc\CityCentreLine\Data.csv")
 
     # Vectorize Data With Numpy Array
-    raw_data["Cleaned_ADDR"] = [main_clean(x, str_full_list, str_abbrv_list) for x in raw_data[street_name_col]]
+    raw_data["Cleaned_ADDR"] = main_clean(raw_data[street_name_col], str_full_list, str_abbrv_list)
 
     # # Export Data
     # raw_data.to_csv(r"C:\Users\renac\Desktop\Test.csv", index=False)

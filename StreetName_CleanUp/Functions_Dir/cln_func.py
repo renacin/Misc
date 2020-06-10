@@ -11,23 +11,23 @@ import re
 def expand_dir(street_text):
 
     # Prelim Text Cleaning
-    street_as_list_dir = street_text.split(" ")
-    street_dir_padding = " {} ".format(street_text)
-
-    # Comparison Dictionary
-    dir_abbr = ["N", "E", "S", "W"]
-    dir_full = ["NORTH", "EAST", "SOUTH", "WEST"]
-
-    # Find Values To Replace
-    common_dir = list(set(street_as_list_dir) & set(dir_abbr))
-
-    for abbrv_dir in common_dir:
-        full_direction = dir_full[dir_abbr.index(abbrv_dir)]
-        orginal_dir = " {} ".format(abbrv_dir)
-        replace_dir = " {} ".format(full_direction)
-        street_dir_padding = street_dir_padding.replace(orginal_dir, replace_dir)
-
-    return street_dir_padding[1:-1]
+    street_as_list_dir = street_text.str.split(" ")
+    # street_dir_padding = " {} ".format(street_text)
+    #
+    # # Comparison Dictionary
+    # dir_abbr = ["N", "E", "S", "W"]
+    # dir_full = ["NORTH", "EAST", "SOUTH", "WEST"]
+    #
+    # # Find Values To Replace
+    # common_dir = list(set(street_as_list_dir) & set(dir_abbr))
+    #
+    # for abbrv_dir in common_dir:
+    #     full_direction = dir_full[dir_abbr.index(abbrv_dir)]
+    #     orginal_dir = " {} ".format(abbrv_dir)
+    #     replace_dir = " {} ".format(full_direction)
+    #     street_dir_padding = street_dir_padding.replace(orginal_dir, replace_dir)
+    #
+    # return street_dir_padding[1:-1]
 
 
 # SECONDARY FUNCTION | Expand Prelim Designations
@@ -76,12 +76,12 @@ def expand_str(street_text, str_full, str_abbrv):
 # MAIN FUNCTION | Clean Street Input
 def main_clean(street_text, str_full, str_abbrv):
     # Prelim Conversion
-    street_text = street_text.upper()
+    street_text = street_text.str.upper()
 
     # Main Clean Up
     dir_expanded = expand_dir(street_text)
-    prelim_expanded = expand_prelim(dir_expanded)
-    str_cleaned = expand_str(prelim_expanded, str_full, str_abbrv)
+    # prelim_expanded = expand_prelim(dir_expanded)
+    # str_cleaned = expand_str(prelim_expanded, str_full, str_abbrv)
 
     # Return Value
-    return str_cleaned
+    return 1
