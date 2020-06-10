@@ -19,16 +19,16 @@ def main():
     # Import The CSV File | Drop Duplicates
     street_name_col = "LF_NAME"
     raw_data = pd.read_csv(r"C:\Users\renac\Desktop\Misc\CityCentreLine\Data.csv")
-    raw_data = raw_data.drop_duplicates(subset=[street_name_col])
 
-    # New Column Equal List Comprehension Creation
+    # Vectorize Data With Numpy Array
     raw_data["Cleaned_ADDR"] = [main_clean(x, str_full_list, str_abbrv_list) for x in raw_data[street_name_col]]
 
-    # Export Data
-    raw_data.to_csv(r"C:\Users\renac\Desktop\Test.csv", index=False)
+    # # Export Data
+    # raw_data.to_csv(r"C:\Users\renac\Desktop\Test.csv", index=False)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
+
     main()
