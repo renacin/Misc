@@ -1,13 +1,8 @@
-# Name:                                            Renacin Matadeen
-# Date:                                               06/26/2020
-# Title                                             Big O Examples
-#
-# ----------------------------------------------------------------------------------------------------------------------
-"""
 General:
     - Examples From:
         https://stackabuse.com/big-o-notation-and-algorithm-analysis-with-python-examples/
         https://towardsdatascience.com/understanding-time-complexity-with-python-examples-2bda6e8158a7
+
 
     - Big O In Order Of Time Complexity:
         = O(1) ----------- Constant
@@ -17,9 +12,11 @@ General:
         = O(N^C) --------- Polynomial
         = O(C^N) --------- Exponential
         = O(N!) ---------- Factorial
-"""
-# ----------------------------------------------------------------------------------------------------------------------
-"""
+
+
+
+
+
 [EXAMPLE #1 - Constant Complexity]
 Ex:
     print("Hello World")
@@ -30,9 +27,10 @@ BigO:
 Explanation:
     - In this case the section of code will always take the same amount of time
     - Size of inputs does not influence the time a code takes to run
-"""
-# ----------------------------------------------------------------------------------------------------------------------
-"""
+
+
+
+
 
 [EXAMPLE #2A - Linear Complexity]
 Ex:
@@ -45,6 +43,9 @@ BigO:
 Explanation:
     - The time it takes to run this section of code depends on the number of inputs
     - The larger the number of inputs the longer iit takes to run this section of code
+
+
+
 
 
 [EXAMPLE #2B - Complex Linear Complexity]
@@ -63,6 +64,9 @@ BigO:
     = O(2N)
 
 
+
+
+
 [EXAMPLE #3A - Polynomial Complexity]
 Ex:
     for first_name in list_of_first_names:
@@ -75,6 +79,9 @@ BigO:
 Explanation:
     - For each item in the outer loop, loop through the values of the inner loop
     - Simply stated, N*N (For the number of nested loops)
+
+
+
 
 
 [EXAMPLE #3B - Complex Polynomial Complexity]
@@ -94,9 +101,30 @@ BigO:
     = O(N^3)
 
 
+
+
+
 [EXAMPLE #4 - Exponential Complexity]
 Ex:
-    for first_name in list_of_first_names:
-        for last_name in list_of_last_names:
-            print(first_name, last_name)
-"""
+    def recur(n):
+       if n == 1:
+            return n
+       else:
+            return(recur(n-1) + recur(n-1))
+
+BigO:
+    = O(2^N)
+
+Explanation:
+    - If base case is not satisfied, value will create recursively iterate, and then try to compute
+
+    L0                                  4
+                                        |
+    L1                          3 ------------- 3
+                                |               |
+    L2                      2 ----- 2       2 ----- 2
+                            |       |       |       |
+    L3                    1---1   1---1   1---1   1---1
+
+    - In this case Big(O) is 2^N+1 - 1, where N is the number of branches
+    - Recursion is hard, Need more help
