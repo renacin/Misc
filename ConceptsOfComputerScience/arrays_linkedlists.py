@@ -33,15 +33,30 @@ Notes:
         - Speed when iterating through all the elements in sequence
         - Memory is a concern
 
+
+
+Jot Notes:
+    Time To Append 1 Data Point To End
+        - Array Elem 1_000_000         Time = 0.010011434555053711    [1x]
+        - Array Elem 2_000_000         Time = 0.021019935607910156    [2x]
+        - Array Elem 5_000_000         Time = 0.049993276596069336    [5x]
+
 """
 # ----------------------------------------------------------------------------------------------------------------------
+
 
 def array_list(n):
     list_array = [x for x in range(n)]
     return list_array
 
 
+def main():
+    arr_lst = array_list(5_000_000)
+    start = time.time()
+    arr_lst = arr_lst.append(1)
+    end = time.time()
+    print("Time Elapsed: {}".format(end - start))
+
 # ----------------------------------------------------------------------------------------------------------------------
 if __name__ == "__main__":
-
-    arr_lst = array_list(100_000)
+    main()
