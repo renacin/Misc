@@ -4,10 +4,12 @@
 #
 # ----------------------------------------------------------------------------------------------------------------------
 import time
+from sys import getsizeof
 # ----------------------------------------------------------------------------------------------------------------------
 """
 Links Followed:
     https://stackabuse.com/linked-lists-in-detail-with-python-examples-single-linked-lists/
+    https://stackabuse.com/python-linked-lists/
 
 Notes:
     + What Is The Difference Between Linked Lists And Arrays
@@ -29,6 +31,8 @@ Notes:
         - Have no clue how many items will be in the list
         - Don't need random access to any elements
 
+        - Are fundemental to the construction of other data structures
+
     + Arrays Peferable When:
         - Need indexed/random access to elements
         - Know the number of elements in the array ahead of time
@@ -42,6 +46,10 @@ Jot Notes:
         - Array Elem 5_000_000         Time = 0.049993276596069336    [5x]
 
     + Linked Lists
+        - Works With Nodes, They Contain:
+            + Data
+            + Pointers To Other Nodes
+
         - Need a header node to start the list
 
 """
@@ -50,34 +58,14 @@ Jot Notes:
 
 
 # Creating A Structure For Singly Linked Lists
-class Node:
+class LL_Node:
     def __init__(self, data):
-        self.item = data
-        self.ref = None
 
-class SinglyLinkedList:
-    def __init__(self):
-        self.start_node = None
+        # Nodes Store Data, As Well As Pointers
+        self.data = data
+        self.next = None
+        return
 
-    def traverse_list(self):
-        if self.start_node is None:
-            print("List has no element")
-            return
-        else:
-            n = self.start_node
-            while n is not None:
-                print(n.item , " ")
-                n = n.ref
-
-    def insert_at_end(self, data):
-        new_node = Node(data)
-        if self.start_node is None:
-            self.start_node = new_node
-            return
-        n = self.start_node
-        while n.ref is not None:
-            n= n.ref
-        n.ref = new_node
 
 
 
@@ -92,15 +80,14 @@ def array_list(n):
 # MAIN FUNCTION WILL STORE TESTING
 def main():
 
-    # For Array Testing
-    arr_lst = array_list(100)
+    # # For Array Testing
+    # arr_lst = array_list(10000)
+    # print("Size Of Array: {} [KiloBytes]".format(getsizeof(arr_lst) / 1024))
 
-    # For Linked List Testing
-    linked_list = SinglyLinkedList()
-    linked_list.insert_at_end(5)
-    linked_list.insert_at_end(10)
-    linked_list.insert_at_end(15)
-    linked_list.traverse_list()
+    # For LinkedList Testing
+    node_1 = LL_Node("Canada")
+    node_2 = LL_Node("America")
+    node_3 = LL_Node("Mexico")
 
 
 
