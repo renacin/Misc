@@ -6,6 +6,9 @@
 import time
 # ----------------------------------------------------------------------------------------------------------------------
 """
+Links Followed:
+    https://stackabuse.com/linked-lists-in-detail-with-python-examples-single-linked-lists/
+
 Notes:
     + What Is The Difference Between Linked Lists And Arrays
 
@@ -27,35 +30,79 @@ Notes:
         - Don't need random access to any elements
 
     + Arrays Peferable When:
-
         - Need indexed/random access to elements
         - Know the number of elements in the array ahead of time
         - Speed when iterating through all the elements in sequence
         - Memory is a concern
 
-
-
 Jot Notes:
-    Time To Append 1 Data Point To End
+    + Time To Append 1 Data Point To End
         - Array Elem 1_000_000         Time = 0.010011434555053711    [1x]
         - Array Elem 2_000_000         Time = 0.021019935607910156    [2x]
         - Array Elem 5_000_000         Time = 0.049993276596069336    [5x]
+
+    + Linked Lists
+        - Need a header node to start the list
 
 """
 # ----------------------------------------------------------------------------------------------------------------------
 
 
+
+# Creating A Structure For Singly Linked Lists
+class Node:
+    def __init__(self, data):
+        self.item = data
+        self.ref = None
+
+class SinglyLinkedList:
+    def __init__(self):
+        self.start_node = None
+
+    def traverse_list(self):
+        if self.start_node is None:
+            print("List has no element")
+            return
+        else:
+            n = self.start_node
+            while n is not None:
+                print(n.item , " ")
+                n = n.ref
+
+    def insert_at_end(self, data):
+        new_node = Node(data)
+        if self.start_node is None:
+            self.start_node = new_node
+            return
+        n = self.start_node
+        while n.ref is not None:
+            n= n.ref
+        n.ref = new_node
+
+
+
+# Utilizing A Structure For Array Lists
 def array_list(n):
     list_array = [x for x in range(n)]
     return list_array
 
 
+
+
+# MAIN FUNCTION WILL STORE TESTING
 def main():
-    arr_lst = array_list(5_000_000)
-    start = time.time()
-    arr_lst = arr_lst.append(1)
-    end = time.time()
-    print("Time Elapsed: {}".format(end - start))
+
+    # For Array Testing
+    arr_lst = array_list(100)
+
+    # For Linked List Testing
+    linked_list = SinglyLinkedList()
+    linked_list.insert_at_end(5)
+    linked_list.insert_at_end(10)
+    linked_list.insert_at_end(15)
+    linked_list.traverse_list()
+
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 if __name__ == "__main__":
