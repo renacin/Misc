@@ -51,6 +51,9 @@ Jot Notes:
             + Data
             + Pointers To Other Nodes
 
+        - When Adding To The First / Deleting The First Elem, Is Big O(1)
+        - But You Must Order So Your Adding To The First Spot
+
         - Need a header node to start the list
 
 """
@@ -59,36 +62,37 @@ Jot Notes:
 
 
 # Creating A Subclass Of The Linked List
-class node:
+class node_ll:
     # Nodes Store Data, As Well As Pointer To Next Node [Default Is None In Case It's The Last One]
-    def __init__(self, data=None):
+    def __init__(self, data=None, next=None):
         self.data = data
-        self.next = None
+        self.next = next
 
 class SinglyLinkedList():
-    # Initialize The Head Node, Will Never Contain Data
+    # Initialize The Head Node, Will Not Contain Data, Just Initiates First Point
     def __init__(self):
-        self.head = node()
+        self.head = None
 
-    # Append Data | Note Data Must Be Appended To The Right Most | Iterate Until Cur Next = None
-    def append_node(self, data):
-        new_node = node(data)
-        current_node = self.head
+    # Method To Insert Data At Begining | Head of the ll moves to the new node
+    def insert_ll(self, data):
+        node = node_ll(data, self.head)
+        self.head = node
 
-        # WHY DO I HAVE TO LOOP TRHOUGH EACH POINT TO ADD A NEW POINT?!? WHERE IS THE O(1)
-        while current_node != None:
-            current_node = current_node.next
+    # Method To Print Your LinkedList | Depends On self.head
+    def print_ll(self):
+        if self.head is None:
+            print("Linked List Is Empty")
+            return
 
+        else:
+            itr = self.head
+            llstr = ""
 
+            while itr:
+                llstr = llstr + " ---> " + str(itr.data)
+                itr = itr.next
 
-
-
-
-# Utilizing A Structure For Array Lists
-def array_list(n):
-    list_array = [x for x in range(n)]
-    return list_array
-
+            print(llstr)
 
 
 
@@ -100,10 +104,12 @@ def main():
     # arr_lst = array_list(10000)
     # print("Size Of Array: {} [KiloBytes]".format(getsizeof(arr_lst) / 1024))
 
-    # # For LinkedList Testing
-    # node_1 = LL_Node("Canada")
-    # node_2 = LL_Node("America")
-    # node_3 = LL_Node("Mexico")
+    # For LinkedList Testing
+    ll = SinglyLinkedList()
+    ll.insert_ll("Canada")
+    ll.insert_ll("America")
+    ll.insert_ll("Mexico")
+    ll.print_ll()
 
 
 
