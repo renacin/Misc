@@ -74,10 +74,32 @@ class SinglyLinkedList():
     def __init__(self):
         self.head = None
 
+
+    # Create A Deconstructor Method To Delete Everything
+    def __del__(self):
+        pass
+
+
     # Method To Insert Data At Begining | Node Gets Assigned To Head Of List, Next Points To Preevious Node
-    def insert_ll(self, data):
+    def insert_begin(self, data):
         node = node_ll(data, self.head)
         self.head = node
+
+
+    # Method To Insert Data At The End | Takes O(N)
+    def insert_end(self, data):
+
+        # If No Data In Linked List
+        if self.head is None:
+            self.head = node_ll(data, None)
+
+        # Loop Through All Nodes To The End
+        else:
+            itr = self.head
+            while itr.next:
+                itr = itr.next
+            itr.next = node_ll(data, None)
+
 
     # Method To Print Your LinkedList | Depends On self.head
     def print_ll(self):
@@ -111,11 +133,12 @@ def main():
 
     ll = SinglyLinkedList()
     for country in countries:
-        ll.insert_ll(country)
+        ll.insert_begin(country)
+        ll.insert_end(country)
 
     ll.print_ll()
 
-    print(ll.head)
+    del ll
 
 
 
