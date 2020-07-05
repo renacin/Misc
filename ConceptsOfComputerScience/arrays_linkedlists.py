@@ -10,6 +10,7 @@ from sys import getsizeof
 Links Followed:
     https://stackabuse.com/linked-lists-in-detail-with-python-examples-single-linked-lists/
     https://stackabuse.com/python-linked-lists/
+    https://www.youtube.com/watch?v=JlMyYuY1aXU
 
 Notes:
     + What Is The Difference Between Linked Lists And Arrays
@@ -57,14 +58,28 @@ Jot Notes:
 
 
 
-# Creating A Structure For Singly Linked Lists
-class LL_Node:
-    def __init__(self, data):
-
-        # Nodes Store Data, As Well As Pointers
+# Creating A Subclass Of The Linked List
+class node:
+    # Nodes Store Data, As Well As Pointer To Next Node [Default Is None In Case It's The Last One]
+    def __init__(self, data=None):
         self.data = data
         self.next = None
-        return
+
+class SinglyLinkedList():
+    # Initialize The Head Node, Will Never Contain Data
+    def __init__(self):
+        self.head = node()
+
+    # Append Data | Note Data Must Be Appended To The Right Most | Iterate Until Cur Next = None
+    def append_node(self, data):
+        new_node = node(data)
+        current_node = self.head
+
+        # WHY DO I HAVE TO LOOP TRHOUGH EACH POINT TO ADD A NEW POINT?!? WHERE IS THE O(1)
+        while current_node != None:
+            current_node = current_node.next
+
+
 
 
 
@@ -79,15 +94,16 @@ def array_list(n):
 
 # MAIN FUNCTION WILL STORE TESTING
 def main():
+    pass
 
     # # For Array Testing
     # arr_lst = array_list(10000)
     # print("Size Of Array: {} [KiloBytes]".format(getsizeof(arr_lst) / 1024))
 
-    # For LinkedList Testing
-    node_1 = LL_Node("Canada")
-    node_2 = LL_Node("America")
-    node_3 = LL_Node("Mexico")
+    # # For LinkedList Testing
+    # node_1 = LL_Node("Canada")
+    # node_2 = LL_Node("America")
+    # node_3 = LL_Node("Mexico")
 
 
 
