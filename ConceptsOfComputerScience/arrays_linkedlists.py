@@ -11,6 +11,7 @@ Links Followed:
     https://stackabuse.com/linked-lists-in-detail-with-python-examples-single-linked-lists/
     https://stackabuse.com/python-linked-lists/
     https://www.youtube.com/watch?v=JlMyYuY1aXU
+    https://www.youtube.com/watch?v=qp8u-frRAnU
 
 Notes:
     + What Is The Difference Between Linked Lists And Arrays
@@ -73,7 +74,7 @@ class SinglyLinkedList():
     def __init__(self):
         self.head = None
 
-    # Method To Insert Data At Begining | Head of the ll moves to the new node
+    # Method To Insert Data At Begining | Node Gets Assigned To Head Of List, Next Points To Preevious Node
     def insert_ll(self, data):
         node = node_ll(data, self.head)
         self.head = node
@@ -88,11 +89,12 @@ class SinglyLinkedList():
             itr = self.head
             llstr = ""
 
+            # Pull Data In Current Itertor Node, The Move Next To Other Node, Redo While Loop
             while itr:
-                llstr = llstr + " ---> " + str(itr.data)
+                llstr = llstr + str(itr.data) + ", "
                 itr = itr.next
 
-            print(llstr)
+            print("Linked List: [{}]".format(llstr[:-2]))
 
 
 
@@ -105,11 +107,15 @@ def main():
     # print("Size Of Array: {} [KiloBytes]".format(getsizeof(arr_lst) / 1024))
 
     # For LinkedList Testing
+    countries = ["Canada", "Mexico", "USA", "Italy", "Germany", "France", "United Kingdom"]
+
     ll = SinglyLinkedList()
-    ll.insert_ll("Canada")
-    ll.insert_ll("America")
-    ll.insert_ll("Mexico")
+    for country in countries:
+        ll.insert_ll(country)
+
     ll.print_ll()
+
+    print(ll.head)
 
 
 
