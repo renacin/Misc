@@ -69,18 +69,15 @@ class node_ll:
         self.data = data
         self.next = next
 
+
+
 class SinglyLinkedList():
     # Initialize The Head Node, Will Not Contain Data, Just Initiates First Point
     def __init__(self):
         self.head = None
 
 
-    # Create A Deconstructor Method To Delete Everything
-    def __del__(self):
-        pass
-
-
-    # Method To Insert Data At Begining | Node Gets Assigned To Head Of List, Next Points To Preevious Node
+    # Method To Insert Data At Begining | Takes O(1)
     def insert_begin(self, data):
         node = node_ll(data, self.head)
         self.head = node
@@ -119,6 +116,65 @@ class SinglyLinkedList():
             print("Linked List: [{}]".format(llstr[:-2]))
 
 
+    # Method To Print Lenght Of Linked List | Takes O(N)
+    def print_len(self):
+        ll_lenght = 0
+        itr = self.head
+
+        while itr:
+            ll_lenght += 1
+            itr = itr.next
+
+        return ll_lenght
+
+
+    # Delete First Item | Should Be O(1)
+    def del_begin(self):
+
+        # If No Data In Linked List
+        if self.head is None:
+            print("No Data To Delete")
+
+        # Loop Through All Nodes To The End
+        else:
+            self.head = self.head.next
+
+
+    # Delete Last Item | Should Be O(N)
+    def del_last(self):
+
+        # If No Data In Linked List
+        if self.head is None:
+            print("No Data To Delete")
+            return
+
+        else:
+            # Loop Through Get Lenght
+            ll_lenght = 0
+            itr_1 = self.head
+            itr_2 = self.head
+
+            while itr_1:
+                ll_lenght += 1
+                itr_1 = itr_1.next
+
+            itr_2 = self.head
+            while ll_lenght > 2:
+                ll_lenght -= 1
+                print(itr_2.data)
+                itr_2 = itr_2.next
+
+            itr_2.next = None
+
+
+
+    # Create A Deconstructor Method To Delete Everything | Needs Further Refinement
+    def __del__(self):
+        pass
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+
 
 # MAIN FUNCTION WILL STORE TESTING
 def main():
@@ -136,12 +192,14 @@ def main():
         ll.insert_begin(country)
         ll.insert_end(country)
 
+    ll.del_last()
     ll.print_ll()
+    ll.print_len()
 
     del ll
 
 
-
 # ----------------------------------------------------------------------------------------------------------------------
+
 if __name__ == "__main__":
     main()
