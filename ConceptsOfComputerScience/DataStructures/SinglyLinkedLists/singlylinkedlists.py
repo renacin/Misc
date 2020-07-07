@@ -21,9 +21,9 @@ class SinglyLinkedList():
 
     class Node:
         """ Nodes Store Data, As Well As Pointer To Next Node Defaults to None for data, and pointer """
-        def __init__(self, data = None, next = None):
+        def __init__(self, data = None, pointer = None):
             self.data = data
-            self.next = next
+            self.next = pointer
 
 
     def __init__(self):
@@ -39,14 +39,34 @@ class SinglyLinkedList():
         self.ll_lenght += 1
 
 
+    def _inset_AFTR_IDX(self, target_idx, _data):
+        """ Method To Insert Data After Index | Takes O(N)  """
+        ll_lenght = self._lenght()
+
+        if self.head is None:
+            raise Exception("Empty Linked List")
+
+        elif (target_idx > (ll_lenght - 1)) or (target_idx < 0):
+            raise Exception("Invalid Index")
+
+        ll_index = 0
+        itr = self.head                                 # Get First Node
+        while itr:                                      # Loop Through Nodes, Find Matching Index
+            if target_idx == ll_index:
+                node = self.Node(_data, itr.next)       # Create New Node, This Node Now Points To Other Data
+                itr.next = node                         # The Index Node Now Points To The New Node
+
+            ll_index += 1
+            itr = itr.next
+
+
     def _deleteT(self):
         """ Method To Delete Data At Begining, Add To Lenght | Takes O(1)  """
         if self.head is None:
             return
 
-        else:
-            self.head = self.head.next
-            self.ll_lenght -= 1
+        self.head = self.head.next
+        self.ll_lenght -= 1
 
 
     def _lenght(self):
@@ -80,15 +100,14 @@ class SinglyLinkedList():
         if self.head is None:
             return "[]"
 
-        else:
-            itr = self.head
-            llstr = ""
+        itr = self.head
+        llstr = ""
 
-            while itr:
-                llstr = llstr + str(itr.data) + " ---> "
-                itr = itr.next
+        while itr:
+            llstr = llstr + str(itr.data) + " ---> "
+            itr = itr.next
 
-            return llstr[:-6]
+        return llstr[:-6]
 
 
     def _isin(self, input_data):
@@ -98,14 +117,13 @@ class SinglyLinkedList():
         if self.head is None:
             pass
 
-        else:
-            itr = self.head
-            while itr:
-                if itr.data == input_data:
-                    isin_statement = True
-                    break
-                else:
-                    itr = itr.next
+        itr = self.head
+        while itr:
+            if itr.data == input_data:
+                isin_statement = True
+                break
+
+            itr = itr.next
 
         return isin_statement
 
@@ -117,23 +135,18 @@ class SinglyLinkedList():
         if self.head is None:
             return idx
 
-        else:
-            counter = 0
-            itr = self.head
-            while itr:
-                if itr.data == input_data:
-                    idx.append(counter)
-                    itr = itr.next
-                    counter += 1
-                else:
-                    itr = itr.next
-                    counter += 1
+        counter = 0
+        itr = self.head
+        while itr:
+            if itr.data == input_data:
+                idx.append(counter)
+                itr = itr.next
+                counter += 1
+
+            itr = itr.next
+            counter += 1
 
         return idx
-
-
-    def _moveelm(self, fromidx, toidx):
-        pass
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -149,8 +162,8 @@ def main():
     for country in countries:
         ll._insertT(country)
 
+    ll._inset_AFTR_IDX(0, "Jamaica")
     print(ll._printlinkedlist())
-    print(ll._getindex("Canada"))
 
 # ----------------------------------------------------------------------------------------------------------------------
 
