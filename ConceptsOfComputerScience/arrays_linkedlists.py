@@ -60,117 +60,31 @@ Jot Notes:
 """
 # ----------------------------------------------------------------------------------------------------------------------
 
-
-
-# Creating A Subclass Of The Linked List
-class node_ll:
-    # Nodes Store Data, As Well As Pointer To Next Node [Default Is None In Case It's The Last One]
-    def __init__(self, data=None, next=None):
-        self.data = data
-        self.next = next
-
-
-
 class SinglyLinkedList():
-    # Initialize The Head Node, Will Not Contain Data, Just Initiates First Point
+    """ Instantiate A Singly Linked List, Nodes Are A Class Within LinkedLists Only """
+
+    class Node:
+        """ Nodes Store Data, As Well As Pointer To Next Node Defaults to None for data, and pointer """
+        def __init__(self, data = None, next = None):
+            self.data = data
+            self.next = next
+
     def __init__(self):
+        """ The Linked List Will Instatiate And Set Its Head None - No Nodes """
         self.head = None
+        self.ll_lenght = 0
 
+    def lenght(self):
+        return self.ll_lenght
 
-    # Method To Insert Data At Begining | Takes O(1)
-    def insert_begin(self, data):
-        node = node_ll(data, self.head)
+    def insert(self, data):
+        """ Method To Insert Data At Begining, Add To Lenght | Takes O(1)  """
+        node = self.Node(data, self.head)
         self.head = node
-
-
-    # Method To Insert Data At The End | Takes O(N)
-    def insert_end(self, data):
-
-        # If No Data In Linked List
-        if self.head is None:
-            self.head = node_ll(data, None)
-
-        # Loop Through All Nodes To The End
-        else:
-            itr = self.head
-            while itr.next:
-                itr = itr.next
-            itr.next = node_ll(data, None)
-
-
-    # Method To Print Your LinkedList | Depends On self.head
-    def print_ll(self):
-        if self.head is None:
-            print("Linked List Is Empty")
-            return
-
-        else:
-            itr = self.head
-            llstr = ""
-
-            # Pull Data In Current Itertor Node, The Move Next To Other Node, Redo While Loop
-            while itr:
-                llstr = llstr + str(itr.data) + ", "
-                itr = itr.next
-
-            print("Linked List: [{}]".format(llstr[:-2]))
-
-
-    # Method To Print Lenght Of Linked List | Takes O(N)
-    def print_len(self):
-        ll_lenght = 0
-        itr = self.head
-
-        while itr:
-            ll_lenght += 1
-            itr = itr.next
-
-        return ll_lenght
-
-
-    # Delete First Item | Should Be O(1)
-    def del_begin(self):
-
-        # If No Data In Linked List
-        if self.head is None:
-            print("No Data To Delete")
-
-        # Loop Through All Nodes To The End
-        else:
-            self.head = self.head.next
-
-
-    # Delete Last Item | Should Be O(N)
-    def del_last(self):
-
-        # If No Data In Linked List
-        if self.head is None:
-            print("No Data To Delete")
-            return
-
-        else:
-            # Loop Through Get Lenght
-            ll_lenght = 0
-            itr_1 = self.head
-            itr_2 = self.head
-
-            while itr_1:
-                ll_lenght += 1
-                itr_1 = itr_1.next
-
-            itr_2 = self.head
-            while ll_lenght > 2:
-                ll_lenght -= 1
-                print(itr_2.data)
-                itr_2 = itr_2.next
-
-            itr_2.next = None
+        self.ll_lenght += 1
 
 
 
-    # Create A Deconstructor Method To Delete Everything | Needs Further Refinement
-    def __del__(self):
-        pass
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -188,15 +102,12 @@ def main():
     countries = ["Canada", "Mexico", "USA", "Italy", "Germany", "France", "United Kingdom"]
 
     ll = SinglyLinkedList()
+
     for country in countries:
-        ll.insert_begin(country)
-        ll.insert_end(country)
+        ll.insert(country)
 
-    ll.del_last()
-    ll.print_ll()
-    ll.print_len()
+    print(ll.lenght())
 
-    del ll
 
 
 # ----------------------------------------------------------------------------------------------------------------------
