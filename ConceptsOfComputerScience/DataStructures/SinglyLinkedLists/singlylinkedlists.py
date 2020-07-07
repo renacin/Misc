@@ -110,7 +110,30 @@ class SinglyLinkedList():
         return isin_statement
 
 
+    def _getindex(self, input_data):
+        """ Get Index Of Provided Data, Return List | Takes O(N)"""
+        idx = []
 
+        if self.head is None:
+            return idx
+
+        else:
+            counter = 0
+            itr = self.head
+            while itr:
+                if itr.data == input_data:
+                    idx.append(counter)
+                    itr = itr.next
+                    counter += 1
+                else:
+                    itr = itr.next
+                    counter += 1
+
+        return idx
+
+
+    def _moveelm(self, fromidx, toidx):
+        pass
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -118,23 +141,16 @@ class SinglyLinkedList():
 
 # MAIN FUNCTION WILL STORE TESTING
 def main():
-    pass
 
     # For LinkedList Testing
-    countries = ["Morrocco", "Canada", "Mexico", "USA", "Italy", "Germany", "France", "United Kingdom"]
+    countries = ["Morrocco", "Canada", "Mexico", "USA", "Italy", "Germany", "France", "Canada", "United Kingdom"]
 
     ll = SinglyLinkedList()
     for country in countries:
         ll._insertT(country)
 
-    ll._deleteT()
-
     print(ll._printlinkedlist())
-    print(ll._printT())
-    print(ll._printB())
-    print(ll._lenght())
-
-    print(ll._isin("Canada"))
+    print(ll._getindex("Canada"))
 
 # ----------------------------------------------------------------------------------------------------------------------
 
