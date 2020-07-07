@@ -39,13 +39,6 @@ class SinglyLinkedList():
         self.ll_lenght += 1
 
 
-    def _insertB(self, data):
-        """ Method To Insert Data At The End Of A Linked List, Add To Lenght | Takes O(N)  """
-        node = self.Node(data, self.head)
-        self.head = node
-        self.ll_lenght += 1
-
-
     def _deleteT(self):
         """ Method To Delete Data At Begining, Add To Lenght | Takes O(1)  """
         if self.head is None:
@@ -59,6 +52,27 @@ class SinglyLinkedList():
     def _lenght(self):
         """ Return The Lenght Of The Linked List, Updated Everytime A Node Is Added | Takes O(1)"""
         return self.ll_lenght
+
+
+    def _printT(self):
+        """ Print The Node On First In The Linked List Stack | Takes O(1)"""
+        if self.head is None:
+            return None
+
+        return self.head.data
+
+
+    def _printB(self):
+        """ Print The Node Last In The Linked List Stack | Takes O(N)"""
+        if self.head is None:
+            return None
+
+        itr = self.head
+        while itr:
+            itr_data = itr.data
+            itr = itr.next
+
+        return itr_data
 
 
     def _printlinkedlist(self):
@@ -95,6 +109,8 @@ def main():
     ll._deleteT()
 
     print(ll._printlinkedlist())
+    print(ll._printT())
+    print(ll._printB())
     print(ll._lenght())
 
 # ----------------------------------------------------------------------------------------------------------------------
