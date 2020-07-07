@@ -81,15 +81,36 @@ class SinglyLinkedList():
             return "[]"
 
         else:
-            pass
             itr = self.head
             llstr = ""
 
             while itr:
-                llstr = llstr + str(itr.data) + ", "
+                llstr = llstr + str(itr.data) + " ---> "
                 itr = itr.next
 
-            return "[{}]".format(llstr[:-2])
+            return llstr[:-6]
+
+
+    def _isin(self, input_data):
+        """ Check To See If Value Is In LinkedList, Iterate Through Every Node | Takes O(N)"""
+        isin_statement = False
+
+        if self.head is None:
+            pass
+
+        else:
+            itr = self.head
+            while itr:
+                if itr.data == input_data:
+                    isin_statement = True
+                    break
+                else:
+                    itr = itr.next
+
+        return isin_statement
+
+
+
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -112,6 +133,8 @@ def main():
     print(ll._printT())
     print(ll._printB())
     print(ll._lenght())
+
+    print(ll._isin("Canada"))
 
 # ----------------------------------------------------------------------------------------------------------------------
 
