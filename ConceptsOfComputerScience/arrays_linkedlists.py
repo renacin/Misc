@@ -74,17 +74,40 @@ class SinglyLinkedList():
         self.head = None
         self.ll_lenght = 0
 
-    def lenght(self):
-        return self.ll_lenght
-
-    def insert(self, data):
+    def _insert(self, data):
         """ Method To Insert Data At Begining, Add To Lenght | Takes O(1)  """
         node = self.Node(data, self.head)
         self.head = node
         self.ll_lenght += 1
 
+    def _delete(self):
+        """ Method To Delete Data At Begining, Add To Lenght | Takes O(1)  """
+        if self.head is None:
+            return
 
+        else:
+            self.head = self.head.next
+            self.ll_lenght -= 1
 
+    def _lenght(self):
+        """ Return The Lenght Of The Linked List, Updated Everytime A Node Is Added | Takes O(1)"""
+        return self.ll_lenght
+
+    def _printlinkedlist(self):
+        """ Print The Contents Of The Linked List, Iterate Through Every Node | Takes O(N)"""
+        if self.head is None:
+            return "[]"
+
+        else:
+            pass
+            itr = self.head
+            llstr = ""
+
+            while itr:
+                llstr = llstr + str(itr.data) + ", "
+                itr = itr.next
+
+            return "[{}]".format(llstr[:-2])
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -99,14 +122,16 @@ def main():
     # print("Size Of Array: {} [KiloBytes]".format(getsizeof(arr_lst) / 1024))
 
     # For LinkedList Testing
-    countries = ["Canada", "Mexico", "USA", "Italy", "Germany", "France", "United Kingdom"]
+    countries = ["Morrocco", "Canada", "Mexico", "USA", "Italy", "Germany", "France", "United Kingdom"]
 
     ll = SinglyLinkedList()
-
     for country in countries:
-        ll.insert(country)
+        ll._insert(country)
 
-    print(ll.lenght())
+    ll._delete()
+
+    print(ll._printlinkedlist())
+    print(ll._lenght())
 
 
 
