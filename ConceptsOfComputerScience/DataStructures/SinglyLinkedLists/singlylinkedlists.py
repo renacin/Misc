@@ -21,8 +21,10 @@ class SinglyLinkedList():
 
     class Node:
         """ Nodes Store Data, As Well As Pointer To Next Node Defaults to None for data, and pointer """
-        def __init__(self, data = None, pointer = None):
-            self.data = data
+        __slots__ = ["data", "next"]
+
+        def __init__(self, input_data = None, pointer = None):
+            self.data = input_data
             self.next = pointer
 
 
@@ -163,7 +165,7 @@ def main():
         ll._insertT(country)
 
     ll._inset_AFTR_IDX(0, "Jamaica")
-    print(ll._printlinkedlist())
+    print(ll.__dict__)
 
 # ----------------------------------------------------------------------------------------------------------------------
 
