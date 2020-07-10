@@ -1,12 +1,15 @@
 Name:                                            Renacin Matadeen
 Date:                                               07/07/2020
-Title                                    Understanding Singly Linked Lists
+Title                                    Understanding Linked Lists
 ------------------------------------------------------------------------------------------------------------------------
 Links Followed:
     https://stackabuse.com/linked-lists-in-detail-with-python-examples-single-linked-lists/
     https://stackabuse.com/python-linked-lists/
     https://www.youtube.com/watch?v=JlMyYuY1aXU
     https://www.youtube.com/watch?v=qp8u-frRAnU
+------------------------------------------------------------------------------------------------------------------------
+
+SINGLY LINKED LISTS
 
 Notes:
     + What Is The Difference Between Linked Lists And Arrays
@@ -51,3 +54,12 @@ Jot Notes:
         - But You Must Order So Your Adding To The First Spot
 
         - Need a header node to start the list
+
+------------------------------------------------------------------------------------------------------------------------
+
+DOUBLY LINKED LISTS
+
+Notes:
+    + What Is The Difference Between Single Vs Double Linked Lists?
+        - Contains References To Both The Previous And Next Elements
+        - DLL Can Be Traversed Forwards, As Well As Backwards
