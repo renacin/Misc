@@ -55,6 +55,8 @@ Jot Notes:
 
         - Need a header node to start the list
 
+        - SENTINEL NODES ARE JUST REFERENCES, NOT ACTUALLY NODES!!
+
 ------------------------------------------------------------------------------------------------------------------------
 
 DOUBLY LINKED LISTS
