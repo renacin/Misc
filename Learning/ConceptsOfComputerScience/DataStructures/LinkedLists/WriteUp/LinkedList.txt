@@ -65,3 +65,13 @@ Notes:
     + What Is The Difference Between Single Vs Double Linked Lists?
         - Contains References To Both The Previous And Next Elements
         - DLL Can Be Traversed Forwards, As Well As Backwards
+
+------------------------------------------------------------------------------------------------------------------------
+
+CIRCULAR LINKED LISTS
+
+Notes:
+    + Circular Linked List, And A Single Linked List
+        - Very Similar, Both Contain Head / Tail Sentinel Nodes And Only Point In One Direction
+        - Both Can Only Be Traversed In One Direction
+        - However Once At The Tail A Circular linked List Can Continue To The Head, And Keep Iterating

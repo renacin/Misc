@@ -1,14 +1,15 @@
 # Name:                                            Renacin Matadeen
 # Date:                                               07/01/2020
-# Title                                 Data Structures: Singly Linked Lists
+# Title                                  Data Structures: Circular Linked Lists
 #
 # ----------------------------------------------------------------------------------------------------------------------
 import time
-from sys import getsizeof
 # ----------------------------------------------------------------------------------------------------------------------
 
-class SinglyLinkedList():
+
+class CircularLinkedList():
     """ Instantiate A Singly Linked List With A Sentinel Node"""
+
 
     class Node:
         """ Nodes Store Data, As Well As Pointer To Next Node Defaults to None for data, and pointer """
@@ -22,7 +23,6 @@ class SinglyLinkedList():
     def __init__(self):
         """ The Linked List Will Instatiate And Set Its Head None - No Nodes """
         self.head = None
-        self.tail = None
         self._lenght = 0
 
 
@@ -33,52 +33,56 @@ class SinglyLinkedList():
 
     def insert_top(self, input_data):
         """ Insert An Element At The Top, Right After The Head Node | Takes O(1) | Next --> """
-        if (self.head is None) and (self.tail is None):
-            new_node = self.Node(input_data, self.tail)
+        # Empty List, Default Layout
+        if (self.head is None) and (self._lenght == 0):
+            new_node = self.Node(input_data)
             self.head = new_node
+            self.head.next = self.head
             self._lenght += 1
             return
 
-        elif (self.head is not None) and (self.tail is None):
+        elif (self.head is not None) and (self._lenght == 1):
             self.tail = self.head
             new_node = self.Node(input_data, self.tail)
             self.head = new_node
+            self.tail.next = self.head
             self._lenght += 1
             return
 
         new_node = self.Node(input_data, self.head)
         self.head = new_node
+        self.tail.next = self.head
         self._lenght += 1
 
 
-    def display_nodes(self):
-        """ Print All Elements In Linked List | Takes O(N) | Moving Left --> """
+    def loop_nodes(self):
+        """ Print All Elements In Linked List | Takes O(N) | Moving Left --> | Be Careful Of Infinite Loop!"""
         if self.head is None:
             return
 
+        counter = 1
         itr = self.head
         llstr = ""
-        while itr:
+
+        while (counter <= self._lenght):
             llstr = llstr + str(itr.data) + " ---> "
             itr = itr.next
+            counter += 1
 
         return llstr[:-6]
 
 
-    def first_elem(self):
-        """ Print The First Element | Takes O(1) """
-        if (self.head is None):
+    def iterate_nodes(self, num_of_terations):
+        if self.head is None:
             return
 
-        return self.head.data
+        else:
+            itr = self.head
+            for number in range(num_of_terations):
+                print(str(itr.data))
+                itr = itr.next
 
-
-    def last_elem(self):
-        """ Print The Last Element | Takes O(1) """
-        if (self.tail is None):
             return
-
-        return self.tail.data
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -88,18 +92,15 @@ class SinglyLinkedList():
 def main():
 
     # For LinkedList Testing
-    countries = ["Morrocco", "Canada", "America", "Mexico", "France", "United Kingdom", "Italy"]
+    countries = ["America", "Canada", "Mexico"]
 
-    ll = SinglyLinkedList()
+    ll = CircularLinkedList()
     for country in countries:
         ll.insert_top(country)
 
-    print(ll.display_nodes())
-    print("List Lenght: {}, First Element: {}, Last Element: {}".format(
-                                                                        ll.get_lenght(),
-                                                                        ll.first_elem(),
-                                                                        ll.last_elem())
-                                                                        )
+    print("Lenght: {}".format(ll.get_lenght()))
+    ll.iterate_nodes(6)
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 
