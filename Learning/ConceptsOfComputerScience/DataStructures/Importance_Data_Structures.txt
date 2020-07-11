@@ -1,5 +1,5 @@
 Name:                                            Renacin Matadeen
-Date:                                               07/10/2020
+Date:                                               07/11/2020
 Title                                      Importance Of Data Structures
 ------------------------------------------------------------------------------------------------------------------------
 Links Followed:
@@ -9,69 +9,118 @@ Links Followed:
     https://en.wikipedia.org/wiki/Primitive_data_type
 ------------------------------------------------------------------------------------------------------------------------
 
-Primitive Data Structures:
-    + Most programming languages provide users with predefined data structures
-    + These predefined data structures are called primitive data structures
-    + They are a predefined way of storing data within your program
-    + Most often conflated with primitive data types
+[--- Primitive Data Structures ---]
 
-    Classic Primitive Data Structures Include:
-        - Character: Unit Of Information That Stores A Grapheme, Or Symbol (Alphabet, Numbers, Punctuation, Etc...)
-            + Typically Represent Strings
++ Most programming languages provide users with predefined data structures
++ These predefined data structures are called primitive data structures
++ They are a predefined way of storing data within your program
++ Most often conflated with primitive data types
 
-        - Integer: A Datum(Piece Of Data) of integral data type, Represents The Range Of Mathematical Numbers
-            + Only Represents Whole Numbers, Cannot Convey Decimal Data
-            + Unsigned: Represents Only Non-Negative Integers
-            + Signed: Represents
+Classic Primitive Data Structures Include:
+    - Character: Unit Of Information That Stores A Grapheme, Or Symbol (Alphabet, Numbers, Punctuation, Etc...)
+        + Typically Represent Strings
 
-        - Float Point Numbers: Unit Containing Real Number Representations, Numbers With Decimals
-            + Floating Point, or Decimal Point, can be placed anywhere; allowing for greater level of precision
-            + Floats Vs Doubles?
-                - Float
-                    + Can store 32 bits of information in regard to a floating point number
-                    + Total memory requirements: 4 bytes
-                    + 6-7 significant digits, any more and the value is rounded off
+    - Integer: A Datum(Piece Of Data) of integral data type, Represents The Range Of Mathematical Numbers
+        + Only Represents Whole Numbers, Cannot Convey Decimal Data
+        + Unsigned: Represents Only Non-Negative Integers
+        + Signed: Represents
 
-                - Double
-                    + More precise that floats and can store 64 bits
-                    + Total memory requirements: 8 bytes
-                    + 15-16 significant digits,
+    - Float Point Numbers: Unit Containing Real Number Representations, Numbers With Decimals
+        + Floating Point, or Decimal Point, can be placed anywhere; allowing for greater level of precision
+        + Floats Vs Doubles?
+            - Float
+                + Can store 32 bits of information in regard to a floating point number
+                + Total memory requirements: 4 bytes
+                + 6-7 significant digits, any more and the value is rounded off
 
-        - Boolean: Unit Of Logical Measurement, Either True Or False
-            + Returns an a special integer, either 0 or 1
+            - Double
+                + More precise that floats and can store 64 bits
+                + Total memory requirements: 8 bytes
+                + 15-16 significant digits,
 
-        - Reference (Pointer): An Address That Points To Another Values
-            + Accessing the reference --> refer to the datum
-            + Accessing the datum --> dereferencing the reference
-            + Using pointers requires developed understanding of memory architecture
-            + Pointers refer to a memory location's address not data!
+    - Boolean: Unit Of Logical Measurement, Either True Or False
+        + Returns an a special integer, either 0 or 1
 
-Non-Primitive Data Structures:
-    + A more complicated way of representing, or storing data
-    + Most programming languages do not offer non-primitive data structures by default, require development by the user
-    + Abstract Data Types (ADTs) are similar to the definition provided
+    - Reference (Pointer): An Address That Points To Another Values
+        + Accessing the reference --> refer to the datum
+        + Accessing the datum --> dereferencing the reference
+        + Using pointers requires developed understanding of memory architecture
+        + Pointers refer to a memory location's address not data!
 
-    Classic Non-Primitive Data Structures:
-        Linear Data Structures:
-            + Arrays
-            + Linked Lists
+------------------------------------------------------------------------------------------------------------------------
 
-        Trees:
-            + Binary Trees
-            + B-Trees
-            + Heap
-            + Multiway Trees
-            + Space Partitioning Trees
-            + Application-Specific Trees
+[--- Non-Primitive Data Structures ---]
 
-        Hash-Based Structures:
-            + Hash Tables
-            + Hash List
-            + Hash Tree
++ A more complicated way of representing, or storing data
++ Most programming languages do not offer non-primitive data structures by default, require development by the user
++ Abstract Data Types (ADTs) are similar to the definition provided
 
-        Graphs:
-            + Graphs
-            + Adjacency List
-            + Adjacency Matrix
-            + Decision Tree
-            + Directed Acyclic Graph
+Classic Non-Primitive Data Structures:
+    - Linear Data Structures:
+        + Arrays
+        + Linked Lists
+
+    - Trees:
+        + Binary Trees
+        + B-Trees
+        + Heap
+        + Multiway Trees
+        + Space Partitioning Trees
+        + Application-Specific Trees
+
+    - Hash-Based Structures:
+        + Hash Tables
+        + Hash List
+        + Hash Tree
+
+    - Graphs:
+        + Graphs
+        + Adjacency List
+        + Adjacency Matrix
+        + Decision Tree
+        + Directed Acyclic Graph
+
+------------------------------------------------------------------------------------------------------------------------
+
+[--- Arrays ---]
+
++ Array Is A Container That Can Hold A Fixed Number Of Elements
+    - In memory n (elements, measured in bytes - each approx. 32bits each) are allocated
+    - The length of an array is static - defined at the beginning
+    - To add an element to a full array, a new array must be created of size n+1; the values including the new
+        are added over O(N)
+    - To reduce the number of copy over executions when adding a value to a full array,
+        most programming languages will allocate empty buffer room that will allow O(1) up to a certain point.
+        Most dynamic arrays allow for lists sized 10, 20, 40, 80, 160 etc...
+
+    - Arrays that contain buffer area are called Dynamic Arrays
+        + Formally, Dynamic Arrays: Automatically grow when we try to make an insertion and there is no more
+            space left for the new item. Usually the area doubles in size
+
+        + The size we use is called Logical Size
+        + The actual size of the array is called the Array Capacity
+
++ Most Complex Data Structures Use Arrays
+
++ Arrays Make Use Of The Following Elements:
+    - Element: The datum the user wants to store
+    - Index: The position in the array where the data is stored
+
++ Array Time Complexity:
+    - Accessing A Value By Index: O(1)
+        + Know the index, know the value
+
+    - Searching An Array For A Value: O(N)
+        + Iterate through each value until you find your match
+
+    - Inserting A Value In An Array: O(N)
+        + Remember array[0] is reserved for the first element
+        + Therefore you must add a new element to the end of the list: thus looping through the entire list
+
+    - Deleting A Value From An Array: O(N)
+        + Find the array, remove it, and then shift every other value
+
++ Array Space Complexity:
+    - Storing Values In An Array: O(N)
+
+------------------------------------------------------------------------------------------------------------------------
