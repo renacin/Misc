@@ -12,7 +12,6 @@ Links Followed:
 SINGLY LINKED LISTS
 
 Notes:
-    + What Is The Difference Between Linked Lists And Arrays
 
     + Arrays
         - One of the simplest data structures in programming
@@ -38,12 +37,6 @@ Notes:
         - Know the number of elements in the array ahead of time
         - Speed when iterating through all the elements in sequence
         - Memory is a concern
-
-Jot Notes:
-    + Time To Append 1 Data Point To End
-        - Array Elem 1_000_000         Time = 0.010011434555053711    [1x]
-        - Array Elem 2_000_000         Time = 0.021019935607910156    [2x]
-        - Array Elem 5_000_000         Time = 0.049993276596069336    [5x]
 
     + Linked Lists
         - Works With Nodes, They Contain:

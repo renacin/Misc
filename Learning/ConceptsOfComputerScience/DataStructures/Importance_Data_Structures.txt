@@ -1,0 +1,77 @@
+Name:                                            Renacin Matadeen
+Date:                                               07/10/2020
+Title                                      Importance Of Data Structures
+------------------------------------------------------------------------------------------------------------------------
+Links Followed:
+    https://www.youtube.com/watch?v=_t2GVaQasRY&list=PLeo1K3hjS3uu_n_a__MI_KktGTLYopZ12
+    https://en.wikipedia.org/wiki/List_of_data_structures#Data_types
+    https://en.wikipedia.org/wiki/Data_structure
+    https://en.wikipedia.org/wiki/Primitive_data_type
+------------------------------------------------------------------------------------------------------------------------
+
+Primitive Data Structures:
+    + Most programming languages provide users with predefined data structures
+    + These predefined data structures are called primitive data structures
+    + They are a predefined way of storing data within your program
+    + Most often conflated with primitive data types
+
+    Classic Primitive Data Structures Include:
+        - Character: Unit Of Information That Stores A Grapheme, Or Symbol (Alphabet, Numbers, Punctuation, Etc...)
+            + Typically Represent Strings
+
+        - Integer: A Datum(Piece Of Data) of integral data type, Represents The Range Of Mathematical Numbers
+            + Only Represents Whole Numbers, Cannot Convey Decimal Data
+            + Unsigned: Represents Only Non-Negative Integers
+            + Signed: Represents
+
+        - Float Point Numbers: Unit Containing Real Number Representations, Numbers With Decimals
+            + Floating Point, or Decimal Point, can be placed anywhere; allowing for greater level of precision
+            + Floats Vs Doubles?
+                - Float
+                    + Can store 32 bits of information in regard to a floating point number
+                    + Total memory requirements: 4 bytes
+                    + 6-7 significant digits, any more and the value is rounded off
+
+                - Double
+                    + More precise that floats and can store 64 bits
+                    + Total memory requirements: 8 bytes
+                    + 15-16 significant digits,
+
+        - Boolean: Unit Of Logical Measurement, Either True Or False
+            + Returns an a special integer, either 0 or 1
+
+        - Reference (Pointer): An Address That Points To Another Values
+            + Accessing the reference --> refer to the datum
+            + Accessing the datum --> dereferencing the reference
+            + Using pointers requires developed understanding of memory architecture
+            + Pointers refer to a memory location's address not data!
+
+Non-Primitive Data Structures:
+    + A more complicated way of representing, or storing data
+    + Most programming languages do not offer non-primitive data structures by default, require development by the user
+    + Abstract Data Types (ADTs) are similar to the definition provided
+
+    Classic Non-Primitive Data Structures:
+        Linear Data Structures:
+            + Arrays
+            + Linked Lists
+
+        Trees:
+            + Binary Trees
+            + B-Trees
+            + Heap
+            + Multiway Trees
+            + Space Partitioning Trees
+            + Application-Specific Trees
+
+        Hash-Based Structures:
+            + Hash Tables
+            + Hash List
+            + Hash Tree
+
+        Graphs:
+            + Graphs
+            + Adjacency List
+            + Adjacency Matrix
+            + Decision Tree
+            + Directed Acyclic Graph
