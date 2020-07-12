@@ -10,7 +10,7 @@ from sys import getsizeof
 class SinglyLinkedList():
     """ Instantiate A Singly Linked List With A Sentinel Node"""
 
-    class Node:
+    class Node():
         """ Nodes Store Data, As Well As Pointer To Next Node Defaults to None for data, and pointer """
         __slots__ = ["data", "next"]
 

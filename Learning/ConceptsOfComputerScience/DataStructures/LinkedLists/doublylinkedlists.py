@@ -16,7 +16,7 @@ class DoublyLinkedList():
     """ Instantiate A Doubly Linked List, Nodes Are A Class Within DoublyLinkedLists Only """
 
 
-    class Node:
+    class Node():
         """ Nodes Store Data, As Well As Pointer To Next Node Defaults to None for data, and pointer """
         __slots__ = "data", "next", "prev" # Use Slots To Improve Speed And Memory Usage
 
