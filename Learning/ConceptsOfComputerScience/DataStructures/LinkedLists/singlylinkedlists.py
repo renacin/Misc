@@ -22,7 +22,6 @@ class SinglyLinkedList():
     def __init__(self):
         """ The Linked List Will Instatiate And Set Its Head None - No Nodes """
         self.head = None
-        self.tail = None
         self._lenght = 0
 
 
@@ -30,18 +29,10 @@ class SinglyLinkedList():
         """ Return The Lenght Of The Linked List | Takes O(1)"""
         return self._lenght
 
-
     def insert_top(self, input_data):
-        """ Insert An Element At The Top, Right After The Head Node | Takes O(1) | Next --> """
-        if (self.head is None) and (self.tail is None):
-            new_node = self.Node(input_data, self.tail)
-            self.head = new_node
-            self._lenght += 1
-            return
-
-        elif (self.head is not None) and (self.tail is None):
-            self.tail = self.head
-            new_node = self.Node(input_data, self.tail)
+        """ Insert A New Node Of Data At The Top Of The List | Takes O(1)"""
+        if (self.head is None):
+            new_node = self.Node(input_data)
             self.head = new_node
             self._lenght += 1
             return
@@ -51,9 +42,27 @@ class SinglyLinkedList():
         self._lenght += 1
 
 
-    def display_nodes(self):
-        """ Print All Elements In Linked List | Takes O(N) | Moving Left --> """
-        if self.head is None:
+    def reverse(self):
+        """
+        Reverse The Linked List | Takes O(N)
+        Iterate through your original linked list. While doing so create a new linked list where the pointers point
+        to in the opposite direction. Once finished, the head of your original list is now the head of your reversed
+        list.
+        """
+        prev = None                             # Set previous node to node
+        itr = self.head                         # Set your iterable, start at the top of your linked list
+        while itr:                              # While self.head does not equal to None
+            temp = itr                          # Temp variable is equal to the node that your at
+            itr = itr.next                      # itr is now the next node
+            temp.next = prev                    # Your temp node (current node) now points to the previous
+            prev = temp                         # Your previous now equals the current node
+        self.head = prev                        # Set the new head of you linked list as prev. Contains new pointers
+
+
+
+    def draw(self):
+        """ Return The Entire Linked Lists As A String | Takes O(N)"""
+        if (self.head is None):
             return
 
         itr = self.head
@@ -65,35 +74,6 @@ class SinglyLinkedList():
         return llstr[:-6]
 
 
-    def first_elem(self):
-        """ Print The First Element | Takes O(1) """
-        if (self.head is None):
-            return
-
-        return self.head.data
-
-
-    def last_elem(self):
-        """ Print The Last Element | Takes O(1) """
-        if (self.tail is None):
-            return
-
-        return self.tail.data
-
-
-    def reverse_list(self):
-        if (self.head is None) or (self._lenght == 1):
-            return
-
-        prev = None
-        itr = self.head
-        while itr:
-            temp = itr
-            itr = itr.next
-            temp.next = prev
-            prev = temp
-
-        return prev
 
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -108,18 +88,10 @@ def main():
     for country in countries:
         ll.insert_top(country)
 
-    print(ll.display_nodes())
-    ll.reverse_list()
-
-    print(ll.first_elem())
-    print(ll.last_elem())
-    print(ll.display_nodes())
-
-    # print("List Lenght: {}, First Element: {}, Last Element: {}".format(
-    #                                                                     ll.get_lenght(),
-    #                                                                     ll.first_elem(),
-    #                                                                     ll.last_elem())
-    #                                                                     )
+    print("Linked List Lenght: {}".format(ll.get_lenght()))
+    print("Linked List: {}".format(ll.draw()))
+    ll.reverse()
+    print("Linked List: {}".format(ll.draw()))
 
 # ----------------------------------------------------------------------------------------------------------------------
 
