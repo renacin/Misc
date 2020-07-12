@@ -57,20 +57,20 @@ class SinglyLinkedList():
         to in the opposite direction. Once finished, the head of your original list is now the head of your reversed
         list.
         """
-        counter = 0
-        prev = None                             # Set previous node to node
+        tail_bool = True
+        prev = None                             # Set previous node to None
         itr = self.head                         # Set your iterable, start at the top of your linked list
 
-        while itr:                              # While self.head does not equal to None
+        while itr:                              # While self.head does not equal None
 
-            if (counter == 0):
+            if tail_bool:                       # Run this once to set the current head to the new tail
                 self.tail = itr
-                counter += 1
+                tail_bool = False
 
-            temp = itr                          # Temp variable is equal to the node that your at
+            temp = itr                          # Temp variable is equal to the current node
             itr = itr.next                      # itr is now the next node
-            temp.next = prev                    # Your temp node (current node) now points to the previous
-            prev = temp                         # Your previous now equals the current node
+            temp.next = prev                    # Temp node (current) now points to the previous, initially None
+            prev = temp                         # Your previous now equals the current node, for the next iteration
 
         self.head = prev                        # Set the new head of you linked list as prev. Contains new pointers
 
@@ -116,6 +116,7 @@ def main():
         ll.insert_top(country)
 
     print("Linked List Lenght: {}".format(ll.get_lenght()))
+    print("Entire Linked List: {}".format(ll.draw()))
 
     ll.reverse()
     print("Top Element: {}".format(ll.top_element()))
