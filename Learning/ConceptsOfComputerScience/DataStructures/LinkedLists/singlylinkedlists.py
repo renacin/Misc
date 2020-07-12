@@ -81,6 +81,20 @@ class SinglyLinkedList():
         return self.tail.data
 
 
+    def reverse_list(self):
+        if (self.head is None) or (self._lenght == 1):
+            return
+
+        prev = None
+        itr = self.head
+        while itr:
+            temp = itr
+            itr = itr.next
+            temp.next = prev
+            prev = temp
+
+        return prev
+
 # ----------------------------------------------------------------------------------------------------------------------
 
 
@@ -88,18 +102,24 @@ class SinglyLinkedList():
 def main():
 
     # For LinkedList Testing
-    countries = ["Morrocco", "Canada", "America", "Mexico", "France", "United Kingdom", "Italy"]
+    countries = ["First", "Second", "Third"]
 
     ll = SinglyLinkedList()
     for country in countries:
         ll.insert_top(country)
 
     print(ll.display_nodes())
-    print("List Lenght: {}, First Element: {}, Last Element: {}".format(
-                                                                        ll.get_lenght(),
-                                                                        ll.first_elem(),
-                                                                        ll.last_elem())
-                                                                        )
+    ll.reverse_list()
+
+    print(ll.first_elem())
+    print(ll.last_elem())
+    print(ll.display_nodes())
+
+    # print("List Lenght: {}, First Element: {}, Last Element: {}".format(
+    #                                                                     ll.get_lenght(),
+    #                                                                     ll.first_elem(),
+    #                                                                     ll.last_elem())
+    #                                                                     )
 
 # ----------------------------------------------------------------------------------------------------------------------
 
