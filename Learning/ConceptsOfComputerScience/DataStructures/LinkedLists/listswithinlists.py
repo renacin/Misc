@@ -83,34 +83,37 @@ class SinglyLinkedList():
         return self.head
 
 
-    def has_child(self, _depth, cur_node, counter):
+
+    def has_child(self, cur_node, top_level_node=None):
 
         itr = cur_node
-        while itr:
-            if (itr.child is not None):
-                print("Child Found At: Depth {}, Element {}".format(_depth, counter))
-                self.has_child(_depth + 1, itr.child, counter)
-                itr.next
-                counter += 1
 
-            elif (itr.child is None) and (itr.next is None):
-                return
+        if (itr.child is not None):
+            itr = itr.child
+            print("Node Has Child")
 
-            else:
-                itr = itr.next
-                counter += 1
+        elif (itr.child is None) and (itr.next is not None):
+            itr = itr.next
+            print("No Child, But A Next Item")
+
+        else:
+            itr = top_next_node
+            print("No Child, No Next Item, Move Back Up")
 
 
     def check_for_child(self):
         """ Loop Through Entire Linked List And Find All Child Nodes | Takes O(N)"""
-        # Should I Use Recursion To Make Things Easier?
+
         if (self.head is None):
             return
 
-        itr = self.head
+        else:
+            global counter
+            counter = 0
+            itr = self.head
+            self.has_child(itr.child)
 
-        while itr:
-            self.has_child(1, itr, 0)
+
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -128,13 +131,11 @@ def main():
     # Add Child Linked List To Top Node
     head_node = ll.return_top_node()
 
-    head_node.next.child = Node("Node 2, Child 1, First Element")
-    head_node.next.child.next = Node("Node 2, Child 1, Second Element")
-
-
+    head_node.child = Node("Node 2, Child 1, First Element")
 
     print("Linked List Lenght: {}".format(ll.get_lenght()))
     print("Entire Linked List: {}".format(ll.draw()))
+
     ll.check_for_child()
 
 
