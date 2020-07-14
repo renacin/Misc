@@ -84,34 +84,37 @@ class SinglyLinkedList():
 
 
 
-    def has_child(self, cur_node, top_level_node=None):
-
-        itr = cur_node
-
-        if (itr.child is not None):
-            itr = itr.child
-            print("Node Has Child")
-
-        elif (itr.child is None) and (itr.next is not None):
-            itr = itr.next
-            print("No Child, But A Next Item")
-
-        else:
-            itr = top_next_node
-            print("No Child, No Next Item, Move Back Up")
-
-
-    def check_for_child(self):
-        """ Loop Through Entire Linked List And Find All Child Nodes | Takes O(N)"""
-
+    def flattenlist(self, head):
+        """ Flatten The Entire Linked List | Takes O(N)"""
         if (self.head is None):
             return
 
-        else:
-            global counter
-            counter = 0
-            itr = self.head
-            self.has_child(itr.child)
+        # Find tail node of first level linked list
+        temp = head
+        while (temp.next != None):
+            temp = temp.next
+        currNode = head
+
+        # One by one traverse through all nodes
+        # of first level linked list
+        # till we reach the tail node
+        while(currNode != temp):
+
+            # If current node has a child
+            if(currNode.child):
+
+                # then append the child
+                # at the end of current list
+                temp.next = currNode.child
+
+                # and update the tail to new last node
+                tmp = currNode.child
+                while(tmp.next):
+                    tmp = tmp.next
+                temp = tmp
+
+            # Change current node
+            currNode = currNode.next
 
 
 
@@ -131,12 +134,13 @@ def main():
     # Add Child Linked List To Top Node
     head_node = ll.return_top_node()
 
-    head_node.child = Node("Node 2, Child 1, First Element")
+    head_node.child = Node("Node 1, Child 1, First Element")
 
     print("Linked List Lenght: {}".format(ll.get_lenght()))
     print("Entire Linked List: {}".format(ll.draw()))
 
-    ll.check_for_child()
+    ll.flattenlist(head_node)
+    print("Entire Linked List: {}".format(ll.draw()))
 
 
 # ----------------------------------------------------------------------------------------------------------------------
