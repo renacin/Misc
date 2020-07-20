@@ -1,0 +1,41 @@
+Name:                                            Renacin Matadeen
+Date:                                               07/20/2020
+Title                                  Understanding STACK/QUEUE Data Structures
+------------------------------------------------------------------------------------------------------------------------
+Links Followed:
+    https://en.wikipedia.org/wiki/Stack_(abstract_data_type)
+    https://stackoverflow.com/questions/7294634/what-are-the-time-complexities-of-various-data-structures
+------------------------------------------------------------------------------------------------------------------------
+
+STACK DATA STRUCTURES
+
+Notes:
+    - In computer science Stacks are a linear data structure, an abstract data type that serves as a collection of
+        data
+
+    - Stacks possess two main operations, that occur at the top of the collection:
+        + Push: Adds an element to a collection
+        + Pop: Removes an element from a collection
+
+    - Stacks follow a last in first out (LIFO) order
+    - An example of this is a stack of CDs. Pile them one on top of the other, the only one you can easily access is the
+        top element
+
+    - A stack may be implemented as a singly linked list
+    - May also have a bounded capacity; think of the max number of CDs in a stack, any more and the stack overflows
+
+    - Time Complexity:
+        + Push: O(1)
+        + Pop: O(1)
+        + Read Top: O(1)
+        + Search: O(N)
+
+    - Space Complexity:
+        + Elements: O(N)
+
+------------------------------------------------------------------------------------------------------------------------
+
+QUEUE DATA STRUCTURES
+
+Notes:
+    -
