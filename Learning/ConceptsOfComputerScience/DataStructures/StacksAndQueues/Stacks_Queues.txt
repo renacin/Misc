@@ -38,4 +38,23 @@ Notes:
 QUEUE DATA STRUCTURES
 
 Notes:
-    -
+    - Like Stacks, Queues are linear data structures, and are also considered an abstract data structure
+
+    - Queues also possess two main operations, however one occurs at the end of the list:
+        + Enqueue (Similar To Push): Adds an element to the collection; at the back of the queue
+        + Dequeue (Similar To Pop): Removes an element from the collection; at the front of the list
+
+    - Queues follow a first in first out (FIFO) order
+    - An example of this is a line-up for food. The first person in line, is the first person to be served
+
+    - A queue may be implemented as a doubly linked list
+    - May also have a bounded capacity; think of the max number of individuals in a line, any more and the queue overflows
+
+    - Time Complexity:
+        + Enqueue: O(1)
+        + Dequeue: O(1)
+        + Read First: O(1)
+        + Read Last: O(1)
+
+    - Space Complexity:
+        + Elements: O(N)
