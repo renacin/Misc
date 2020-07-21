@@ -5,6 +5,8 @@ Title                                  Understanding STACK/QUEUE Data Structures
 Links Followed:
     https://en.wikipedia.org/wiki/Stack_(abstract_data_type)
     https://stackoverflow.com/questions/7294634/what-are-the-time-complexities-of-various-data-structures
+    https://bradfieldcs.com/algos/stacks/introduction/
+    https://bradfieldcs.com/algos/queues/introduction/
 ------------------------------------------------------------------------------------------------------------------------
 
 STACK DATA STRUCTURES
