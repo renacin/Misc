@@ -1,0 +1,15 @@
+Name:                                            Renacin Matadeen
+Date:                                               08/03/2020
+Title                                   Parallel Programming: Basics Of Numba
+------------------------------------------------------------------------------------------------------------------------
+Links Followed:
+    https://www.youtube.com/watch?v=x58W9A2lnQc
+------------------------------------------------------------------------------------------------------------------------
+
+[--- Numba Basics ---]
+
++ Numba Is A Just In Time Compiler (JIT)
+    - Is a compiler that turns code, into machine instructions as the main program is being executed
+    - Traditional compilers compile code before, then send instructions to the CPU
+    - This is useful in the case of Numba as it can run as your python code is executed
+        + Write code in python, enjoy the speed ups of code running on your GPU
