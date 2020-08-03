@@ -3,8 +3,8 @@
 # Title                               Parallel Processing - Speeding Up Code With GPU
 #
 # ----------------------------------------------------------------------------------------------------------------------
+import time
 import numpy as np
-from timeit import default_timer as timer
 from numba import vectorize
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -17,12 +17,13 @@ def main():
 
     a = b = np.array(np.random.sample(vec_size), dtype=np.float32)
     c = np.zeros(vec_size, dtype=np.float32)
-
-    start = timer()
+    
+    start = time.time()
     c = pow(a, b)
-    duration = timer() - start
+    duration = time.time() - start
 
     print(duration)
 
+# ----------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     main()
