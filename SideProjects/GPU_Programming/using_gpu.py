@@ -13,11 +13,11 @@ def pow(a, b):
     return a ** b
 
 def main():
-    vec_size = 100000000
+    vec_size = 500_000_000
 
     a = b = np.array(np.random.sample(vec_size), dtype=np.float32)
     c = np.zeros(vec_size, dtype=np.float32)
-    
+
     start = time.time()
     c = pow(a, b)
     duration = time.time() - start
