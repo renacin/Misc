@@ -6,7 +6,7 @@
 import time
 import random
 import numpy as np
-from numba import jit, njit, vectorize, cuda
+from numba import jit, njit, vectorize, cuda, int32
 # ----------------------------------------------------------------------------------------------------------------------
 @jit
 def original_computation(input_list):
@@ -25,13 +25,20 @@ def scalar_computation(num):
         return 2
     return 1
 
-    return output_list
-
-@vectorize(['int32(int32)'], target='cuda')
-def gpu_scalar_computation(num):
+@vectorize(['int32(int32)'], target='parallel')
+def cpu_scalar_computation(num):
     if (num % 2 == 0):
         return 2
     return 1
+
+@cuda.jit
+def gpu_computation(input_list):
+    output_list = []
+    for val in input_list:
+        if (val % 2 == 0):
+            output_list.append(2)
+        else:
+            output_list.append(1)
 
     return output_list
 
@@ -40,19 +47,24 @@ def main():
     input_list = np.arange(500_000_000)
 
     # Jitted Function
-    start = time.time()
-    output_ = original_computation(input_list)
-    print("Jitted Function: {}".format(time.time() - start))
+    start_1 = time.time()
+    output_1 = original_computation(input_list)
+    print("Jitted Function: {}".format(time.time() - start_1))
 
-    # Vectorized Function
-    start = time.time()
-    output_ = scalar_computation(input_list)
-    print("Vectorized Function On CPU: {}".format(time.time() - start))
+    # Vectorized Function Single Core
+    start_2 = time.time()
+    output_2 = scalar_computation(input_list)
+    print("Vectorized Function On Single Thread CPU: {}".format(time.time() - start_2))
 
-    # GPU Vectorized Function
-    start = time.time()
-    output_ = gpu_scalar_computation(input_list)
-    print("Vectorized Function On GPU: {}".format(time.time() - start))
+    # Vectorized Function Multi-Core
+    start_3 = time.time()
+    output_3 = cpu_scalar_computation(input_list)
+    print("Vectorized Function On Multi-Threaded CPU: {}".format(time.time() - start_3))
+
+    # GPU Function
+    start_4 = time.time()
+    output_4 = gpu_computation(input_list)
+    print("Vectorized Function On GPU: {}".format(time.time() - start_4))
 
 # ----------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
