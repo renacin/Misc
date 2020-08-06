@@ -12,7 +12,7 @@ from numba import vectorize, int32
 
 def create_data():
     """ Create Test Data For Functions """
-    list_lenght = 5_000_000
+    list_lenght = 1_000_000
     input_list = [random.randint(0, 10) for i in range(list_lenght)]
     d = {'RandomNumbers': input_list}
     df = pd.DataFrame(data = d)
