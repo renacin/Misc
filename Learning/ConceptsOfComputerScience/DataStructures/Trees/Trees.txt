@@ -1,0 +1,52 @@
+Name:                                            Renacin Matadeen
+Date:                                               08/07/2020
+Title                               Understanding Tree Data Structures In Python
+------------------------------------------------------------------------------------------------------------------------
+Links Followed:
+
+------------------------------------------------------------------------------------------------------------------------
+
+[ -- Notes -- ]
+
+    General Def:
+        Remember: Stacks, Queues, and Linked Lists are linear data structures. They do not possess a hierarchy. If you
+        need hierarchy within your data, a Tree may be of use. A Tree Data Structure is another version of an Abstract
+        Data Type.
+
+    Trees can be used to:
+        + Store data in a hierarchical manor
+        + Store data in a way that makes it easily searchable
+        + Representing sorted lists of data
+
+    Common Tree Terminology:
+        + Nodes:
+            - Contain data, as well as pointers to child nodes, and references to parent node
+        + Root Node:
+            - This is your main, or starting node. This node has no parent, only child nodes
+        + Parent Node:
+            - Parent Nodes have Child Nodes. Parent Nodes can be Child Nodes to Parent Nodes in a higher level
+        + Child Node:
+            - Child Nodes are Nodes that follow a Parent Node
+        + Leaf Nodes:
+            - Are Child Nodes with no Child Nodes of their own
+
+    Rules of Nodes In Tree:
+        + A Node Cannot:
+            - Point To Itself
+            - Have Two Parent Nodes
+
+    Different Types Of Trees:
+        + General Tree
+            - Parent Nodes can have an unlimited number of Child Nodes
+
+        + Binary Tree:
+            - Parent Nodes can only have two Child Nodes
+
+        + Binary Search Trees:
+            - Are Binary Trees, but:
+                - Nodes to the LEFT of a Parent are SMALLER
+                - Nodes to the RIGHT of a Parent are LARGER
+
+    Trees And Balance:
+        +
+------------------------------------------------------------------------------------------------------------------------
