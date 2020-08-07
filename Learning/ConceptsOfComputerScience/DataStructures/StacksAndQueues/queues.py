@@ -81,10 +81,10 @@ class Queue():
         itr = self.head
         llstr = ""
         while itr:
-            llstr = llstr + " <--- " + str(itr.data)
+            llstr = llstr + " --- " + str(itr.data)
             itr = itr.prev
 
-        return llstr[6:]
+        return llstr[5:]
 
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -94,16 +94,34 @@ def main():
 
     # Create A Queue
     main_queue = Queue()
-    customers = ["Dave", "Mary", "Jordan", "Mia"]
-    for customer in customers:
-        main_queue.enqueue(customer)
 
+    # You Own A Restaurant, Here Are Your Orders
+    orders = ["Lisa: Soup", "Gary: Fries", "Dave: Burger", "Mary: Pizza"]
+
+    for order in orders:
+        main_queue.enqueue(order)
+
+    print(main_queue.print_queue())
+
+    # You Finish The First Order
+    main_queue.dequeue()
+    print(main_queue.print_queue())
+
+    # You Finish The Second Order
+    main_queue.dequeue()
+    print(main_queue.print_queue())
+
+    # Another Customer Places An Order
+    main_queue.enqueue("David: Salad")
+    print(main_queue.print_queue())
+
+    # You Finish The Third Order
     main_queue.dequeue()
     print(main_queue.print_queue())
 
 
-# ----------------------------------------------------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
     main()
