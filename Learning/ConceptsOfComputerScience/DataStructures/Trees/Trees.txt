@@ -34,6 +34,7 @@ Links Followed:
         + A Node Cannot:
             - Point To Itself
             - Have Two Parent Nodes
+            - Cannot be represented twice within a tree
 
     Different Types Of Trees:
         + General Tree
@@ -48,5 +49,11 @@ Links Followed:
                 - Nodes to the RIGHT of a Parent are LARGER
 
     Trees And Balance:
+        + Balance is an important topic when speaking of Trees
+        + If your Tree is lopsided you loose a lot of the features of a tree data structure
+            - Example: Think of a Binary Search Tree That Had All It's Features On The Right
+            - The worst case Time Complexity would be O(N), instead of O(Log N)
+
         +
+
 ------------------------------------------------------------------------------------------------------------------------

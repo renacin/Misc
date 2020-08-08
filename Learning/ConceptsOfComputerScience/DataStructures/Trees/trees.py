@@ -7,34 +7,63 @@ import time
 # ----------------------------------------------------------------------------------------------------------------------
 
 
-# Remember LIFO Sequence!
-class Queue():
-    """ Class will store elements as a Queue. Data structure will resemble a doubly linked list"""
-
-    class Node():
-        """ Nodes will store data for each element as well as a pointer to the next node, or element"""
-        __slots__ = ["data", "next", "prev"]
-
-        def __init__(self, input_data = None, next_pointer = None, prev_pointer = None):
-            self.data = input_data
-            self.next = next_pointer
-            self.prev = prev_pointer
+# Remember Hierarchy!
+class Node:
+    """ This will be a tree node """
 
 
-    def __init__(self):
-        """ Instantiate Lenght, Head, Tail For New Queue """
-        self.head = None
-        self.tail = None
-        self._lenght = 0
-        
+    def __init__(self, data):
+        """ Basics For Each Node"""
+        self.left = None
+        self.right = None
+        self.data = data
+
+
+    def insert(self, data):
+        """ This method will be attached to a node """
+        # Compare the new value with the parent node
+        if self.data:
+            if data < self.data:
+                if self.left is None:
+                    self.left = Node(data)
+                else:
+                    self.left.insert(data)
+            elif data > self.data:
+                if self.right is None:
+                    self.right = Node(data)
+                else:
+                    self.right.insert(data)
+        else:
+            self.data = data
+
+
+    def PrintTree(self):
+        """ This method will be attached to the main node, and print each associated value """
+        if self.left:
+            self.left.PrintTree()
+
+        print(self.data)
+
+        if self.right:
+            self.right.PrintTree()
+
 # ----------------------------------------------------------------------------------------------------------------------
 
 
 # MAIN FUNCTION WILL STORE TESTING
 def main():
 
-    # Create A Queue
-    pass
+    # Create A Root Node
+    root_node = Node(12)
+
+    # Inset Values
+    values_to_add = [23, 54, 77, 1, 2, 4, 5]
+    for value in values_to_add:
+        root_node.insert(value)
+
+    # Print Tree
+    root_node.PrintTree()
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 
