@@ -7,45 +7,65 @@ import time
 # ----------------------------------------------------------------------------------------------------------------------
 
 
-# Remember Hierarchy!
-class Node:
-    """ This will be a tree node """
+# This is the main tree class, will store everything
+class BinaryTree:
+    """ The Tree class will store everything """
+    __slots__ = ["root"]
+
+    class Node:
+        """ Nodes will store data for each element as well as a pointer to the next node, or element"""
+        __slots__ = ["data", "left", "right"]
+
+        def __init__(self, input_data = None, left_pointer = None, right_pointer = None):
+            self.data = input_data
+            self.left = left_pointer
+            self.right = right_pointer
 
 
-    def __init__(self, data):
-        """ Basics For Each Node"""
-        self.left = None
-        self.right = None
-        self.data = data
+        def insert(self, data):
+            """ This method will be attached to the node class """
+
+            # If The Root Node Is Filled
+            if self.data:
+
+                # If The Value To Be Appended Is Smaller
+                if data < self.data:
+                    if self.left is None:
+                        self.left = Node(data)
+                    else:
+                        self.left.insert(data)
 
 
-    def insert(self, data):
-        """ This method will be attached to a node """
-        # Compare the new value with the parent node
-        if self.data:
-            if data < self.data:
-                if self.left is None:
-                    self.left = Node(data)
-                else:
-                    self.left.insert(data)
-            elif data > self.data:
-                if self.right is None:
-                    self.right = Node(data)
-                else:
-                    self.right.insert(data)
+                # If The Value To Be Appended Is Larger
+                elif data > self.data:
+                    if self.right is None:
+                        self.right = Node(data)
+                    else:
+                        self.right.insert(data)
+
+            # If there is no value in the root node
+            else:
+                self.data = data
+
+
+    def __init__(self):
+        """ Setup The Root Node """
+        self.root = None
+
+
+    def insert_data(self, input_data):
+        """ Insert Function For External Method """
+
+        # If The Root Node Is Filled
+        if self.root:
+            self.root.insert(input_data)
+
+        # If there is no value in the main node
         else:
-            self.data = data
+            self.root = self.Node(input_data)
 
 
-    def PrintTree(self):
-        """ This method will be attached to the main node, and print each associated value """
-        if self.left:
-            self.left.PrintTree()
 
-        print(self.data)
-
-        if self.right:
-            self.right.PrintTree()
 
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -53,16 +73,13 @@ class Node:
 # MAIN FUNCTION WILL STORE TESTING
 def main():
 
-    # Create A Root Node
-    root_node = Node(12)
+    # Create A Tree Representation
+    tree = BinaryTree()
 
     # Inset Values
-    values_to_add = [23, 54, 77, 1, 2, 4, 5]
+    values_to_add = [23, 24, 54, 66, 1, 34, 50, 10]
     for value in values_to_add:
-        root_node.insert(value)
-
-    # Print Tree
-    root_node.PrintTree()
+        tree.insert_data(value)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
