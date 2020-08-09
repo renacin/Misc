@@ -1,16 +1,14 @@
 # Name:                                            Renacin Matadeen
 # Date:                                               08/07/2020
-# Title                                    Data Structures: Trees In Python
+# Title                                    Data Structures: BINARY SEARCH TREES
 #
 # ----------------------------------------------------------------------------------------------------------------------
 import time
 # ----------------------------------------------------------------------------------------------------------------------
 
 
-# Remember Hierarchy!
 class Node:
     """ This will be a tree node """
-
 
     def __init__(self, data):
         """ Basics For Each Node"""
@@ -63,6 +61,8 @@ def main():
 
     # Print Tree
     root_node.PrintTree()
+
+    # Print Root Node
 
 
 # ----------------------------------------------------------------------------------------------------------------------
