@@ -12,18 +12,34 @@ from bs4 import BeautifulSoup
 # MAIN FUNCTION WILL STORE TESTING
 def main():
 
-    # Look For The Request Tied To The XHR Req | Known as a Ajax Request, Contains Json Data
-    url_link = "https://www.latlong.net/_spm4.php"
-    headers_dictionary = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36"}
 
-    params_dic = {}
-    params_dic["c1"] = "80 binder twine trail"
-    params_dic["action"] = "80 binder twine trail"
-    params_dic["cp"] = ""
+    headers = {
+        'Accept-Encoding': 'gzip, deflate, sdch',
+        'Accept-Language': 'en-US,en;q=0.8',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Referer': 'http://www.wikipedia.org/',
+        'Connection': 'keep-alive',
+    }
 
 
-    response = requests.post(url=url_link, data=params_dic)
-    print(response.text)
+
+    url_api_key = "https://api.waqi.info/api/feed/@7389/obs.en.json"
+    url="https://aqicn.org/city/usa/connecticu..."
+
+    key = "_2Y2EvVx92AVkcDS8OSzJWXmpjZEQ EydQFmgdIA=="
+    token ="LFIGY3TT6X7VQI4YMJAQE7CJMVP74YRQHJGCC6QGAEAAA==="
+    rqc = 4
+
+    form={'key':key,'token':token, 'rqc':rqc}
+
+    response = requests.post(url=url_api_key, headers=headers, data=form)
+    data = response.text
+
+
+    soup = BeautifulSoup(data,'html.parser')
+    print(soup)
+
 # ----------------------------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
