@@ -22,24 +22,37 @@ def main():
 
 
     headers = {
-        'Accept-Encoding': 'gzip, deflate, sdch',
-        'Accept-Language': 'en-US,en;q=0.8',
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Referer': 'http://www.wikipedia.org/',
-        'Connection': 'keep-alive',
+        "authority": "www.latlong.net",
+        "method": "POST",
+        "path": "/",
+        "scheme": "https",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "en-US,en;q=0.9",
+        "cache-control": "max-age=0",
+        "content-length": "591",
+        "content-type": "application/x-www-form-urlencoded",
+        "cookie": "PHPSESSID=976otjtrmadlb1clbu4r93tiv4",
+        "origin": "https://www.latlong.net",
+        "referer": "https://www.latlong.net/",
+        "sec-fetch-dest": "document",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-user": "?1",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36"
     }
 
-    url_api_key = "https://www.latlong.net/"
+    url_api = "https://www.latlong.net/"
 
     place = "80 Binder Twine Trail"
-    lltoken ="01d28d2a5356a393450cd973392d68280fe4df79cfc51b7a66f3dd6469746d23"
+    lltoken = "94a783bea0155c548fa47da86871f8c3ddfb566a21bd321cdc9c7762cc3b1aae"
     llcd = 0
-    g_recaptcha_response = "03AGdBq25IYKiAiJZYx0FA7ALENF2mA3zEjcxMl3Z1jf43hjRBnQEHXEnpsLeS3uJxZVARKEBt12Y6Stg_IzgWo-PoOwXNxAVRD-ed0mU2fe2DWK4EmcA_q3rJIcwmzeZkeTLCOQXZUen-HEFt0cKeN78l998PNhkuh_LZw_YYPULjtjOd1Zk-F0Vn79n_Und4JI2jRIa8zPPVshAqH4TFt0jyA7ZiNd7CHsjyzfIwqbMHMxxXIYRiS4dfRf-mwgEdbAhbG20Q6aAbBnd9GW-9wOHAcmcSohqx6qEuoPBc7aerdwwmds4WPyQxpwXzBA97NlGgTXtpOR9OyWftQ2EV0EPev5ZOSo4R-cti6GX3w1FVdRgAxmNjBgEPf4WcaBdmhrwkXg5CWmfi6QCijyW0Uqcxcg2KrCF9UePocjwdjq_slgSxxSYy3m3KXYIoC8ZKQpW8-rTDoZby"
+    g_recaptcha_response = "03AGdBq27hrnbQTkXOLLKP-j5DgAiHdCNXoo7qRe9K1g5SG3t46FLG78bomiNxZilKqYHRdSlO9kpS3UNg5iPdKXhB4zIZuYXJdXYgnk1z0yTYISAfu3fKDHedvFVemK0Dm5lfpvLmt3vRHuFk-bu2C_yGBiXNqZunhkzN5LFitGr_dx_amQuP-5svjxfb__1vf2I4-C81uX7pXP8NTFq9qjlQoR8S4DIGFvgvVC9LKaOqFChUtBWkr-PAKl1pQjPdMxDe7AkLiJhGyJAHJEiDZ1TfIXZgKOaoYa4roeXA_aKRvL_zrqTXVSXi5HRDidP7g3cAJvUiOSmNEr7L1faNViPuEhrCNC8TM4aKQwzDsFl0YATPyNtOmdGPe03Xvva7xwAUynA8mCA3QQvpWqHrypDyfttOPpu5Lmr9ZFB-zt3mzOxeEfmYrl_HQ0zTlNkl8IKWO9vqO_Nb"
 
-    form={'place':place, 'lltoken':lltoken, 'llcd':llcd, "g-recaptcha-response":g_recaptcha_response}
+    form = {"place": place, "lltoken": lltoken, "llcd": llcd, "g-recaptcha-response": g_recaptcha_response}
 
-    response = requests.post(url=url_api_key, headers=headers, data=form)
+    response = requests.post(url=url_api, headers=headers, data=form)
     data = response.text
 
     soup = BeautifulSoup(data,'html.parser')
