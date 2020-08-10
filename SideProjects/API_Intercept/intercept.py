@@ -6,7 +6,15 @@
 import requests
 from bs4 import BeautifulSoup
 # ----------------------------------------------------------------------------------------------------------------------
+"""
+References:
+    + https://www.youtube.com/watch?v=LPU08ZfP-II&list=PLL2hlSFBmWwwvFk4bBqaPRV4GP19CgZug&index=1
 
+Notes:
+    + How do I scrape data in a more effective way?
+        - Intercept an API?
+        -
+"""
 
 
 # MAIN FUNCTION WILL STORE TESTING
@@ -22,20 +30,17 @@ def main():
         'Connection': 'keep-alive',
     }
 
+    url_api_key = "https://www.latlong.net/"
 
+    place = "80 Binder Twine Trail"
+    lltoken ="01d28d2a5356a393450cd973392d68280fe4df79cfc51b7a66f3dd6469746d23"
+    llcd = 0
+    g_recaptcha_response = "03AGdBq25IYKiAiJZYx0FA7ALENF2mA3zEjcxMl3Z1jf43hjRBnQEHXEnpsLeS3uJxZVARKEBt12Y6Stg_IzgWo-PoOwXNxAVRD-ed0mU2fe2DWK4EmcA_q3rJIcwmzeZkeTLCOQXZUen-HEFt0cKeN78l998PNhkuh_LZw_YYPULjtjOd1Zk-F0Vn79n_Und4JI2jRIa8zPPVshAqH4TFt0jyA7ZiNd7CHsjyzfIwqbMHMxxXIYRiS4dfRf-mwgEdbAhbG20Q6aAbBnd9GW-9wOHAcmcSohqx6qEuoPBc7aerdwwmds4WPyQxpwXzBA97NlGgTXtpOR9OyWftQ2EV0EPev5ZOSo4R-cti6GX3w1FVdRgAxmNjBgEPf4WcaBdmhrwkXg5CWmfi6QCijyW0Uqcxcg2KrCF9UePocjwdjq_slgSxxSYy3m3KXYIoC8ZKQpW8-rTDoZby"
 
-    url_api_key = "https://api.waqi.info/api/feed/@7389/obs.en.json"
-    url="https://aqicn.org/city/usa/connecticu..."
-
-    key = "_2Y2EvVx92AVkcDS8OSzJWXmpjZEQ EydQFmgdIA=="
-    token ="LFIGY3TT6X7VQI4YMJAQE7CJMVP74YRQHJGCC6QGAEAAA==="
-    rqc = 4
-
-    form={'key':key,'token':token, 'rqc':rqc}
+    form={'place':place, 'lltoken':lltoken, 'llcd':llcd, "g-recaptcha-response":g_recaptcha_response}
 
     response = requests.post(url=url_api_key, headers=headers, data=form)
     data = response.text
-
 
     soup = BeautifulSoup(data,'html.parser')
     print(soup)
