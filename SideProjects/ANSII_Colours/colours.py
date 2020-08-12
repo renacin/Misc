@@ -4,10 +4,11 @@
 #
 # ----------------------------------------------------------------------------------------------------------------------
 import time
+import sys
 # ----------------------------------------------------------------------------------------------------------------------
 """
 References:
-    +
+    + http://ascii-table.com/ansi-escape-sequences.php
 
 Notes:
     + How can I use colours as a terminal output within my programs?
@@ -61,6 +62,25 @@ class ANSI_CODE:
     # Follow All Instructions With ANSI Reset Code!
     RESET = '\033[0m'
 
+    # Move Cursor
+    MOVEBACK = '\033[100D'
+
 # ----------------------------------------------------------------------------------------------------------------------
 if __name__ == "__main__":
-    print(ANSI_CODE.TEST + " 0_0 " + ANSI_CODE.RESET)
+
+    # Custom Loading Bar With Colours
+    for i in range(100):
+
+        # Proxy For Some Task
+        time.sleep(0.05)
+
+        # Build Message
+        message = " Progress: " + str(i) + ".00 % "
+        styled_message = ANSI_CODE.TEST + message + ANSI_CODE.RESET
+        sys.stdout.write(styled_message)
+        sys.stdout.flush()
+        sys.stdout.write(ANSI_CODE.MOVEBACK)
+
+
+    # Clear Screen Styling
+    print(ANSI_CODE.RESET)
