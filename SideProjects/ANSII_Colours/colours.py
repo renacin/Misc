@@ -63,7 +63,7 @@ class ANSI_CODE:
     RESET = '\033[0m'
 
     # Move Cursor
-    MOVEBACK = '\033[100D'
+    MOVEUP = '\033[1A'
 
 # ----------------------------------------------------------------------------------------------------------------------
 if __name__ == "__main__":
@@ -77,9 +77,11 @@ if __name__ == "__main__":
         # Build Message
         message = " Progress: " + str(i) + ".00 % "
         styled_message = ANSI_CODE.TEST + message + ANSI_CODE.RESET
-        sys.stdout.write(styled_message)
-        sys.stdout.flush()
-        sys.stdout.write(ANSI_CODE.MOVEBACK)
+        moveup = ANSI_CODE.MOVEUP + ANSI_CODE.RESET
+
+        # Print Message & Move Cursor Up To Original Position
+        print(styled_message, flush=True)
+        print(moveup)
 
 
     # Clear Screen Styling
