@@ -1,0 +1,46 @@
+Name:                                            Renacin Matadeen
+Date:                                               08/19/2020
+Title                                     Blender Basics: Ping Pong Paddle
+------------------------------------------------------------------------------------------------------------------------
+Links Followed:
+    + https://www.youtube.com/watch?v=71WnmX1UrEk
+------------------------------------------------------------------------------------------------------------------------
+
+[--- Notes ---]
+    + DELETING OBJECTS: Select With Left-Click & Press X
+
+    + ADDING SHAPES: Shift + A
+    + SELECTING ALL: A
+    + ROTATE SELECTED SHAPE: R
+    + SCALE: S
+    + EXTRUDE: X
+        - Can Lock Based On A Certain Axis
+            + X, Y, Z
+
+    + CHANGING VIEW: View --> Viewpoint
+    + EDIT MODE: PRESS TAB
+        - Mode Selector:
+            + Edges: Press 1
+            + Vertices: Press 2
+            + Faces: Press 3
+
+    + Bridge Edge Points
+        - Connects Edge Points Together, Creates Faces As Well
+            + Edge Button Near The Top --> Bridge Edge Loop
+
+    + Creating Subdivisions:
+        - Control & R & Location Of Subdivisions
+
+    + Implementing Smooth Shades
+        - With faces preselected: Right Click --> Shade Smooth
+        - Or you can use the edge split modifier
+
+    + Resetting 3D Cursor
+        - Shift + C
+
+    + Setting Up Stroke Outline
+        - Render --> Activate Freestyle
+        - Stokes To Separate Materials
+            - Layers
+                - Freestyle Line Set
+                    - Material Boundary
