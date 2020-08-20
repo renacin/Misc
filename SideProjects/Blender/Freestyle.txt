@@ -1,0 +1,21 @@
+Name:                                            Renacin Matadeen
+Date:                                               08/19/2020
+Title                                     Blender Basics: Donut Render
+------------------------------------------------------------------------------------------------------------------------
+Links Followed:
+    + https://www.youtube.com/watch?v=TPrnSACiTJ4
+------------------------------------------------------------------------------------------------------------------------
+
+[--- Notes ---]
+    + Remember Hot-Keys:
+        - MOVING OBJECTS: Press G
+        - SCALING OBJECTS: Press S
+        - ROTATE OBJECTS: Press R
+
+        - Modify In Certain Axis:
+            + Then Press X, Y, Z
+            + Holding The Middle Mouse Button Will Snap To A Certain Axis
+
+
+    + Duplicating Objects:
+            - DUPLICATE OBJECTS: Shift + D
