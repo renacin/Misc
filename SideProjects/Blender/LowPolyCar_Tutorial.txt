@@ -1,0 +1,20 @@
+Name:                                            Renacin Matadeen
+Date:                                               08/21/2020
+Title                                     Blender Basics: Low Poly Car
+------------------------------------------------------------------------------------------------------------------------
+Links Followed:
+    + https://www.youtube.com/watch?v=Zkg7Ol2jEjs
+------------------------------------------------------------------------------------------------------------------------
+
+[--- Notes ---]
+    + Reference Images
+        - Can make modelling easier as well as quicker
+        - Adding A Reference Image
+            + View Side Profile
+            + SHIFT-A To Add
+            + Add Background
+
+    + User Interface Notes
+        - Split Windows For Better Productivity
+            + Grab The Side of The Window On The Left Side, And Pull Right
+            + To Close A Window Grab An Edge And Pull Towards Another Window (Selector Should Look Like A Cross Not A Zoom Icon)
