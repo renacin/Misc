@@ -28,6 +28,13 @@ class TreeNode:
         child.parent = self
         self.children.append(child)
 
+    def print_tree(self):
+        print(self.data)
+
+        if self.children:
+            for child in self.children:
+                child.print_tree()
+
 
 def Build_Tree():
 
@@ -67,6 +74,7 @@ def main():
 
     # Initial Setup
     root_node = Build_Tree()
+    root_node.print_tree()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
