@@ -19,13 +19,11 @@ class WebCrawler():
         self.chrome_driver = webdriver.Chrome(executable_path=path)
 
 
-
-    # Navigate To Url
+    # Navigate To Url | Get Newest HTML Data
     def navigate_url(self, url):
         self.chrome_driver.get(url)
         self.raw_html = self.chrome_driver.page_source
         time.sleep(2)
-
 
 
     # Scrape Number Of Pages On Website
@@ -43,21 +41,24 @@ class WebCrawler():
             print("No HTML Data To Scape Pages")
 
 
-
     # Scrape Listing IDs On A Given Webpage
     def scrape_ids(self):
         if self.raw_html != "":
-            print("Scraping Data...")
+            print("Scraping Data On Current Page...")
+
+            # Find All Instances Of Listings With Regular Expression Pattern
+            listing_pattern = r'/Listing/Details/(.*)" class="btn btn-primary'
+            instances = re.findall(listing_pattern, self.raw_html)
+
+            return instances
 
         else:
             print("No HTML Data To Collect IDs")
 
 
-
     # Close WebCrawler
     def self_destruct(self):
         self.chrome_driver.quit()
-
 
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -75,67 +76,35 @@ def get_num_pages(url):
 
     Web_Scraper = WebCrawler()
     Web_Scraper.navigate_url(url)
-    num_pages = Web_Scraper.scrape_pages())
+    num_pages = Web_Scraper.scrape_pages()
     Web_Scraper.self_destruct()
 
+    # Return Number Of Pages
     return num_pages
 
 
+# A Function That Will Instuct The Web Crawler Which Pages To Scape
+def pages_to_scrape(num_pages, url):
+    Web_Scraper = WebCrawler()
 
-# # Parse Listing ID
-# def listing_ids(raw_html):
-#
-#     # Find All Instances Of Listings With Regular Expression Pattern
-#     listing_pattern = r'/Listing/Details/(.*)" class="btn btn-primary'
-#     instances = re.findall(listing_pattern, raw_html)
-#
-#     return instances
-#
-# # Parse Total Number Of Pages
-# def num_pages(chrome_driver):
-#     # How Many More Pages?
-#     pages_html = chrome_driver.find_element_by_xpath('/html/body/main/div/div[2]/div[3]/ul')
-#     pages_text = pages_html.text
-#     for arrow in ["«", "»", " "]:
-#         pages_text = pages_text.replace(arrow, "")
-#
-#     all_pages = pages_text.split("\n")
-#     return all_pages[-2]
-#
-#
-#
-#
-#
-# # A Function That Will Use A ChromeDriver To Navigate To The Site Chosen
-# def visit_site(url):
-#
-#
-#     # Visit Site | Get Source HTML
-#     chrome.get(url)
-#     time.sleep(2)
-#
-#     # Grab Raw HTML
-#     html_ = chrome.page_source
-#
-#     # Return Listing IDs As A List
-#     listings = listing_ids(html_)
-#
-#     # Num Pages
-#     print(num_pages(chrome))
-#
-#     # Close Web Driver
-#     chrome.quit()
+    # Place To Store IDs
+    list_of_ids = []
+    for num in range(num_pages):
 
-    # url = choose_url("Jewellery")
-    # visit_site(url)
+        # Create New Url Based On Number Of Pages
+        new_url = url[:-1] + str(num)
+        Web_Scraper.navigate_url(new_url)
+        list_of_ids.extend(Web_Scraper.scrape_ids())
+
+    Web_Scraper.self_destruct()
+    print(list_of_ids)
 
 # ----------------------------------------------------------------------------------------------------------------------
 
 # Main Entry Point Into Python Code
 if __name__ == "__main__":
 
-    # Choose URL
+    # Gather Data From Toronto Police Auction Website
     url = choose_url("Jewellery")
-
-    # Navigate To Url & Get Number Of Pages
     num_pages = get_num_pages(url)
+    pages_to_scrape(num_pages, url)
