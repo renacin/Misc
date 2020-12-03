@@ -97,7 +97,18 @@ def pages_to_scrape(num_pages, url):
         list_of_ids.extend(Web_Scraper.scrape_ids())
 
     Web_Scraper.self_destruct()
-    print(list_of_ids)
+    return list_of_ids
+
+
+# A Function That Will Visit Each Item ID & Gather Data
+def visit_unique_item(list_of_item_ids):
+    Web_Scraper = WebCrawler()
+
+    for item_id in list_of_item_ids:
+        full_url = "https://www.policeauctionscanada.com/Listing/Details/" + str(item_id)
+        Web_Scraper.navigate_url(full_url)
+
+        # LOTS TODO: FINISH THIS FUNCTION & IMPLEMENT DATA GATHERING METHOD IN WEBCRAWLER CLASS
 
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -107,4 +118,4 @@ if __name__ == "__main__":
     # Gather Data From Toronto Police Auction Website
     url = choose_url("Jewellery")
     num_pages = get_num_pages(url)
-    pages_to_scrape(num_pages, url)
+    list_of_ids = pages_to_scrape(num_pages, url)
