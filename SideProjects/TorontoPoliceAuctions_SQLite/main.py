@@ -119,3 +119,5 @@ if __name__ == "__main__":
     url = choose_url("Jewellery")
     num_pages = get_num_pages(url)
     list_of_ids = pages_to_scrape(num_pages, url)
+
+    # VISIT UNIQUE WEBSITES AND SCRAPE DATA!!!!
