@@ -22,7 +22,8 @@ class WebCrawler():
         chrome_options.add_argument("--incognito")
         chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
-        prefs = {'profile.default_content_setting_values': {'cookies': 2, 'images': 2, 'javascript': 2,
+        # 'javascript': 2,
+        prefs = {'profile.default_content_setting_values': {'cookies': 2, 'images': 2,
                                     'plugins': 2, 'popups': 2, 'geolocation': 2,
                                     'notifications': 2, 'auto_select_certificate': 2, 'fullscreen': 2,
                                     'mouselock': 2, 'mixed_script': 2, 'media_stream': 2,
@@ -73,12 +74,12 @@ class WebCrawler():
 
 
 
-
+    # Scrape Data On Individual Item
     def scrape_data(self):
         if self.raw_html != "":
 
 
-            # Find Item Name
+            # Find Name Info
             try:
                 re_name = r'title">(.*)<img src'
                 re_name_data = re.findall(re_name, self.raw_html)
@@ -92,11 +93,37 @@ class WebCrawler():
                 item_name = item_name.replace(full_TPA_ID, "")
                 item_name = item_name.replace("&amp;", "&")
 
+                re_cur_price = r'Part">(.{1,10})</span>'
+                re_cur_price_data = re.findall(re_cur_price, self.raw_html)
+                parsed_prices = re_cur_price_data
+
+                cur_price = re_cur_price_data[0]
+                min_upbid = re_cur_price_data[1]
+                upbid_increase = float(min_upbid) - float(cur_price)
+
+
             except:
                 item_name = "N/A"
                 item_TPA_ID = "N/A"
+                item_price = "N/A"
 
-            print("Name: {}, TPA_ID: {}".format(item_name, item_TPA_ID))
+                cur_price = "N/A"
+                min_upbid = "N/A"
+                upbid_increase = "N/A"
+
+
+            # Find Bidding Info
+            try:
+
+                re_time_remaining = r'data-action-time="(.{10,20})">'
+                re_time_remaining_data = re.findall(re_time_remaining, self.raw_html)
+                date_time_remaining = re_time_remaining_data[0]
+
+            except:
+
+                date_time_remaining = "N/A"
+
+            print(date_time_remaining)
 
         else:
             print("No HTML Data To Data Mine")
