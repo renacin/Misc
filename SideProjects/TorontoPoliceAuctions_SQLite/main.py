@@ -3,69 +3,13 @@
 # Title                                 Toronto Police Auctions - Website Parsing
 #
 # ----------------------------------------------------------------------------------------------------------------------
-import time
-import re
-from selenium import webdriver
-# ----------------------------------------------------------------------------------------------------------------------
-
-
-# Create A WebCrawler Class
-class WebCrawler():
-
-    # Initial Function, Run When A WebCrawler Object Is Created
-    def __init__(self):
-        self.raw_html = ""
-        path = r"C:\Users\renac\Documents\Programming\Python\Selenium\chromedriver.exe"
-        self.chrome_driver = webdriver.Chrome(executable_path=path)
-
-
-    # Navigate To Url | Get Newest HTML Data
-    def navigate_url(self, url):
-        self.chrome_driver.get(url)
-        self.raw_html = self.chrome_driver.page_source
-        time.sleep(2)
-
-
-    # Scrape Number Of Pages On Website
-    def scrape_pages(self):
-        if self.raw_html != "":
-            print("Scraping Number Of Pages...")
-
-            # Find The Pagination At The Bottom Of The Page Within The Raw HTML
-            pagination_pattern = r'">([0-9]{1,2})</a>'
-            page_html = re.findall(pagination_pattern, self.raw_html)
-
-            return int(page_html[-1])
-
-        else:
-            print("No HTML Data To Scape Pages")
-
-
-    # Scrape Listing IDs On A Given Webpage
-    def scrape_ids(self):
-        if self.raw_html != "":
-            print("Scraping Data On Current Page...")
-
-            # Find All Instances Of Listings With Regular Expression Pattern
-            listing_pattern = r'/Listing/Details/(.*)" class="btn btn-primary'
-            instances = re.findall(listing_pattern, self.raw_html)
-
-            return instances
-
-        else:
-            print("No HTML Data To Collect IDs")
-
-
-    # Close WebCrawler
-    def self_destruct(self):
-        self.chrome_driver.quit()
-
+from webcrawler import WebCrawler
 # ----------------------------------------------------------------------------------------------------------------------
 
 # A Function That Will Help The User Create An Associated Url Based On Thier Choice
 def choose_url(choice):
     base_url = "https://www.policeauctionscanada.com/Browse/"
-    cat_dict = {"Jewellery": "C160535", "Coins&Currency": "C6245132", "Electronics":"C161063"}
+    cat_dict = {"Jewellery":"C160535", "Coins&Currency":"C6245132", "Electronics":"C161063", "Art&Antiques":"C632998"}
 
     # Return The First Page Of The Category
     return base_url + cat_dict[choice] + "?page=0"
@@ -80,6 +24,7 @@ def get_num_pages(url):
     Web_Scraper.self_destruct()
 
     # Return Number Of Pages
+    print("Total Number Of Pages Gathered")
     return num_pages
 
 
@@ -96,6 +41,8 @@ def pages_to_scrape(num_pages, url):
         Web_Scraper.navigate_url(new_url)
         list_of_ids.extend(Web_Scraper.scrape_ids())
 
+        print("IDs Scraped From Page: {}".format(num + 1))
+
     Web_Scraper.self_destruct()
     return list_of_ids
 
@@ -107,8 +54,7 @@ def visit_unique_item(list_of_item_ids):
     for item_id in list_of_item_ids:
         full_url = "https://www.policeauctionscanada.com/Listing/Details/" + str(item_id)
         Web_Scraper.navigate_url(full_url)
-
-        # LOTS TODO: FINISH THIS FUNCTION & IMPLEMENT DATA GATHERING METHOD IN WEBCRAWLER CLASS
+        Web_Scraper.scrape_data()
 
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -119,5 +65,6 @@ if __name__ == "__main__":
     url = choose_url("Jewellery")
     num_pages = get_num_pages(url)
     list_of_ids = pages_to_scrape(num_pages, url)
+    visit_unique_item(list_of_ids)
 
     # VISIT UNIQUE WEBSITES AND SCRAPE DATA!!!!
