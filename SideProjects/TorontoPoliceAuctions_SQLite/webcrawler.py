@@ -79,7 +79,7 @@ class WebCrawler():
         if self.raw_html != "":
 
 
-            # Find Name Info
+            # Find Name Info | Use Regular Expression, Quicker?
             try:
                 re_name = r'title">(.*)<img src'
                 re_name_data = re.findall(re_name, self.raw_html)
@@ -112,18 +112,16 @@ class WebCrawler():
                 upbid_increase = "N/A"
 
 
-            # Find Bidding Info
-            try:
+            # Find Bidding Info | Use Selenium Select By Xpath
+            time_remaining_raw = self.chrome_driver.find_element_by_xpath('/html/body/main/div/div[2]/div/div[3]/div[3]/div[1]/span/span')
+            rem_time_raw = time_remaining_raw.get_attribute('innerHTML')
 
-                re_time_remaining = r'data-action-time="(.{10,20})">'
-                re_time_remaining_data = re.findall(re_time_remaining, self.raw_html)
-                date_time_remaining = re_time_remaining_data[0]
+            for rep_chr in ["Days", "Day"]:
+                rem_time_raw = rem_time_raw.replace(rep_chr, "")
+            rem_time_data = rem_time_raw.split("  ")
 
-            except:
+            print(rem_time_data)
 
-                date_time_remaining = "N/A"
-
-            print(date_time_remaining)
 
         else:
             print("No HTML Data To Data Mine")
