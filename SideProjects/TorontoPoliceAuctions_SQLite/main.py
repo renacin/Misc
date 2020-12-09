@@ -3,7 +3,7 @@
 # Title                                 Toronto Police Auctions - Website Parsing
 #
 # ----------------------------------------------------------------------------------------------------------------------
-from webcrawler import WebCrawler
+from wc import WebCrawler
 # ----------------------------------------------------------------------------------------------------------------------
 
 # A Function That Will Help The User Create An Associated Url Based On Thier Choice
