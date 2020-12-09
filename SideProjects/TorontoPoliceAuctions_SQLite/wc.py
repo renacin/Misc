@@ -5,6 +5,9 @@
 # ----------------------------------------------------------------------------------------------------------------------
 import time
 import re
+
+from wc_funcs import *
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 # ----------------------------------------------------------------------------------------------------------------------
@@ -12,6 +15,7 @@ from selenium.webdriver.chrome.options import Options
 
 # Create A WebCrawler Class
 class WebCrawler():
+
 
     # Initial Function, Run When A WebCrawler Object Is Created
     def __init__(self):
@@ -70,104 +74,14 @@ class WebCrawler():
             print("No HTML Data To Collect IDs")
 
 
-
-
-
-
     # Scrape Data On Individual Item
     def scrape_data(self):
         if self.raw_html != "":
-
-
-            # Find Name Info | Use Regular Expression, Quicker?
-            try:
-                re_name = r'title">(.*)<img src'
-                re_name_data = re.findall(re_name, self.raw_html)
-                item_name = re_name_data[0]
-
-                re_TPA_ID = r'\(([0-9]{1,7}.)\)'
-                re_TPA_ID_data = re.findall(re_TPA_ID, item_name)
-                item_TPA_ID = re_TPA_ID_data[0]
-
-                full_TPA_ID = "(" + str(item_TPA_ID) + ")"
-                item_name = item_name.replace(full_TPA_ID, "")
-                item_name = item_name.replace("&amp;", "&")
-
-                re_cur_price = r'Part">(.{1,10})</span>'
-                re_cur_price_data = re.findall(re_cur_price, self.raw_html)
-                parsed_prices = re_cur_price_data
-
-                cur_price = re_cur_price_data[0]
-                min_upbid = re_cur_price_data[1]
-                upbid_increase = float(min_upbid) - float(cur_price)
-
-
-            except:
-                item_name = "N/A"
-                item_TPA_ID = "N/A"
-                item_price = "N/A"
-
-                cur_price = "N/A"
-                min_upbid = "N/A"
-                upbid_increase = "N/A"
-
-
-            # Find Time Remaining | Use Selenium Select By Xpath
-            time_remaining_raw = self.chrome_driver.find_element_by_xpath('/html/body/main/div/div[2]/div/div[3]/div[3]/div[1]/span/span')
-            rem_time_raw = time_remaining_raw.get_attribute('innerHTML')
-
-            for rep_chr in ["Days", "Day"]:
-                rem_time_raw = rem_time_raw.replace(rep_chr, "")
-            rem_time_data = rem_time_raw.split("  ")
-
-            days_ = rem_time_data[0 ].replace("\n", "")
-            days_in_minutes_left = int(days_) * 1440
-
-
-            time_split = rem_time_data[1].split(":")
-            total_minutes_left = days_in_minutes_left + (int(time_split[0]) * 60) + int(time_split[1])      # MINUTES LEFT
-
-
-            # Find Bidding Start & End
-            months = {"December": 12, "January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6, "July": 7, "August": 8, "September": 9, "October": 10, "November": 11}
-            start_date_raw = self.chrome_driver.find_element_by_xpath('/html/body/main/div/div[2]/div/div[4]/div[4]/table/tbody/tr[7]/td[2]')
-            start_date_str = start_date_raw.get_attribute('innerHTML')
-            start_date_str_split = start_date_str.split(" ")
-            date_ = start_date_str_split[2].replace(" ", "")
-            date_ = start_date_str_split[2].replace(",", "")
-            start_date = "{}/{}/{}".format(months[start_date_str_split[1]], date_, start_date_str_split[3])
-
-            end_date_raw = self.chrome_driver.find_element_by_xpath('/html/body/main/div/div[2]/div/div[4]/div[4]/table/tbody/tr[4]/td[2]/span[1]')
-            end_date_raw_str = end_date_raw.get_attribute('innerHTML')
-            end_date_raw_str_split = end_date_raw_str.split(" ")
-            date_ = end_date_raw_str_split[2].replace(" ", "")
-            date_ = end_date_raw_str_split[2].replace(",", "")
-            end_date = "{}/{}/{}".format(months[end_date_raw_str_split[1]], date_, end_date_raw_str_split[3])
-
-
-            # Find Total Number Of Bids
-            num_bids_raw = self.chrome_driver.find_element_by_xpath('/html/body/main/div/div[2]/div/div[4]/div[4]/table/tbody/tr[5]')
-            num_bids_str = num_bids_raw.get_attribute('innerHTML')
-            num_bids_re = r'="([0-9]{1,3})">'
-            num_bids_list = re.findall(num_bids_re, num_bids_str)
-
-            try:
-                num_bids = int(num_bids_list[0])
-            except IndexError:
-                num_bids = 0
-
-
-
-            print(num_bids)
-
+            item_data = collect_item_info(self.raw_html, self.chrome_driver)
+            print(item_data)
 
         else:
             print("No HTML Data To Data Mine")
-
-
-
-
-
 
 
     # Close WebCrawler
