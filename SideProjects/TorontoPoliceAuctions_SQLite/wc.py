@@ -78,10 +78,16 @@ class WebCrawler():
     def scrape_data(self):
         if self.raw_html != "":
             item_data = collect_item_info(self.raw_html, self.chrome_driver)
-            print(item_data)
+            return item_data
 
         else:
             print("No HTML Data To Data Mine")
+
+
+
+    # Ask The WebCrawler To Set-Up A Connection To A Database; Create One If Not Present
+    def connect_to_db(self):
+        pass
 
 
     # Close WebCrawler

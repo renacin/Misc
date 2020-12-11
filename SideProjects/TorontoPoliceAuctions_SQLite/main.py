@@ -41,7 +41,7 @@ def pages_to_scrape(num_pages, url):
         Web_Scraper.navigate_url(new_url)
         list_of_ids.extend(Web_Scraper.scrape_ids())
 
-        print("IDs Scraped From Page: {}".format(num + 1))
+        print("IDs Scraped From Page: {}".format(num+1))
 
     Web_Scraper.self_destruct()
     return list_of_ids
@@ -51,20 +51,22 @@ def pages_to_scrape(num_pages, url):
 def visit_unique_item(list_of_item_ids):
     Web_Scraper = WebCrawler()
 
+    # Visit Each Item, Gather Unique Data & Append To An Already Waiting SQL Lite Database
     for item_id in list_of_item_ids:
         full_url = "https://www.policeauctionscanada.com/Listing/Details/" + str(item_id)
         Web_Scraper.navigate_url(full_url)
-        Web_Scraper.scrape_data()
+        item_data = Web_Scraper.scrape_data()
 
 # ----------------------------------------------------------------------------------------------------------------------
 
 # Main Entry Point Into Python Code
 if __name__ == "__main__":
 
-    # Gather Data From Toronto Police Auction Website
-    url = choose_url("Jewellery")
-    num_pages = get_num_pages(url)
-    list_of_ids = pages_to_scrape(num_pages, url)
-    visit_unique_item(list_of_ids)
+    # Ask WebCrawler To Check If An Operable Database Is Connected? If Not Ask It To Create One
+    # TODO CONNECT TO SQL-LITE Database 
 
-    # VISIT UNIQUE WEBSITES AND SCRAPE DATA!!!!
+    # # Gather Data From Toronto Police Auction Website
+    # url = choose_url("Jewellery")
+    # num_pages = get_num_pages(url)
+    # list_of_ids = pages_to_scrape(num_pages, url)
+    # visit_unique_item(list_of_ids)
