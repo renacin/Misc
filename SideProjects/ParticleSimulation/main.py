@@ -12,6 +12,7 @@ import math
 Notes:
     + Following:
         - https://www.youtube.com/watch?v=Wyv5TnkFuxE
+        - https://www.youtube.com/channel/UCN7uBodTAg8KcsuDiJ9u4Rg
 
 """
 # ----------------------------------------------------------------------------------------------------------------------
