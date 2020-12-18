@@ -1,10 +1,11 @@
 # Name:                                            Renacin Matadeen
-# Date:                                               12/15/2020
-# Title                                          Particle Simulation
+# Date:                                               12/18/2020
+# Title                                           Basics Of PyGame
 #
 # ----------------------------------------------------------------------------------------------------------------------
 import time
 import pygame
+import random
 import math
 # ----------------------------------------------------------------------------------------------------------------------
 """
@@ -32,19 +33,25 @@ def main():
     # Set The Speed At Which The Character Moves
     vel = 5
 
-    # is The Character Jumping?
-    isJump = False
-    jumpCount = 2
+    # Start Colour
+    char_colour = (0, 0, 0)
 
     # Gotta Store PyGame In Main Loop | Need To Check For Events
-    run = True
-    while run:
+    window.fill((255, 255, 255))
+    execute_app = True
+    while execute_app:
         pygame.time.delay(10)  #Delay Each Iteration By 100 Milliseconds
 
         # Check For Events | Moving Character
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
+                execute_app = False
+
+
+        # Draw Stuff | Need To Refresh | Need To Create New Screen As To Not Drag Character
+        #window.fill((255, 255, 255))
+        pygame.draw.rect(window, char_colour, (x, y, width, height))    # Surface, Colour(255, 255, 255), Rect(X, Y, Width, Height)
+
 
         # Update Arrow Movement
         keys = pygame.key.get_pressed()
@@ -52,31 +59,18 @@ def main():
             x -= vel
         if keys[pygame.K_RIGHT] and x < screen_width - width - vel:
             x += vel
+        if keys[pygame.K_UP] and y > vel:
+            y -= vel * 0.5
+        if keys[pygame.K_DOWN] and y < screen_height - height - vel:
+            y += vel
 
-        if not (isJump): # Can Only Jump, Not While Using Other Keys
-            if keys[pygame.K_UP] and y > vel:
-                y -= vel * 0.5
-            if keys[pygame.K_DOWN] and y < screen_height - height - vel:
-                y += vel
-            if keys[pygame.K_SPACE]:
-                isJump = True
+        # Character Behaviour
+        if keys[pygame.K_SPACE]:
+            char_colour = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            width = random.randint(10, 40)
+            height = width
+            pygame.time.delay(100)  #Delay Each Iteration By 100 Milliseconds
 
-        else:
-            if jumpCount >= -10:
-                neg = 1
-                if jumpCount < 0:
-                    neg = -1
-                y -= (jumpCount ** 2) * 0.5 * neg
-                jumpCount -= 1
-
-            else:
-                isJump = False
-                jumpCount = 10
-
-
-        # Draw Stuff | Need To Refresh | Need To Create New Screen As To Not Drag Character
-        window.fill((255, 255, 255))
-        pygame.draw.rect(window, (0, 0, 0), (x, y, width, height))    # Surface, Colour(255, 255, 255), Rect(X, Y, Width, Height)
         pygame.display.update()
 
 
