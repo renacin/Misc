@@ -10,26 +10,31 @@ import math
 """
 Notes:
     + Following:
-        - https://www.youtube.com/watch?v=Wyv5TnkFuxE
-        - https://www.youtube.com/channel/UCN7uBodTAg8KcsuDiJ9u4Rg
-
+        - https://www.youtube.com/watch?v=i6xMBig-pP4
 """
 # ----------------------------------------------------------------------------------------------------------------------
 def main():
 
     # Basic SetUp
+    screen_width = 1000
+    screen_height = 1000
+
     pygame.init()   # Initialize Pygame
-    window = pygame.display.set_mode((1000, 1000))    # Set Window Size
+    window = pygame.display.set_mode((screen_height, screen_width))    # Set Window Size
     pygame.display.set_caption("First Game")    # Set Name Of Game
 
     # SetUp Character
-    x = 50
-    y = 50
+    x = 0
+    y = 0
     width = 20
     height = 20
 
     # Set The Speed At Which The Character Moves
-    vel = 10
+    vel = 5
+
+    # is The Character Jumping?
+    isJump = False
+    jumpCount = 2
 
     # Gotta Store PyGame In Main Loop | Need To Check For Events
     run = True
@@ -43,14 +48,30 @@ def main():
 
         # Update Arrow Movement
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] and x > vel:
             x -= vel
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT] and x < screen_width - width - vel:
             x += vel
-        if keys[pygame.K_UP]:
-            y -= vel
-        if keys[pygame.K_DOWN]:
-            y += vel
+
+        if not (isJump): # Can Only Jump, Not While Using Other Keys
+            if keys[pygame.K_UP] and y > vel:
+                y -= vel * 0.5
+            if keys[pygame.K_DOWN] and y < screen_height - height - vel:
+                y += vel
+            if keys[pygame.K_SPACE]:
+                isJump = True
+
+        else:
+            if jumpCount >= -10:
+                neg = 1
+                if jumpCount < 0:
+                    neg = -1
+                y -= (jumpCount ** 2) * 0.5 * neg
+                jumpCount -= 1
+
+            else:
+                isJump = False
+                jumpCount = 10
 
 
         # Draw Stuff | Need To Refresh | Need To Create New Screen As To Not Drag Character
