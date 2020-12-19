@@ -3,80 +3,63 @@
 # Title                                           Basics Of PyGame
 #
 # ----------------------------------------------------------------------------------------------------------------------
-import time
+import sys
 import pygame
+from pygame.locals import *
 import random
-import math
 # ----------------------------------------------------------------------------------------------------------------------
 """
 Notes:
     + Following:
-        - https://www.youtube.com/watch?v=i6xMBig-pP4
+        - https://www.youtube.com/watch?v=F69-t33e8tk
 """
 # ----------------------------------------------------------------------------------------------------------------------
+
+
 def main():
 
-    # Basic SetUp
-    screen_width = 1000
-    screen_height = 1000
+    # Window SetUp
+    screen_dim = (1000, 1000)
+    pygame.init()
+    window = pygame.display.set_mode(screen_dim)
+    pygame.display.set_caption("Simulating Particles")
 
-    pygame.init()   # Initialize Pygame
-    window = pygame.display.set_mode((screen_height, screen_width))    # Set Window Size
-    pygame.display.set_caption("First Game")    # Set Name Of Game
 
-    # SetUp Character
-    x = 0
-    y = 0
-    width = 20
-    height = 20
+    # Particle Will Be Stored In A List | Start With No Particles
+    particles = []
 
-    # Set The Speed At Which The Character Moves
-    vel = 5
-
-    # Start Colour
-    char_colour = (0, 0, 0)
 
     # Gotta Store PyGame In Main Loop | Need To Check For Events
-    window.fill((255, 255, 255))
-    execute_app = True
-    while execute_app:
-        pygame.time.delay(10)  #Delay Each Iteration By 100 Milliseconds
+    while True:
+        window.fill((0, 0, 0))
+
+        # Add Particles To List
+        mx, my = pygame.mouse.get_pos()
+        particles.append([[mx, my], [random.randint(0, 20) / 10 - 1, -2], random.randint(4, 6), (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))])
+
+        for particle in particles:
+            particle[0][0] += particle[1][0]
+            particle[0][1] += particle[1][1]
+            particle[2] -= 0.01
+            particle[1][1] += 0.01
+            pygame.draw.circle(window, particle[3], [int(particle[0][0]), int(particle[0][1])], int(particle[2]))
+            if particle[2] <= 0:
+                particles.remove(particle)
 
         # Check For Events | Moving Character
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                execute_app = False
+                pygame.quit()
+                sys.exit()
 
-
-        # Draw Stuff | Need To Refresh | Need To Create New Screen As To Not Drag Character
-        #window.fill((255, 255, 255))
-        pygame.draw.rect(window, char_colour, (x, y, width, height))    # Surface, Colour(255, 255, 255), Rect(X, Y, Width, Height)
-
-
-        # Update Arrow Movement
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT] and x > vel:
-            x -= vel
-        if keys[pygame.K_RIGHT] and x < screen_width - width - vel:
-            x += vel
-        if keys[pygame.K_UP] and y > vel:
-            y -= vel * 0.5
-        if keys[pygame.K_DOWN] and y < screen_height - height - vel:
-            y += vel
-
-        # Character Behaviour
-        if keys[pygame.K_SPACE]:
-            char_colour = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-            width = random.randint(10, 40)
-            height = width
-            pygame.time.delay(100)  #Delay Each Iteration By 100 Milliseconds
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
 
         pygame.display.update()
 
 
-
-    # Quit The Game
-    pygame.quit()
 
 
 
