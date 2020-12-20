@@ -20,7 +20,7 @@ Notes:
 class Particle:
 
     # Characteristics Of Particle That Are Needed
-    def __init__(self, mouse_xy=[0, 0], velocityxy=[0, 1], radius=5, timer=10, colour=(255, 255, 255)):
+    def __init__(self, mouse_xy=[0, 0], velocityxy=[0, 9.81], radius=5, timer=10, colour=(255, 255, 255)):
 
         # Spawn Particle At Mouse Coordinates
         self.mouse_x = int(mouse_xy[0])
@@ -46,6 +46,8 @@ def main():
     # Window SetUp
     screen_dim = (1000, 1000)
     pygame.init()
+    clock = pygame.time.Clock()
+    FPS = 120
     window = pygame.display.set_mode(screen_dim)
     pygame.display.set_caption("Falling Circles")
 
@@ -59,6 +61,7 @@ def main():
 
     # Gotta Store PyGame In Main Loop | Need To Check For Events
     while True:
+        clock.tick(FPS)
         window.fill((253, 92, 99))
 
 
@@ -72,7 +75,7 @@ def main():
             particle.mouse_y = int(particle.mouse_y + particle.vel_y)                            # Y Movement Up Down
 
             # Update Timer
-            particle.timer = particle.timer - 0.005
+            particle.timer = particle.timer - 0.05
 
             # Draw Circle
             pygame.draw.circle(window, particle.colour, [particle.mouse_x, particle.mouse_y], particle.radius)
