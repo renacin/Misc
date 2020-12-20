@@ -20,7 +20,7 @@ Notes:
 class Particle:
 
     # Characteristics Of Particle That Are Needed
-    def __init__(self, mouse_xy=[0, 0], velocityxy=[0, 9.81], radius=5, timer=10, colour=(255, 255, 255)):
+    def __init__(self, mouse_xy=[0, 0], velocityxy=[0, -10], radius=5, timer=10, colour=(255, 255, 255)):
 
         # Spawn Particle At Mouse Coordinates
         self.mouse_x = int(mouse_xy[0])
@@ -51,19 +51,26 @@ def main():
     window = pygame.display.set_mode(screen_dim)
     pygame.display.set_caption("Falling Circles")
 
-    font_path = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\ParticleSimulation\FONTS\IosevkaBold.ttf"
+    font_path = "FONTS/IosevkaBold.ttf"
     GAME_FONT = pygame.font.Font(font_path, 60)
+
+    hitmarker_sound = pygame.mixer.Sound("SOUNDS/HitmarkerSound.mp3")
 
 
     # Particle Will Be Stored In A List | Start With No Particles
     particles = []
 
 
+    # SetUp Character
+    character_image = pygame.image.load("IMAGES/Plane.png")
+    width = 400
+    height = 400
+
+
     # Gotta Store PyGame In Main Loop | Need To Check For Events
     while True:
         clock.tick(FPS)
         window.fill((253, 92, 99))
-
 
 
 
@@ -83,6 +90,13 @@ def main():
             # Remove Particle If Time Is Up
             if particle.timer <= 0:
                 particles.remove(particle)
+
+
+
+
+        # Update Character Movement
+        mx, my = pygame.mouse.get_pos()
+        window.blit(character_image, (mx-25, my-10))
 
 
 
@@ -107,14 +121,18 @@ def main():
                     mx, my = pygame.mouse.get_pos()
 
                     # A Particle Must Take Mouse Position [X, Y], SOMETHING, SIZE, COLOUR
-                    new_Particle = Particle(mouse_xy=[mx, my], radius=random.randint(10, 20))
+                    new_Particle = Particle(mouse_xy=[mx, my], radius=5)
                     particles.append(new_Particle)
+
+                    # Play Hitmarker Sound For Every Projectile Fired
+                    pygame.mixer.Sound.play(hitmarker_sound)
+                    pygame.mixer.music.stop()
 
 
 
         # Print Number Of Particle In System
         num_particle = len(particles)
-        particles_text = "# Of Circles: [{}]".format(num_particle)
+        particles_text = "# Of Projectiles: [{}]".format(num_particle)
         text = GAME_FONT.render(particles_text, True, (255, 255, 255))
         window.blit(text, (40, 900))
 
