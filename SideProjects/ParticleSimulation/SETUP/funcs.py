@@ -37,8 +37,6 @@ def init_assets():
 
 # Update Particles List
 def update_particles(particles, window):
-
-    # Process Each Particle In Particles List
     for particle in particles:
 
         # Process Movement Of Particle | Process X Coordinate | Y Coordinate | Larger Particle Fall Faster!!!

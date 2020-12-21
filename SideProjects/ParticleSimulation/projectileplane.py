@@ -12,7 +12,7 @@ from SETUP.classes import *
 # ----------------------------------------------------------------------------------------------------------------------
 
 
-# MMain Function Will Store Everything
+# Main Function Will Store Everything
 def main():
 
     # Setup Window & FPS Clock
