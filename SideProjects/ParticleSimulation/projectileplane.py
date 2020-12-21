@@ -4,9 +4,11 @@
 #
 # ----------------------------------------------------------------------------------------------------------------------
 import sys
+import random
 import pygame
 from pygame.locals import *
-import random
+from SETUP.funcs import *
+
 # ----------------------------------------------------------------------------------------------------------------------
 """
 Notes:
@@ -43,18 +45,15 @@ class Particle:
 
 def main():
 
-    # Window SetUp
-    screen_dim = (1000, 1000)
-    pygame.init()
-    clock = pygame.time.Clock()
+    # Setup Window & FPS Clock
     FPS = 120
-    window = pygame.display.set_mode(screen_dim)
-    pygame.display.set_caption("Falling Circles")
+    window, clock = setup_window()
 
+    # Needed Assests To Import
     font_path = "FONTS/IosevkaBold.ttf"
     GAME_FONT = pygame.font.Font(font_path, 60)
-
     hitmarker_sound = pygame.mixer.Sound("SOUNDS/HitmarkerSound.mp3")
+    character_image = pygame.image.load("IMAGES/Plane.png")
 
 
     # Particle Will Be Stored In A List | Start With No Particles
@@ -62,9 +61,7 @@ def main():
 
 
     # SetUp Character
-    character_image = pygame.image.load("IMAGES/Plane.png")
-    width = 400
-    height = 400
+
 
 
     # Gotta Store PyGame In Main Loop | Need To Check For Events
