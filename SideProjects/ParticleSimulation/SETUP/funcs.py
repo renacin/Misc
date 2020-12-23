@@ -20,19 +20,26 @@ def setup_window():
     # Set Screen Size & Create Game Clock
     clock = pygame.time.Clock()
     window = pygame.display.set_mode(screen_dim)
-    pygame.display.set_caption("Falling Circles")
+    pygame.display.set_caption("Simple Shooter")
 
-    return window, clock
+    return window, clock, screen_dim
 
 
 # Initialize Some Of The Games Assets
 def init_assets():
+
+    # Init Font, Sound, & Sprite Assets
     font_path = "FONTS/IosevkaBold.ttf"
-    GAME_FONT = pygame.font.Font(font_path, 60)
+    GAME_FONT = pygame.font.Font(font_path, 30)
     hitmarker_sound = pygame.mixer.Sound("SOUNDS/HitmarkerSound.mp3")
     character_image = pygame.image.load("IMAGES/Plane.png")
 
-    return hitmarker_sound, character_image, GAME_FONT
+    # Draw Rectangle That Will Take Damage | Only Moves Left Right
+    damage_rect = pygame.Rect(20, 60, 400, 25)
+    x_speed = 5
+
+
+    return hitmarker_sound, character_image, GAME_FONT, damage_rect, x_speed
 
 
 # Update Particles List
@@ -44,10 +51,11 @@ def update_particles(particles, window):
         particle.mouse_y = int(particle.mouse_y + particle.vel_y)                            # Y Movement Up Down
 
         # Update Timer
-        particle.timer = particle.timer - 0.05
+        particle.timer = particle.timer - 0.10
 
-        # Draw Circle
-        pygame.draw.circle(window, particle.colour, [particle.mouse_x, particle.mouse_y], particle.radius)
+        # Draw Projectile
+        projectile_rect = Rect(particle.mouse_x, particle.mouse_y, particle.size[0], particle.size[1])
+        pygame.draw.rect(window, particle.colour, projectile_rect)
 
         # Remove Particle If Time Is Up
         if particle.timer <= 0:
@@ -57,14 +65,32 @@ def update_particles(particles, window):
 
 
 # Print Number Of Projectiles On The Screen
-def num_particles(particles, GAME_FONT, window):
-    num_particle = len(particles)
-    particles_text = "# Of Projectiles: [{}]".format(num_particle)
-    text = GAME_FONT.render(particles_text, True, (255, 255, 255))
-    window.blit(text, (40, 900))
+def game_stats(damage_done, shots_taken, GAME_FONT, window):
+
+    # Print Number Of Shots Taken
+    combined_text = "SHOTS {} | ".format(shots_taken)
+
+    # Print Damage Done
+    combined_text += " DMG {} | ".format(damage_done)
+
+    # Print Overall Game Accuracy
+    try:
+        acc = (damage_done/shots_taken) * 100
+        accuracy_ = round(acc, 0)
+    except ZeroDivisionError:
+        accuracy_ = 0
+
+    accuracy_ = str(accuracy_)
+    combined_text += " ACC {}%".format(accuracy_[:-2])
+
+    # Render All To Screen
+    text = GAME_FONT.render(combined_text, True, (255, 255, 255))
+    window.blit(text, (280, 900))
 
 
-def check_events(events, particles, hitmarker_sound):
+
+# Check Events & Adjust Accordingly
+def check_events(events, particles, shots_taken):
     for event in events:
 
         # Quit If Exit Button Pressed
@@ -78,15 +104,58 @@ def check_events(events, particles, hitmarker_sound):
                 pygame.quit()
                 sys.exit()
 
-        # Add Particles To List If Mouse Clicked
-        if (event.type == MOUSEWHEEL) or (event.type == MOUSEBUTTONDOWN):
-            if len(particles) < 1000:
+        # Add Particles To List If Mouse Clicked | Difference Between event.type & event.button
+        if (event.type == MOUSEBUTTONUP):
+            if (event.button == 1):
                 mx, my = pygame.mouse.get_pos()
 
                 # A Particle Must Take Mouse Position [X, Y], SOMETHING, SIZE, COLOUR
-                new_Particle = Particle(mouse_xy=[mx, my], radius=5)
+                new_Particle = Particle(mouse_xy=[mx, my])
                 particles.append(new_Particle)
+                shots_taken += 1
+
+    return shots_taken
+
+
+
+
+# Move Damage Rectangle
+def move_damage_rect(damage_rect, screen_dimensions, window, x_speed):
+    m_colour = (255, 255, 255)
+
+    damage_rect.x += x_speed
+
+    # Collision With Screen Borders
+    if (damage_rect.right >= screen_dimensions[0]) or (damage_rect.left <= 0):
+        x_speed *= -1
+
+    # Update Damage Rectangle
+    pygame.draw.rect(window, m_colour, damage_rect)
+
+    return x_speed
+
+
+
+
+# Check Collisons Between Particles & Damage Rectangle
+def check_collisions(particles, damage_rect, damage_done, hitmarker_sound):
+
+    col_tol = 20
+    for particle in particles:
+
+        col_part = pygame.Rect(particle.mouse_x, particle.mouse_y, particle.size[0], particle.size[1])
+        if col_part.colliderect(damage_rect):
+
+            # Top Collision
+            if abs(col_part.top - damage_rect.bottom) <= col_tol:
 
                 # Play Hitmarker Sound For Every Projectile Fired
                 pygame.mixer.Sound.play(hitmarker_sound)
                 pygame.mixer.music.stop()
+
+                # Remove The Particle
+                particles.remove(particle)
+                damage_done += 1
+
+
+    return particles, damage_done
