@@ -3,10 +3,6 @@
 # Title                                           Classes For Pygame
 #
 # ----------------------------------------------------------------------------------------------------------------------
-import sys
-import pygame
-from pygame.locals import *
-# ----------------------------------------------------------------------------------------------------------------------
 
 
 # Create An Instance Of A Particle: A Particle Is:Something That Exists At A Given Time, Moves Around, Changes Over Time

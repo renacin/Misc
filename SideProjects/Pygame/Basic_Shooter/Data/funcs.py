@@ -4,42 +4,13 @@
 #
 # ----------------------------------------------------------------------------------------------------------------------
 import sys
+
 import pygame
 from pygame.locals import *
+
+import Data.config
 from Data.classes import *
 # ----------------------------------------------------------------------------------------------------------------------
-
-
-# Initialize The Game Window
-def setup_window():
-
-    # Window SetUp & Initialize Window
-    screen_dim = (1000, 1000)
-    pygame.init()
-
-    # Set Screen Size & Create Game Clock
-    clock = pygame.time.Clock()
-    window = pygame.display.set_mode(screen_dim)
-    pygame.display.set_caption("Simple Shooter")
-
-    return window, clock, screen_dim
-
-
-# Initialize Some Of The Games Assets
-def init_assets():
-
-    # Init Font, Sound, & Sprite Assets
-    font_path = "Data/IosevkaBold.ttf"
-    GAME_FONT = pygame.font.Font(font_path, 30)
-    hitmarker_sound = pygame.mixer.Sound("Data/HitmarkerSound.mp3")
-    character_image = pygame.image.load("Data/Plane.png")
-
-    # Draw Rectangle That Will Take Damage | Only Moves Left Right
-    damage_rect = pygame.Rect(20, 60, 400, 25)
-    x_speed = 5
-
-
-    return hitmarker_sound, character_image, GAME_FONT, damage_rect, x_speed
 
 
 # Update Particles List
@@ -59,9 +30,8 @@ def update_particles(particles, window):
 
         # Remove Particle If Time Is Up
         if particle.timer <= 0:
-            particles.remove(particle)
+            Data.config.particles.remove(particle)
 
-    return particles
 
 
 # Print Number Of Projectiles On The Screen
@@ -111,11 +81,8 @@ def check_events(events, particles, shots_taken):
 
                 # A Particle Must Take Mouse Position [X, Y], SOMETHING, SIZE, COLOUR
                 new_Particle = Particle(mouse_xy=[mx, my])
-                particles.append(new_Particle)
-                shots_taken += 1
-
-    return shots_taken
-
+                Data.config.particles.append(new_Particle)
+                Data.config.shots_taken += 1
 
 
 
@@ -127,13 +94,10 @@ def move_damage_rect(damage_rect, screen_dimensions, window, x_speed):
 
     # Collision With Screen Borders
     if (damage_rect.right >= screen_dimensions[0]) or (damage_rect.left <= 0):
-        x_speed *= -1
+        Data.config.x_speed *= -1
 
     # Update Damage Rectangle
     pygame.draw.rect(window, m_colour, damage_rect)
-
-    return x_speed
-
 
 
 
@@ -154,8 +118,5 @@ def check_collisions(particles, damage_rect, damage_done, hitmarker_sound):
                 pygame.mixer.music.stop()
 
                 # Remove The Particle
-                particles.remove(particle)
-                damage_done += 1
-
-
-    return particles, damage_done
+                Data.config.particles.remove(particle)
+                Data.config.damage_done += 1
