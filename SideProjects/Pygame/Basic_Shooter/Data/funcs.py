@@ -6,7 +6,7 @@
 import sys
 import pygame
 from pygame.locals import *
-from SETUP.classes import *
+from Data.classes import *
 # ----------------------------------------------------------------------------------------------------------------------
 
 
@@ -29,10 +29,10 @@ def setup_window():
 def init_assets():
 
     # Init Font, Sound, & Sprite Assets
-    font_path = "FONTS/IosevkaBold.ttf"
+    font_path = "Data/IosevkaBold.ttf"
     GAME_FONT = pygame.font.Font(font_path, 30)
-    hitmarker_sound = pygame.mixer.Sound("SOUNDS/HitmarkerSound.mp3")
-    character_image = pygame.image.load("IMAGES/Plane.png")
+    hitmarker_sound = pygame.mixer.Sound("Data/HitmarkerSound.mp3")
+    character_image = pygame.image.load("Data/Plane.png")
 
     # Draw Rectangle That Will Take Damage | Only Moves Left Right
     damage_rect = pygame.Rect(20, 60, 400, 25)

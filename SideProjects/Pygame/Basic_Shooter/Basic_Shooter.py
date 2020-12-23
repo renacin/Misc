@@ -7,8 +7,8 @@ import sys
 import random
 import pygame
 from pygame.locals import *
-from SETUP.funcs import *
-from SETUP.classes import *
+from Data.funcs import *
+from Data.classes import *
 # ----------------------------------------------------------------------------------------------------------------------
 
 
