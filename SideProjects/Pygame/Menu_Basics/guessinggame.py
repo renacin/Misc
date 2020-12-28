@@ -6,49 +6,26 @@
 import pygame
 from pygame.locals import *
 
-import Data.config
-from Data.classes import *
+import Data.config as lnk
+from Data.funcs import *
 # ----------------------------------------------------------------------------------------------------
 
 # Main Function Will Store Everything
 def main():
 
-    #define colours
-    bg = (33, 33, 33)
-    black = (0, 0, 0)
+    while lnk.game_state:
 
-    again = Button(400, 200, 'Again?')
-    quit = Button(600, 200, 'Quit?')
-    down = Button(400, 350, 'Down')
-    up = Button(600, 350, 'Up')
+        # Fill Background Window
+        lnk.window.fill(lnk.background_colour)
 
+        # Draw Title Screen
+        draw_title_card()
 
-    run = True
-    while run:
-        Data.config.screen.fill(bg)
+        # Check For Events In Game
+        events_list = pygame.event.get()
+        check_events(events_list)
 
-        if again.draw_button():
-            print('Again')
-            Data.config.counter = 0
-
-        if quit.draw_button():
-            print('Quit')
-
-        if up.draw_button():
-            print('Up')
-            Data.config.counter += 1
-
-        if down.draw_button():
-            print('Down')
-            Data.config.counter -= 1
-
-        counter_img = Data.config.font.render(str(Data.config.counter), True, black)
-        Data.config.screen.blit(counter_img, (600, 450))
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-
+        # Update The Screen
         pygame.display.update()
 
     pygame.quit()
