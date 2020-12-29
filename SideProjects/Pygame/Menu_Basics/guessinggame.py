@@ -21,12 +21,15 @@ def main():
         # Draw Title Screen
         draw_title_card()
 
+        # Draw Input Box
+        draw_inputbox()
+
         # Check For Events In Game
         events_list = pygame.event.get()
         check_events(events_list)
 
         # Update The Screen
-        pygame.display.update()
+        pygame.display.flip()
 
     pygame.quit()
 

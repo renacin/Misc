@@ -16,18 +16,21 @@ import Data.config as lnk
 def draw_title_card():
 
     # Draw Backing Rectangle (X, Y, Width, Height)
-    title_rect = pygame.Rect(270, 60, 400, 100)
+    title_rect = pygame.Rect(270, 60, 520, 100)
     title_rect_colour = (255, 255, 255)
     pygame.draw.rect(lnk.window, title_rect_colour, title_rect)
 
-    # Title Font
-    titlef_path = "Data/Title_BoldOblique.ttf"
-    title_font = pygame.font.Font(titlef_path, 60)
-
     # Game Title
-    title_text = "0 - 10 GAME"
-    title_render = title_font.render(title_text, True, (0, 0, 0))
+    title_text = "# GUESSING GAME"
+    title_render = lnk.title_font.render(title_text, True, (0, 0, 0))
     lnk.window.blit(title_render, (300, 70)) #[X, Y]
+
+
+# Draw The Box That Will Store The User's Input
+def draw_inputbox():
+    usr_in_surf = lnk.usr_inp_font.render(lnk.user_input, True, (255, 255, 255))
+    lnk.window.blit(usr_in_surf, (300, 800)) #[X, Y]
+
 
 
 # Check Events & Adjust Accordingly
@@ -39,8 +42,17 @@ def check_events(events):
             pygame.quit()
             sys.exit()
 
-        # Quit If Escape Button Pressed
+        # Check If A Key On The Keyboard Was Pressed
         if event.type == KEYDOWN:
+
+            # Quit If Escape Button Pressed
             if event.key == K_ESCAPE:
                 pygame.quit()
                 sys.exit()
+
+            # Reset User_Input If Backspace Is Pressed
+            if event.key == K_BACKSPACE:
+                lnk.user_input = lnk.user_input[:-1]
+
+            else:
+                lnk.user_input += event.unicode
