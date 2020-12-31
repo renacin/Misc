@@ -18,11 +18,8 @@ def main():
         # Fill Background Window
         lnk.window.fill(lnk.background_colour)
 
-        # Draw Title Screen
-        draw_title_card()
-
-        # Draw Input Box
-        draw_inputbox()
+        # Draw User Interface
+        draw_ui()
 
         # Check For Events In Game
         events_list = pygame.event.get()

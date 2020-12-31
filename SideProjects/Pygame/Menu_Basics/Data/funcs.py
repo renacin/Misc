@@ -28,9 +28,40 @@ def draw_title_card():
 
 # Draw The Box That Will Store The User's Input
 def draw_inputbox():
-    usr_in_surf = lnk.usr_inp_font.render(lnk.user_input, True, (255, 255, 255))
+
+    # Change Colour Based On Number Of Inputs & Type
+    try:
+        input_int = int(lnk.user_input)
+        input_type = True
+
+    except:
+        input_type = False
+
+
+    if (input_type == True) & (len(lnk.user_input) <= 5):
+        lnk.input_colour = (255, 255, 255)
+
+    else:
+        lnk.input_colour = (255, 0, 0)
+
+    usr_in_surf = lnk.usr_inp_font.render(lnk.user_input, True, lnk.input_colour)
     lnk.window.blit(usr_in_surf, (300, 800)) #[X, Y]
 
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+
+# Draw Entire UI Contains Other Elements
+def draw_ui():
+
+    # Draw Title Screen
+    draw_title_card()
+
+    # Draw Input Box
+    draw_inputbox()
+
+
+# ----------------------------------------------------------------------------------------------------------------------
 
 
 # Check Events & Adjust Accordingly
