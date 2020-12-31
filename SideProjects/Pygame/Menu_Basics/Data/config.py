@@ -31,5 +31,6 @@ usr_inp_font_path = "Data/Input_Thin.ttf"
 usr_inp_font = pygame.font.Font(usr_inp_font_path, 30)
 
 # Define Additional Outputs & User Inputs
+input_bool = False
 user_input = "INPUT"
 input_colour = (255, 255, 255)

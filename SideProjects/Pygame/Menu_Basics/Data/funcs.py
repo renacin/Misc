@@ -26,29 +26,39 @@ def draw_title_card():
     lnk.window.blit(title_render, (300, 70)) #[X, Y]
 
 
-# Draw The Box That Will Store The User's Input
-def draw_inputbox():
 
-    # Change Colour Based On Number Of Inputs & Type
+# Draw The Box That Will Store The User's Input
+def draw_input_and_box():
+
+    # Draw Box That Will Store The Users Input
+    input_rect = pygame.Rect(270, 500, 100, 100)
+    input_rect_colour = (255, 255, 255)
+    pygame.draw.rect(lnk.window, input_rect_colour, input_rect)
+
+
+    # See If Input Can Be Converted To An INT
     try:
         input_int = int(lnk.user_input)
-        input_type = True
+        lnk.input_bool = True
 
     except:
-        input_type = False
+        lnk.input_bool = False
 
-
-    if (input_type == True) & (len(lnk.user_input) <= 5):
+    # Change Input Colour Based On Input Value
+    if (lnk.input_bool == True) & (len(lnk.user_input) <= 2):
         lnk.input_colour = (255, 255, 255)
 
     else:
         lnk.input_colour = (255, 0, 0)
 
+    # Render Users Input
     usr_in_surf = lnk.usr_inp_font.render(lnk.user_input, True, lnk.input_colour)
     lnk.window.blit(usr_in_surf, (300, 800)) #[X, Y]
 
 
+
 # ----------------------------------------------------------------------------------------------------------------------
+
 
 
 # Draw Entire UI Contains Other Elements
@@ -58,7 +68,8 @@ def draw_ui():
     draw_title_card()
 
     # Draw Input Box
-    draw_inputbox()
+    draw_input_and_box()
+
 
 
 # ----------------------------------------------------------------------------------------------------------------------
