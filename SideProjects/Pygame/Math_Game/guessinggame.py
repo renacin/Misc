@@ -14,9 +14,6 @@ def main():
 
     while lnk.game_state:
 
-        # Fill Background Window
-        lnk.window.fill(lnk.background_colour)
-
         # Draw User Interface
         draw_ui()
 
