@@ -42,10 +42,7 @@ usr_inp_font = pygame.font.Font(titlef_path, 15)
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-# Draw Boxes That Will Segment User Interface
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-
 # Define Additional Outputs & User Inputs
+usr_score = 0
 question_num = 1
+answer_state = "Pending"
