@@ -9,6 +9,7 @@ from pygame.locals import *
 import Data.config as lnk
 # ----------------------------------------------------------------------------------------------------------------------
 
+
 class bordered_rect:
 
     def __init__(self, x, y, width, height):
@@ -22,11 +23,11 @@ class bordered_rect:
 
         border_px = 3
 
-        # Draw Blue Rect First
+        # Draw Blue Rect Bottom
         blue_rect = pygame.Rect(self.x, self.y, self.width, self.height)
         pygame.draw.rect(lnk.window, lnk.main_blue, blue_rect)
 
-        # Draw Grey Rect First
+        # Draw Grey Rect Top
         grey_rect = pygame.Rect((self.x + border_px),
                                 (self.y + border_px),
                                 (self.width - (border_px * 2)),
@@ -34,10 +35,29 @@ class bordered_rect:
 
         pygame.draw.rect(lnk.window, lnk.background_colour, grey_rect)
 
+
 # ----------------------------------------------------------------------------------------------------------------------
 
+
+# Draw The Box That Will Store The User's Input
+def draw_boxes():
+
+    # Draw Box That Will Show Question
+    bordered_rect(109, 200, 280, 100).render_shape()
+
+    # Draw Box That Will Cover Stroke On Top Box; For Style
+    masking_rect = pygame.Rect(163, 185, 173, 25)
+    pygame.draw.rect(lnk.window, lnk.background_colour, masking_rect)
+
+    # Draw Box That Will Store Answer
+    bordered_rect(109, 350, 111, 40).render_shape()
+
+    # Draw Box That Will Store Button
+    bordered_rect(279, 350, 111, 40).render_shape()
+
+
 # Draw Title Screen
-def draw_titles():
+def draw_text():
 
     # Draw Backing Rectangle For Title | Remember [X, Y, Width, Height]
     pygame.draw.rect(lnk.window, lnk.main_blue, lnk.title_rect)
@@ -61,22 +81,13 @@ def draw_titles():
     curdate_render = lnk.usr_inp_font.render(lnk.cur_date, True, lnk.darker_grey)
     lnk.window.blit(curdate_render, (390, 35))
 
-
-
-# Draw The Box That Will Store The User's Input
-def draw_boxes():
-
-    # Draw Box That Will Store The Users Input
-    answer_box = bordered_rect(100, 100, 200, 200).render_shape()
-
-
-
-
-
+    # Draw Current Question Number
+    question_title = "Question {}.".format(lnk.question_num)
+    question_title_render = lnk.subtitle_font.render(question_title, True, lnk.darker_grey)
+    lnk.window.blit(question_title_render, (210, 190))
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-
 
 
 # Draw Entire UI Contains Other Elements
@@ -85,11 +96,13 @@ def draw_ui():
     # Fill Background Window
     lnk.window.fill(lnk.background_colour)
 
-    # Draw Title Screen
-    draw_titles()
-
     # Draw Input Box
     draw_boxes()
+
+    # Draw Title Screen
+    draw_text()
+
+
 
 
 

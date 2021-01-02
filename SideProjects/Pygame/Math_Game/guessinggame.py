@@ -13,16 +13,17 @@ from Data.funcs import *
 def main():
 
     while lnk.game_state:
-
+        
         # Draw User Interface
         draw_ui()
 
         # Check For Events In Game
         check_events(pygame.event.get())
 
-        # Update The Screen
+        # Update The Entire Screen
         pygame.display.flip()
 
+    # If Game State Changes To False; Break Loop And End Game
     pygame.quit()
 
 # ----------------------------------------------------------------------------------------------------------------------

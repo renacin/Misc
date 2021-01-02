@@ -48,7 +48,4 @@ usr_inp_font = pygame.font.Font(titlef_path, 15)
 # ----------------------------------------------------------------------------------------------------------------------
 
 # Define Additional Outputs & User Inputs
-
-input_bool = False
-user_input = "INPUT"
-input_colour = (255, 255, 255)
+question_num = 1
