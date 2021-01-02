@@ -8,8 +8,7 @@ from pygame.locals import *
 from datetime import date
 # ----------------------------------------------------------------------------------------------------------------------
 
-
-# FPS Clock, Basic Variables, Assests, & Particles Storage Location
+# FPS Clock, Basic Variables, Assests
 today = date.today()
 cur_date = today.strftime("%d/%m/%Y")
 game_state = True
@@ -27,6 +26,7 @@ clock = pygame.time.Clock()
 window = pygame.display.set_mode(screen_dim)
 pygame.display.set_caption("Math Game")
 
+# ----------------------------------------------------------------------------------------------------------------------
 
 # Title Font & Rect
 title_rect = pygame.Rect(34, 34, 170, 47)
@@ -40,8 +40,15 @@ subtitle_font = pygame.font.Font(subtitlef_path, 16)
 # User Input Font
 usr_inp_font = pygame.font.Font(titlef_path, 15)
 
+# ----------------------------------------------------------------------------------------------------------------------
+
+# Draw Boxes That Will Segment User Interface
+
+
+# ----------------------------------------------------------------------------------------------------------------------
 
 # Define Additional Outputs & User Inputs
+
 input_bool = False
 user_input = "INPUT"
 input_colour = (255, 255, 255)

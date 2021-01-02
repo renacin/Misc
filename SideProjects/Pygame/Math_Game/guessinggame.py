@@ -18,8 +18,7 @@ def main():
         draw_ui()
 
         # Check For Events In Game
-        events_list = pygame.event.get()
-        check_events(events_list)
+        check_events(pygame.event.get())
 
         # Update The Screen
         pygame.display.flip()

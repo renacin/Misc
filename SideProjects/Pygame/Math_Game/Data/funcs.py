@@ -9,6 +9,32 @@ from pygame.locals import *
 import Data.config as lnk
 # ----------------------------------------------------------------------------------------------------------------------
 
+class bordered_rect:
+
+    def __init__(self, x, y, width, height):
+
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+
+    def render_shape(self):
+
+        border_px = 3
+
+        # Draw Blue Rect First
+        blue_rect = pygame.Rect(self.x, self.y, self.width, self.height)
+        pygame.draw.rect(lnk.window, lnk.main_blue, blue_rect)
+
+        # Draw Grey Rect First
+        grey_rect = pygame.Rect((self.x + border_px),
+                                (self.y + border_px),
+                                (self.width - (border_px * 2)),
+                                (self.height - (border_px * 2)))
+
+        pygame.draw.rect(lnk.window, lnk.background_colour, grey_rect)
+
+# ----------------------------------------------------------------------------------------------------------------------
 
 # Draw Title Screen
 def draw_titles():
@@ -41,29 +67,11 @@ def draw_titles():
 def draw_boxes():
 
     # Draw Box That Will Store The Users Input
-    input_rect = pygame.Rect(270, 500, 100, 100)
-    input_rect_colour = (255, 255, 255)
-    pygame.draw.rect(lnk.window, input_rect_colour, input_rect)
+    answer_box = bordered_rect(100, 100, 200, 200).render_shape()
 
 
-    # See If Input Can Be Converted To An INT
-    try:
-        input_int = int(lnk.user_input)
-        lnk.input_bool = True
 
-    except:
-        lnk.input_bool = False
 
-    # Change Input Colour Based On Input Value
-    if (lnk.input_bool == True) & (len(lnk.user_input) <= 2):
-        lnk.input_colour = (255, 255, 255)
-
-    else:
-        lnk.input_colour = (255, 0, 0)
-
-    # Render Users Input
-    usr_in_surf = lnk.usr_inp_font.render(lnk.user_input, True, lnk.input_colour)
-    lnk.window.blit(usr_in_surf, (300, 800)) #[X, Y]
 
 
 
@@ -81,7 +89,7 @@ def draw_ui():
     draw_titles()
 
     # Draw Input Box
-    # draw_boxes()
+    draw_boxes()
 
 
 
@@ -111,3 +119,36 @@ def check_events(events):
 
             else:
                 lnk.user_input += event.unicode
+
+
+
+
+
+
+
+
+
+
+
+"""
+
+    # See If Input Can Be Converted To An INT
+    try:
+        input_int = int(lnk.user_input)
+        lnk.input_bool = True
+
+    except:
+        lnk.input_bool = False
+
+    # Change Input Colour Based On Input Value
+    if (lnk.input_bool == True) & (len(lnk.user_input) <= 2):
+        lnk.input_colour = (255, 255, 255)
+
+    else:
+        lnk.input_colour = (255, 0, 0)
+
+    # Render Users Input
+    usr_in_surf = lnk.usr_inp_font.render(lnk.user_input, True, lnk.input_colour)
+    lnk.window.blit(usr_in_surf, (300, 800)) #[X, Y]
+
+"""
