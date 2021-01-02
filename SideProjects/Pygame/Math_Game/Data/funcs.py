@@ -11,23 +11,15 @@ import Data.config as lnk
 
 
 # Draw Title Screen
-def draw_title_card():
+def draw_titles():
 
     # Draw Backing Rectangle For Title | Remember [X, Y, Width, Height]
-    title_rect = pygame.Rect(34, 34, 170, 47)
-    pygame.draw.rect(lnk.window, lnk.main_blue, title_rect)
-
-
-    # # Draw Test Square | DELETE
-    # test_rect = pygame.Rect(0, 0, 45, 45)
-    # pygame.draw.rect(lnk.window, (0,0,0), test_rect)
-
+    pygame.draw.rect(lnk.window, lnk.main_blue, lnk.title_rect)
 
     # Draw Title Ontop Of Rectangle For Title | Remember [X, Y] Y May Vary Due To Height
     title_text = "Math 101"
     title_render = lnk.title_font.render(title_text, True, lnk.background_colour)
     lnk.window.blit(title_render, (40, 35))
-
 
     # Draw SubTitle 1 Below Title
     subtitle_text_1 = "A simple test of your math skills"
@@ -39,10 +31,14 @@ def draw_title_card():
     subtitle_text_1_render = lnk.subtitle_font.render(subtitle_text_1, True, lnk.darker_grey)
     lnk.window.blit(subtitle_text_1_render, (36, 125))
 
+    # Draw Current Date
+    curdate_render = lnk.usr_inp_font.render(lnk.cur_date, True, lnk.darker_grey)
+    lnk.window.blit(curdate_render, (390, 35))
+
 
 
 # Draw The Box That Will Store The User's Input
-def draw_input_and_box():
+def draw_boxes():
 
     # Draw Box That Will Store The Users Input
     input_rect = pygame.Rect(270, 500, 100, 100)
@@ -82,10 +78,10 @@ def draw_ui():
     lnk.window.fill(lnk.background_colour)
 
     # Draw Title Screen
-    draw_title_card()
+    draw_titles()
 
     # Draw Input Box
-    # draw_input_and_box()
+    # draw_boxes()
 
 
 

@@ -5,10 +5,13 @@
 # ----------------------------------------------------------------------------------------------------------------------
 import pygame
 from pygame.locals import *
+from datetime import date
 # ----------------------------------------------------------------------------------------------------------------------
 
 
 # FPS Clock, Basic Variables, Assests, & Particles Storage Location
+today = date.today()
+cur_date = today.strftime("%d/%m/%Y")
 game_state = True
 FPS = 60
 
@@ -25,17 +28,17 @@ window = pygame.display.set_mode(screen_dim)
 pygame.display.set_caption("Math Game")
 
 
-# Title Font
-titlef_path = "Data/MontserratMedium.ttf"
+# Title Font & Rect
+title_rect = pygame.Rect(34, 34, 170, 47)
+titlef_path = "Data/Fonts/MontserratMedium.ttf"
 title_font = pygame.font.Font(titlef_path, 36)
 
 # SubTitle Font
-subtitlef_path = "Data/CardoRegular.ttf"
+subtitlef_path = "Data/Fonts/CardoRegular.ttf"
 subtitle_font = pygame.font.Font(subtitlef_path, 16)
 
-# user Input Font
-usr_inp_font_path = "Data/Input_Thin.ttf"
-usr_inp_font = pygame.font.Font(usr_inp_font_path, 30)
+# User Input Font
+usr_inp_font = pygame.font.Font(titlef_path, 15)
 
 
 # Define Additional Outputs & User Inputs
