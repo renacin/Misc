@@ -16,7 +16,7 @@ import Data.config as lnk
 def create_question():
 
     # Choose An Operator
-    operator = random.choice(["+", "-", "/", "*"])
+    operator = random.choice(["+", "-", "*"])
     int1 = random.randint(1, 99)
     int2 = random.randint(1, 99)
 

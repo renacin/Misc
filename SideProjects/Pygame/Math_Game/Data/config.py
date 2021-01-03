@@ -41,11 +41,15 @@ subtitle_font = pygame.font.Font(subtitlef_path, 16)
 # User Input Font
 usr_inp_font = pygame.font.Font(titlef_path, 15)
 
+# Button Fonts
+button_font = pygame.font.Font(titlef_path, 15)
+
 # ----------------------------------------------------------------------------------------------------------------------
 
 # Define Additional Outputs & User Inputs
 terms = ["1", "2", "3", "4"]
 question_state = False
 usr_score = 0
+usr_answer = "???"
 question_num = 1
 answer_state = "Pending"

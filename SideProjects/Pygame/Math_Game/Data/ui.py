@@ -81,14 +81,28 @@ def draw_text():
     subtitle_text_1_render = lnk.subtitle_font.render(subtitle_text_1, True, lnk.darker_grey)
     lnk.window.blit(subtitle_text_1_render, (36, 125))
 
+
     # Draw Current Date
     curdate_render = lnk.usr_inp_font.render(lnk.cur_date, True, lnk.darker_grey)
     lnk.window.blit(curdate_render, (390, 35))
+
 
     # Draw Current Question Number
     question_title = "Question {}.".format(lnk.question_num)
     question_title_render = lnk.subtitle_font.render(question_title, True, lnk.darker_grey)
     lnk.window.blit(question_title_render, (210, 190))
+
+
+    # Draw Answer Question Area
+    answer_area = "X = {}".format(lnk.usr_answer)
+    answer_area_render = lnk.button_font.render(answer_area, True, lnk.darker_grey)
+    lnk.window.blit(answer_area_render, (141, 360))
+
+    # Draw Submit Buttom
+    submit_text = "SUBMIT"
+    submit_text_render = lnk.button_font.render(submit_text, True, lnk.darker_grey)
+    lnk.window.blit(submit_text_render, (307, 360))
+
 
     # Render Current Question Only If Question State Is False | Update Status Once Complete
     if lnk.question_state == False:
