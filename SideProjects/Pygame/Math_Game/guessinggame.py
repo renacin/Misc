@@ -5,15 +5,17 @@
 # ----------------------------------------------------------------------------------------------------------------------
 import pygame
 from pygame.locals import *
+
 import Data.config as lnk
 from Data.funcs import *
+from Data.ui import *
 # ----------------------------------------------------------------------------------------------------
 
 # Main Function Will Store Everything
 def main():
 
     while lnk.game_state:
-        
+
         # Draw User Interface
         draw_ui()
 
