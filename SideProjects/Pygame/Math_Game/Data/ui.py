@@ -82,9 +82,11 @@ def draw_text():
     lnk.window.blit(subtitle_text_1_render, (36, 125))
 
 
+
     # Draw Current Date
     curdate_render = lnk.usr_inp_font.render(lnk.cur_date, True, lnk.darker_grey)
     lnk.window.blit(curdate_render, (390, 35))
+
 
 
     # Draw Current Question Number
@@ -102,6 +104,19 @@ def draw_text():
     submit_text = "SUBMIT"
     submit_text_render = lnk.button_font.render(submit_text, True, lnk.darker_grey)
     lnk.window.blit(submit_text_render, (307, 360))
+
+
+
+    # Draw If Answer Was Correct Or Not
+    answer_status = "Answer: {}".format(lnk.answer_state)
+    answer_status_render = lnk.button_font.render(answer_status, True, lnk.main_blue)
+    lnk.window.blit(answer_status_render, (185, 416))
+
+    # Draw Current Score
+    cur_score = "Score: {} / {}".format(lnk.usr_score, lnk.question_num)
+    cur_score_render = lnk.button_font.render(cur_score, True, lnk.main_blue)
+    lnk.window.blit(cur_score_render, (210, 436))
+
 
 
     # Render Current Question Only If Question State Is False | Update Status Once Complete
