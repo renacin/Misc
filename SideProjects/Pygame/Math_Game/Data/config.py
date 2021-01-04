@@ -10,6 +10,7 @@ from datetime import date
 # ----------------------------------------------------------------------------------------------------------------------
 
 # FPS Clock, Basic Variables, Assests
+warning_timer = 2500
 today = date.today()
 cur_date = today.strftime("%d/%m/%Y")
 game_state = True
@@ -47,9 +48,16 @@ button_font = pygame.font.Font(titlef_path, 15)
 # ----------------------------------------------------------------------------------------------------------------------
 
 # Define Additional Outputs & User Inputs
+
 terms = ["1", "2", "3", "4"]
 question_state = False
+input_message_state = False
+input_message_timer = warning_timer
+
 usr_score = 0
 usr_answer = "???"
+input_bool = False
+usr_answer_colour = darker_grey
+
 question_num = 1
 answer_state = "Pending"

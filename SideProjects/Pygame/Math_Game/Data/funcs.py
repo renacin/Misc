@@ -27,6 +27,27 @@ def create_question():
     return [int1, operator, int2, pred_answer]
 
 
+# See If The Users Input Is Valid
+def check_user_input():
+
+    # See If Input Can Be Converted To An INT
+    try:
+        input_int = int(lnk.usr_answer)
+        lnk.input_bool = True
+
+    except:
+        lnk.input_bool = False
+
+    # Change Input Colour Based On Input Value
+    if (lnk.input_bool == True):
+        lnk.usr_answer_colour = lnk.darker_grey
+
+    else:
+        # Draw Warning Message
+        lnk.input_message_state = True
+
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 
 # Check Events & Adjust Accordingly
@@ -48,40 +69,8 @@ def check_events(events):
 
             # Reset User_Input If Backspace Is Pressed
             if event.key == K_BACKSPACE:
-                lnk.user_input = lnk.user_input[:-1]
+                lnk.usr_answer = lnk.usr_answer[:-1]
 
-            else:
-                lnk.user_input += event.unicode
-
-
-
-
-
-
-
-
-
-
-
-"""
-
-    # See If Input Can Be Converted To An INT
-    try:
-        input_int = int(lnk.user_input)
-        lnk.input_bool = True
-
-    except:
-        lnk.input_bool = False
-
-    # Change Input Colour Based On Input Value
-    if (lnk.input_bool == True) & (len(lnk.user_input) <= 2):
-        lnk.input_colour = (255, 255, 255)
-
-    else:
-        lnk.input_colour = (255, 0, 0)
-
-    # Render Users Input
-    usr_in_surf = lnk.usr_inp_font.render(lnk.user_input, True, lnk.input_colour)
-    lnk.window.blit(usr_in_surf, (300, 800)) #[X, Y]
-
-"""
+            elif (len(str(lnk.usr_answer)) <= len(str(lnk.terms[3]))):
+                lnk.usr_answer += event.unicode
+                check_user_input()

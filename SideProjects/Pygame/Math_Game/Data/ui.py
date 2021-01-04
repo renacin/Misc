@@ -95,15 +95,31 @@ def draw_text():
     lnk.window.blit(question_title_render, (210, 190))
 
 
-    # Draw Answer Question Area
+
+    # Draw Answer Question Area With The Users Answer
     answer_area = "X = {}".format(lnk.usr_answer)
-    answer_area_render = lnk.button_font.render(answer_area, True, lnk.darker_grey)
+    answer_area_render = lnk.button_font.render(answer_area, True, lnk.usr_answer_colour)
     lnk.window.blit(answer_area_render, (141, 360))
 
     # Draw Submit Buttom
     submit_text = "SUBMIT"
     submit_text_render = lnk.button_font.render(submit_text, True, lnk.darker_grey)
     lnk.window.blit(submit_text_render, (307, 360))
+
+
+
+    # Draw Any Warning Messages
+    if lnk.input_message_state == True:
+        if lnk.input_message_timer >= 0:
+            warning_message = "*Invalid Entry"
+            warning_message_render = lnk.subtitle_font.render(warning_message, True, lnk.darker_grey)
+            lnk.window.blit(warning_message_render, (105, 325))
+            lnk.input_message_timer -= 1
+
+        else:
+            lnk.input_message_state = False
+            lnk.input_message_timer = lnk.warning_timer
+
 
 
 
@@ -116,8 +132,6 @@ def draw_text():
     cur_score = "Score: {} / {}".format(lnk.usr_score, lnk.question_num)
     cur_score_render = lnk.button_font.render(cur_score, True, lnk.main_blue)
     lnk.window.blit(cur_score_render, (210, 436))
-
-
 
     # Render Current Question Only If Question State Is False | Update Status Once Complete
     if lnk.question_state == False:
