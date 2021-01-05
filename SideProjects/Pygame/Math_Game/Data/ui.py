@@ -44,7 +44,7 @@ class bordered_rect:
 
 
 # Draw The Box That Will Store The User's Input
-def draw_boxes():
+def draw_static_shapes():
 
     # Draw Box That Will Show Question
     bordered_rect(109, 200, 280, 100).render_shape()
@@ -60,8 +60,17 @@ def draw_boxes():
     bordered_rect(279, 350, 111, 40).render_shape()
 
 
-# Draw Title Screen
-def draw_text():
+
+# If The Mouse Is Near Draw New Shapes; Indicated Clickable Content
+def draw_dynamic_shapes():
+
+    # Draw Box That Will Show Question
+    pass
+
+
+
+# Draw Static Text | Title, Subtitle, Notes, Etc
+def draw_static_text():
 
     # Draw Backing Rectangle For Title | Remember [X, Y, Width, Height]
     pygame.draw.rect(lnk.window, lnk.main_blue, lnk.title_rect)
@@ -81,32 +90,29 @@ def draw_text():
     subtitle_text_1_render = lnk.subtitle_font.render(subtitle_text_1, True, lnk.darker_grey)
     lnk.window.blit(subtitle_text_1_render, (36, 125))
 
-
-
-    # Draw Current Date
-    curdate_render = lnk.usr_inp_font.render(lnk.cur_date, True, lnk.darker_grey)
-    lnk.window.blit(curdate_render, (390, 35))
-
-
-
-    # Draw Current Question Number
-    question_title = "Question {}.".format(lnk.question_num)
-    question_title_render = lnk.subtitle_font.render(question_title, True, lnk.darker_grey)
-    lnk.window.blit(question_title_render, (210, 190))
-
-
-
-    # Draw Answer Question Area With The Users Answer
-    answer_area = "X = {}".format(lnk.usr_answer)
-    answer_area_render = lnk.button_font.render(answer_area, True, lnk.usr_answer_colour)
-    lnk.window.blit(answer_area_render, (141, 360))
-
     # Draw Submit Buttom
     submit_text = "SUBMIT"
     submit_text_render = lnk.button_font.render(submit_text, True, lnk.darker_grey)
     lnk.window.blit(submit_text_render, (307, 360))
 
 
+
+# Draw Dynamic Text Content | Unique Question, Score, Etc..
+def draw_dynamic_text():
+
+    # Draw Current Date
+    curdate_render = lnk.usr_inp_font.render(lnk.cur_date, True, lnk.darker_grey)
+    lnk.window.blit(curdate_render, (390, 35))
+
+    # Draw Current Question Number
+    question_title = "Question {}.".format(lnk.question_num)
+    question_title_render = lnk.subtitle_font.render(question_title, True, lnk.darker_grey)
+    lnk.window.blit(question_title_render, (210, 190))
+
+    # Draw Answer Question Area With The Users Answer
+    answer_area = "X = {}".format(lnk.usr_answer)
+    answer_area_render = lnk.button_font.render(answer_area, True, lnk.usr_answer_colour)
+    lnk.window.blit(answer_area_render, (141, 360))
 
     # Draw Any Warning Messages
     if lnk.input_message_state == True:
@@ -119,8 +125,6 @@ def draw_text():
         else:
             lnk.input_message_state = False
             lnk.input_message_timer = lnk.warning_timer
-
-
 
 
     # Draw If Answer Was Correct Or Not
@@ -163,8 +167,14 @@ def draw_ui():
     # Fill Background Window
     lnk.window.fill(lnk.background_colour)
 
-    # Draw Input Box
-    draw_boxes()
+    # Draw Static Elements Title Box etc..
+    draw_static_shapes()
 
-    # Draw Title Screen
-    draw_text()
+    # Draw Dynamic Shapes That Appear Only On Event
+    draw_dynamic_shapes()
+
+    # Draw Static Text | Title, Subtitle
+    draw_static_text()
+
+    # Draw Dynamic Text | Unique Question, Score, Answer State
+    draw_dynamic_text()
