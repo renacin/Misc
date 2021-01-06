@@ -77,13 +77,10 @@ def draw_dynamic_shapes():
     if submit_rect.collidepoint(pos):
 
         # If Mouse Clicked
-        if pygame.mouse.get_pressed()[0] == 1:
+        if (pygame.mouse.get_pressed()[0] == 1) and (lnk.click_timer == 0):
             lnk.submit_button_clicked = True
             bordered_rect(279, 350, 111, 40,  lnk.main_blue, lnk.main_blue).render_shape()
-
-        # If Mouse Not Clicked
-        elif pygame.mouse.get_pressed()[0] == 0 and lnk.submit_button_clicked == True:
-            lnk.submit_button_clicked = False
+            lnk.click_timer = 600
 
         # If Mouse Is Just Hovering Over
         else:
@@ -92,6 +89,10 @@ def draw_dynamic_shapes():
 
     else:
         lnk.submit_button_hover = False
+
+    # Update Click Timer
+    if (lnk.click_timer != 0):
+        lnk.click_timer -= 1
 
 
 
@@ -170,6 +171,7 @@ def draw_dynamic_text():
         question_text_render = lnk.title_font.render(question_text, True, lnk.darker_grey)
         lnk.window.blit(question_text_render, (163, 230))
         lnk.question_state = True
+        lnk.answer_state = "Pending"
 
     else:
 

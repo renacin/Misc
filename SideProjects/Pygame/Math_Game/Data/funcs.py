@@ -47,11 +47,44 @@ def check_user_input():
         lnk.input_message_state = True
 
 
+# If User Presses A Button On The Keyboard | For Input
+def game_logic():
+
+    # If User Clicked The Sumbit Button
+    if lnk.submit_button_clicked == True:
+        pygame.time.delay(100)
+
+        # Check To See If Anser Was Correct
+        try:
+            if (int(lnk.usr_answer) == int(lnk.terms[3])):
+                answer_bool = True
+                lnk.answer_state = "Correct!"
+                lnk.question_state = False
+                lnk.usr_score += 1
+
+            else:
+                answer_bool = False
+                lnk.answer_state = "False"
+                lnk.question_state = False
+
+        except ValueError:
+            answer_bool = False
+            lnk.answer_state = "False"
+            lnk.question_state = False
+
+        # Update Other Game Stats
+        lnk.question_num += 1
+        lnk.submit_button_clicked = False
+        lnk.submit_button_hover = False
+
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 
 # Check Events & Adjust Accordingly
 def check_events(events):
+
+    # Check For Events
     for event in events:
 
         # Quit If Exit Button Pressed
@@ -67,10 +100,13 @@ def check_events(events):
                 pygame.quit()
                 sys.exit()
 
-            # Reset User_Input If Backspace Is Pressed
-            if event.key == K_BACKSPACE:
+            # If User Presses A Button | For Value Input
+            elif event.key == K_BACKSPACE:
                 lnk.usr_answer = lnk.usr_answer[:-1]
 
             elif (len(str(lnk.usr_answer)) <= len(str(lnk.terms[3]))):
                 lnk.usr_answer += event.unicode
                 check_user_input()
+
+    # Run Main Game Logic
+    game_logic()

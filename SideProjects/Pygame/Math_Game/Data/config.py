@@ -65,3 +65,4 @@ answer_state = "Pending"
 
 submit_button_clicked = False
 submit_button_hover = False
+click_timer = 0
