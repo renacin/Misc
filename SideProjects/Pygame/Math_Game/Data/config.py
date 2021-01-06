@@ -10,7 +10,7 @@ from datetime import date
 # ----------------------------------------------------------------------------------------------------------------------
 
 # FPS Clock, Basic Variables, Assests
-warning_timer = 2500
+warning_timer = 1000
 today = date.today()
 cur_date = today.strftime("%d/%m/%Y")
 game_state = True
@@ -19,6 +19,7 @@ FPS = 60
 main_blue = (77, 116, 185)
 background_colour = (220, 221, 225)
 darker_grey = (116, 120, 145)
+submit_font_colour = darker_grey
 
 screen_dim = (500, 500)
 pygame.init()
@@ -61,3 +62,6 @@ usr_answer_colour = darker_grey
 
 question_num = 1
 answer_state = "Pending"
+
+submit_button_clicked = False
+submit_button_hover = False
