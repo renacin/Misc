@@ -17,8 +17,8 @@ def create_question():
 
     # Choose An Operator
     operator = random.choice(["+", "-", "*"])
-    int1 = random.randint(1, 99)
-    int2 = random.randint(1, 99)
+    int1 = random.randint(1, 10)
+    int2 = random.randint(1, 10)
 
     # Find Answer
     pred_answer = int(eval("{} {} {}".format(int1, operator, int2)))
@@ -52,7 +52,6 @@ def game_logic():
 
     # If User Clicked The Sumbit Button
     if lnk.submit_button_clicked == True:
-        pygame.time.delay(100)
 
         # Check To See If Anser Was Correct
         try:

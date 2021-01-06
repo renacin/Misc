@@ -10,7 +10,8 @@ from datetime import date
 # ----------------------------------------------------------------------------------------------------------------------
 
 # FPS Clock, Basic Variables, Assests
-warning_timer = 1000
+num_of_questions = 1
+warning_timer = 600
 today = date.today()
 cur_date = today.strftime("%d/%m/%Y")
 game_state = True
@@ -61,8 +62,9 @@ input_bool = False
 usr_answer_colour = darker_grey
 
 question_num = 1
-answer_state = "Pending"
+answer_state = "N/A"
 
 submit_button_clicked = False
 submit_button_hover = False
 click_timer = 0
+answer_timer = 0

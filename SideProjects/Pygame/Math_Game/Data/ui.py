@@ -80,6 +80,7 @@ def draw_dynamic_shapes():
         if (pygame.mouse.get_pressed()[0] == 1) and (lnk.click_timer == 0):
             lnk.submit_button_clicked = True
             bordered_rect(279, 350, 111, 40,  lnk.main_blue, lnk.main_blue).render_shape()
+            lnk.answer_timer = 600
             lnk.click_timer = 600
 
         # If Mouse Is Just Hovering Over
@@ -93,6 +94,7 @@ def draw_dynamic_shapes():
     # Update Click Timer
     if (lnk.click_timer != 0):
         lnk.click_timer -= 1
+        lnk.answer_timer -= 1
 
 
 
@@ -150,9 +152,9 @@ def draw_dynamic_text():
 
 
     # Draw If Answer Was Correct Or Not
-    answer_status = "Answer: {}".format(lnk.answer_state)
+    answer_status = "Previous Answer: {}".format(lnk.answer_state)
     answer_status_render = lnk.button_font.render(answer_status, True, lnk.main_blue)
-    lnk.window.blit(answer_status_render, (185, 416))
+    lnk.window.blit(answer_status_render, (160, 416))
 
     # Draw Current Score
     cur_score = "Score: {} / {}".format(lnk.usr_score, lnk.question_num)
@@ -171,7 +173,6 @@ def draw_dynamic_text():
         question_text_render = lnk.title_font.render(question_text, True, lnk.darker_grey)
         lnk.window.blit(question_text_render, (163, 230))
         lnk.question_state = True
-        lnk.answer_state = "Pending"
 
     else:
 
@@ -192,6 +193,19 @@ def draw_dynamic_text():
     lnk.window.blit(submit_text_render, (307, 360))
 
 
+
+# Render Once Game Has Finished
+def endgame():
+
+    # Draw Backing Rectangle For Title | Remember [X, Y, Width, Height]
+    pygame.draw.rect(lnk.window, lnk.main_blue, Rect(25, 25, 450, 450))
+
+    # Draw Title Ontop Of Rectangle For Title | Remember [X, Y] Y May Vary Due To Height
+    title_text = "COMPLETE!"
+    title_render = lnk.title_font.render(title_text, True, lnk.background_colour)
+    lnk.window.blit(title_render, (135, 125))
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 
 
@@ -201,14 +215,20 @@ def draw_ui():
     # Fill Background Window
     lnk.window.fill(lnk.background_colour)
 
-    # Draw Static Elements Title Box etc..
-    draw_static_shapes()
+    # Game Only Lasts X Questions
+    if lnk.question_num <= lnk.num_of_questions:
+        # Draw Static Elements Title Box etc..
+        draw_static_shapes()
 
-    # Draw Dynamic Shapes That Appear Only On Event
-    draw_dynamic_shapes()
+        # Draw Dynamic Shapes That Appear Only On Event
+        draw_dynamic_shapes()
 
-    # Draw Static Text | Title, Subtitle
-    draw_static_text()
+        # Draw Static Text | Title, Subtitle
+        draw_static_text()
 
-    # Draw Dynamic Text | Unique Question, Score, Answer State
-    draw_dynamic_text()
+        # Draw Dynamic Text | Unique Question, Score, Answer State
+        draw_dynamic_text()
+
+    # When The Game Ends Display A Final Message & End The Game
+    else:
+        endgame()
