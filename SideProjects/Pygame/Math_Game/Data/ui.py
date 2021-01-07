@@ -200,10 +200,15 @@ def endgame():
     # Draw Backing Rectangle For Title | Remember [X, Y, Width, Height]
     pygame.draw.rect(lnk.window, lnk.main_blue, Rect(25, 25, 450, 450))
 
-    # Draw Title Ontop Of Rectangle For Title | Remember [X, Y] Y May Vary Due To Height
+    # Draw Final Messages
     title_text = "COMPLETE!"
     title_render = lnk.title_font.render(title_text, True, lnk.background_colour)
-    lnk.window.blit(title_render, (135, 125))
+    lnk.window.blit(title_render, (135, 175))
+
+    # Draw Final Messages
+    title_text = "Final Score: {} / {}".format(lnk.usr_score, lnk.question_num - 1)
+    title_render = lnk.title_font.render(title_text, True, lnk.background_colour)
+    lnk.window.blit(title_render, (105, 220))
 
 
 # ----------------------------------------------------------------------------------------------------------------------
