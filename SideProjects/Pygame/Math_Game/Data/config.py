@@ -10,7 +10,7 @@ from datetime import date
 # ----------------------------------------------------------------------------------------------------------------------
 
 # FPS Clock, Basic Variables, Assests
-num_of_questions = 2
+num_of_questions = 5
 warning_timer = 600
 today = date.today()
 cur_date = today.strftime("%d/%m/%Y")
