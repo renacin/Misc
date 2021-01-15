@@ -1,17 +1,67 @@
 # Credits:                      City Of Toronto: Urban Design - Graphics & Visualization Dept.
 # Author:                                          Renacin Matadeen
 # Date:                                               01/14/2021
-# Title             Heritage Register Automation: IBMS Data To 3 Streams [Portal, Opendata, ArcGIS Online Maps]
-#                               TASK #1 - Clean Data & Prepare To Add To Data Streams
+# Title                              Heritage Register Automation: Clean IBMS Data
 #
 # ----------------------------------------------------------------------------------------------------------------------
-# Modules Needed:
 import os
 import arcpy
 from arcpy import metadata as md
 import pandas as pd
+# ----------------------------------------------------------------------------------------------------------------------
+
+# This Function Will Clean Our & Keep Consistency Between Our Dataframes
+def clean_df(data_frame, list_of_fieldnames):
+
+    # -----------------------------------------------------------------------------------------------------------------
+    # This Function Will Concatinate String If Longer Than Expected
+    def concat_string(detail):
+        text_len = 250
+    	if len(detail) > text_len:
+    		return detail[0:text_len]
+    	else:
+    		return detail
+
+    # This Function Will Clean Not A Number Occurences | Nested Function As Not Needed Anywhere Else
+    def remove_nan_space(d_frame, list_of_fieldnames):
+
+        # Correct Nan Values That Might Be Present
+        d_frame.fillna("", inplace=True)
+        d_frame.replace(" ", "", inplace=True)   # Redo Just In Case After?
+        d_frame.replace("nan", "", inplace=True)
+        d_frame.replace("None", "", inplace=True)
+
+        # Strip Whitespace Before Concatination
+        for column in list_of_fieldnames[3:]:
+        	d_frame[column] = d_frame[column].str.strip()
+
+        return d_frame
+
+    # ------------------------------------------------------------------------------------------------------------------
+	# Drop Duplicates
+	data_frame.drop_duplicates(inplace=True)
+
+	# Covert Certain Fields To String
+    for column in list_of_fieldnames[3:]:
+    	data_frame[column] = data_frame[column].astype(str)
+
+    # Clean Dataframe Before Concatination
+    data_frame = remove_nan_space(data_frame, list_of_fieldnames)
+
+    # Concat Stored Text To A Common Lenght: ArcGIS Text Is Max 250 Characters Long
+    details_list = data_frame["Details"].tolist()
+    data_frame["Details"] = [concat_string(x) for x in details_list]
+
+    # Clean Dataframe After Concatination
+    data_frame = remove_nan_space(data_frame, list_of_fieldnames)
+
+	# Drop Duplicates
+	data_frame.drop_duplicates(inplace=True)
+
+    return data_frame
 
 # ----------------------------------------------------------------------------------------------------------------------
+
 # GUI Input Parameters:
 inExcelFile = arcpy.GetParameterAsText(0)
 outFileFolder = arcpy.GetParameterAsText(1)
@@ -21,16 +71,8 @@ rows_no_xy_file = r"V:\pln\Urbandesign\GRAPHICS\G&V_Citywide\GIS_Heritage\ArcGIS
 auth_HRAP_geodb_file = r"V:\pln\Urbandesign\GRAPHICS\G&V_Citywide\GIS_Heritage\DATA\00_Authoritative\HeritagePlanningData.gdb\Heritage_Register_Address_Points"
 sr = arcpy.SpatialReference(r"V:\pln\Urbandesign\GRAPHICS\G&V_Citywide\GIS_Heritage\ArcGIS_Toolboxes\HeritageRegistry_AutomatedUpdate\Projections\MTM10.prj")
 
-# Expected Text Lenght
-text_len = 250
-
 # ----------------------------------------------------------------------------------------------------------------------
-
-"""
-[AUTOMATION - STEP #1]
-	- Import IBMS data; drop unneeded columns, filter by status, and rename remaining columns
-	- Be mindful of data practices set out by authoritative geodatabase
-"""
+# [STEP 1]
 
 # Clean Up Path Provided By ArcGIS Pro
 list_of_path_elements = inExcelFile.split("\\")
@@ -65,48 +107,13 @@ rename_col = {
 df.rename(columns = rename_col, inplace = True)
 df.drop(['IBMS_ID'], axis=1, inplace = True)
 
-
-# Covert Certain Fields To String
-for column in list_of_fieldnames[3:]:
-	df[column] = df[column].astype(str)
-
-
-# Strip Whitespace Before
-for column in list_of_fieldnames[3:]:
-	df[column] = df[column].str.strip()
-
-# Text Stored In ArcGIS Is Only 254 Char Long Match
-details_list = df["Details"].tolist()
-short_detail_list = []
-for detail in details_list:
-	if len(detail) > text_len:
-		short_detail_list.append(detail[0:text_len])
-	else:
-		short_detail_list.append(detail)
-
-df["Details"] = short_detail_list
-
-
-# Strip Whitespace After
-df.fillna("")
-df.replace("nan", "", inplace=True)
-for column in list_of_fieldnames[3:]:
-	df[column] = df[column].str.strip()
-
-df = df.replace(" ", "")
-
-excel_df = df
-num_rows_IBMS_data = len(excel_df)		# For Logging Purposes
+# Use Function Defined Above To Clean DF
+excel_df = clean_df(df)
+num_rows_IBMS_data = len(excel_df)		# LOGGING
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-
-"""
-[AUTOMATION - STEP #2]
-	- Import data from authoritative geodatabase; compare records in database with the data from the excel file
-	- Find common rows, rows found only in auth geoDB, and new rows In excel sheet
-	- Filter out rows with inoperable X, Y coordinates, these will be added to the RowsWithNo_XY masterfile
-"""
+# [STEP 2]
 
 # Split Into Two DFs, One With Operatble MTM10_X, MTM10_Y Values, And One Without, Make Sure MTM Are Float
 excel_df['X'] = excel_df['X'].round(decimals=5)
@@ -120,15 +127,7 @@ excel_df_gxy.replace(-0.123456789, "", inplace=True)
 excel_df_bxy.replace(-0.123456789, "", inplace=True)
 
 
-# Remove Nan Values & Strip Whitespace
-excel_df_gxy.replace("nan", "", inplace=True)
-for column in list_of_fieldnames[3:]:
-	excel_df_gxy[column] = excel_df_gxy[column].str.strip()
-
-excel_df_gxy.drop_duplicates(inplace=True)
-
-
-num_rows_badxy_IBMS = len(excel_df_bxy)		# For Logging Purposes
+num_rows_badxy_IBMS = len(excel_df_bxy)		# LOGGING
 
 
 # Open Authoritative Heritage Register Address Points Geodatabase & Copy Data And Turn Into Dataframe
@@ -150,39 +149,9 @@ geobd_df['X'] = geobd_df['X'].round(decimals=5)
 geobd_df['Y'] = geobd_df['Y'].round(decimals=5)
 
 
-# Covert Certain Fields To String
-for column in list_of_fieldnames[3:]:
-	geobd_df[column] = geobd_df[column].astype(str)
-
-geobd_df.fillna("", inplace=True)
-geobd_df.replace(" ", "", inplace=True)
-geobd_df.replace("None", "", inplace=True)
-
-
-# Strip Whitespace Before Just Incase
-for column in list_of_fieldnames[3:]:
-	geobd_df[column] = geobd_df[column].str.strip()
-
-
-# Text Stored In ArcGIS Is Only 254 Char Long Match
-geobd_df_details_list = geobd_df["Details"].tolist()
-geobd_df_short_detail_list = []
-for detail in geobd_df_details_list:
-	if len(detail) > text_len:
-		geobd_df_short_detail_list.append(detail[0:text_len])
-	else:
-		geobd_df_short_detail_list.append(detail)
-
-geobd_df["Details"] = geobd_df_short_detail_list
-
-
-# Strip Whitespace After Just Incase
-geobd_df.fillna("")
-for column in list_of_fieldnames[3:]:
-	geobd_df[column] = geobd_df[column].str.strip()
-
-
-num_rows_authDB_data = len(geobd_df)		# For Logging Purposes
+# Use Function Defined Above To Clean DF
+geobd_df = clean_df(geobd_df)
+num_rows_authDB_data = len(geobd_df)		# LOGGING
 
 
 # Merge Both Files, Keep Note Of What Is Common, And What Is New
@@ -192,7 +161,7 @@ cr_df = geobd_df.merge(excel_df_gxy, on=list_of_fieldnames[1:], how='outer', ind
 # Sort Delete Duplicate Rows
 cr_df.sort_values(by="X", inplace=True)
 cr_df.drop_duplicates(inplace=True)
-num_output_with_duplicates = len(cr_df)		# For Logging Purposes
+num_output_with_duplicates = len(cr_df)		# LOGGING
 
 
 # For Logging Purposes
@@ -219,20 +188,13 @@ noxy_rows_df.to_excel(rows_no_xy_file, index=False)
 # Dropped Merged Column & Then Drop Duplicates
 cr_df = cr_df.drop(["_merge"], axis=1)
 cr_df = pd.DataFrame.drop_duplicates(cr_df)
-num_output_without_duplicates = len(cr_df)		# For Logging Purposes
-
+num_output_without_duplicates = len(cr_df)		# LOGGING
 
 # ----------------------------------------------------------------------------------------------------------------------
-
-"""
-[AUTOMATION - STEP #3]
-	- Create a shapefile based on the cleaned data; map the XY data provided
-	- Add metadata and write to a location on the user's desktop; don't write to NAS as it will take a lot longer
-	- Be cautious of final projection
-"""
+# [STEP 3]
 
 # Write Cleaned Data To Desktop Location As Provided By User, Add Metadata As Well
-temp_csv = outFileFolder + "\\" + "TempCSV.csv"
+temp_csv = outFileFolder + "\\" + "TempCSVDONOTREMOVE.csv"
 cr_df["ElevTemp"] = 0.00
 cr_df.to_csv(temp_csv, index=False)
 output_shp = outFileFolder + "\\" + "Heritage_Register_Address_Points.shp"
@@ -244,12 +206,10 @@ new_md = md.Metadata()
 new_md.title = "Heritage Registry Address Points"
 new_md.tags = "Heritage Inventory"
 new_md.summary = "Location of heritage properties in City of Toronto"
-
 s1 = "Listed, Part IV, Part V & Intention properties are included.\n"
 s2 = "Please note, some properties indicated as \"designated\" may be subject to an intention to designate by City Council, and should be considered fully designated for the purposes of alterations and permitting.\n"
 s3 = "For more information, please contact Yasmina Shamji at 416-392-1975."
 new_md.description =  s1 + s2 + s3
-
 new_md.credits = "City of Toronto: City Planning; Graphics & Visualization Section"
 
 
@@ -263,17 +223,8 @@ if not tgt_item_md.isReadOnly:
 # Delete Unneeded Columns In Newly Created Shapefile | Remember Keep Fields Consistent Across Data Streams
 arcpy.DeleteField_management(output_shp, ["ElevTemp"])
 
-
 # ----------------------------------------------------------------------------------------------------------------------
-
-"""
-[AUTOMATION - STEP #4]
-	- Provide simple logging outputs for both archival, and user usage
-	- Logging Should Include:
-		+ Total Number Of Rows, New File Vs. Authoritative DB
-		+ Number Of Unique Rows In Auth DB, Unique Rows In New IBMS Data, Common Rows Between Files
-		+ How Many new Rows Don't Have XY Coordinates, In Comparison To Masterfile
-"""
+# [STEP 4]
 
 # Logging Stage
 arcpy.AddMessage("--General--")
@@ -297,13 +248,8 @@ arcpy.AddMessage("--FinalOutput--")
 arcpy.AddMessage("Rows In Final Output File: " + str(num_output_without_duplicates))
 arcpy.AddMessage(".")
 
-
 # ----------------------------------------------------------------------------------------------------------------------
-
-"""
-[AUTOMATION - STEP #5]
-	- Clean up and temporary files
-"""
+# [STEP 5]
 
 # Remove TempCSV File
 os.remove(temp_csv)
