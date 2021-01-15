@@ -164,7 +164,7 @@ cr_df.drop_duplicates(inplace=True)
 num_output_with_duplicates = len(cr_df)		# LOGGING
 
 
-# For Logging Purposes
+# LOGGING
 num_unique_rows_IBMS = len(cr_df[cr_df["_merge"] == "right_only"])
 num_unique_rows_AuthGeoDB = len(cr_df[cr_df["_merge"] == "left_only"])
 num_common_rows = len(cr_df[cr_df["_merge"] == "both"])
