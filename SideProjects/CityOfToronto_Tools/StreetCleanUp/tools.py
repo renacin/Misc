@@ -122,16 +122,14 @@ class CoT_Tools:
         for i, row in df.iterrows():
             addresses, streetname = CoT_Tools._sep_addr(row[street_col])
 
-            for addr in addresses:
-                address = str(addr)
+            for address in addresses:
+                complete_street = str(address + " " + streetname).split()
+                complete_street = " ".join(complete_street)
 
-                if address[-1] != " ":
-                    complete_street = address + " " + streetname
-                else:
-                    complete_street = address + streetname
+                print(complete_street)
 
-                for col in col_names:
-                    temp_dict[col].append(row[col])
-                temp_dict[street_col].append(complete_street)
-
-        return pd.DataFrame.from_dict(temp_dict)
+        #         for col in col_names:
+        #             temp_dict[col].append(row[col])
+        #         temp_dict[street_col].append(complete_street)
+        #
+        # return pd.DataFrame.from_dict(temp_dict)
