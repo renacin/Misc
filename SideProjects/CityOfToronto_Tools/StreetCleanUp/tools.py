@@ -43,39 +43,72 @@ class CoT_Tools:
     def _sep_addr(text):
 
         # Check To See If Address Is A Range Of Addresses [1000 - 1022]
-        pattern_rangeofaddrs = r"\d+\s?[-]\s?\d+"
-        rangeofaddrs = list(re.findall(pattern_rangeofaddrs, text))
+        text = str(text).strip()
+        addr_range_pattern = r"\d+\s?[-]\s?\d+[.]?[A]?[5]?"
+        range_of_addr = re.findall(addr_range_pattern, text)
 
-        # If Entry Is A Range Of Addresses; Create A List Of Street Numbers | Else Returns The Street Address
-        if (len(rangeofaddrs) != 0):
+        # Create A List Of Street Numbers | Else Returns The Street Address From The Original Text
+        if (len(range_of_addr) != 0):
 
-            for char_ in [" A ", " .5 ", " 0 ", "- ", "R"]:
-                rangeofaddrs[0] = rangeofaddrs[0].replace(char_, "")
-                rangeofaddrs[0] = rangeofaddrs[0].strip()
+            # Split And Identify Special Addr Just Incase
+            minmax_addrs = range_of_addr[0].strip().split("-")
+            for index_num in range(len(minmax_addrs)):
 
-            range_values = rangeofaddrs[0].split("-")
+                special_addr_pattern = r"\d+[A-Z]{1,2}"
+                special_addr = re.findall(special_addr_pattern, minmax_addrs[index_num])
 
-            list_of_addresses = list(range(int(range_values[0]), int(range_values[1]) + 2, 2))
+                if len(special_addr) != 0:
+                    minmax_addrs[index_num] = minmax_addrs[index_num][:-1]
 
-            if list_of_addresses[-1] != range_values[-1]:
-                list_of_addresses = list(range(int(range_values[0]), int(range_values[1]) + 1, 1))
+            # Both Are Even
+            if (int(minmax_addrs[0]) % 2 == 0) and (int(minmax_addrs[1]) % 2 == 0):
+                addresses = list(range(int(minmax_addrs[0]), int(minmax_addrs[1]) + 2, 2))
+
+            # Both Are Odd
+            elif (int(minmax_addrs[0]) % 2 != 0) and (int(minmax_addrs[1]) % 2 != 0):
+                addresses = list(range(int(minmax_addrs[0]), int(minmax_addrs[1]) + 2, 2))
+
+            # One Is Even & One Is Odd
+            else:
+                addresses = list(range(int(minmax_addrs[0]), int(minmax_addrs[1]) + 1, 1))
+
+            # Add Special Addr Just Incase
+            if len(special_addr) != 0:
+                addresses.append(special_addr[0])
+
+            # Find Addresses That Were Added With Range
+            addr_pattern = r"\d+[.]?[0-9]?[A-Z]?"
+            additional_addrs = re.findall(addr_pattern, text)
+            addresses.extend(additional_addrs)
 
         else:
-            pattern_addrs = r"\d+[.]?[0-9]?[A-Z]?"
-            list_of_addresses = list(re.findall(pattern_addrs, text))
+            addr_pattern = r"\d+[.]?[0-9]?[A-Z]?"
+            addresses = re.findall(addr_pattern, text)
 
-        # Return The Street Name From The Text | Do Final Clean Up
-        streetname = text
-        for addr in list_of_addresses:
-            streetname = streetname.replace(str(addr), "")
+        # Final Addr Clean Up
+        final_addr_list = list({str(x) for x in addresses})
+        print(final_addr_list)
 
-        for char_ in [" - ", " -A "]:
-            streetname = streetname.replace(char_, "")
 
-        streetname = streetname.split(",")
-        streetname_ = streetname[-1].replace("  ", "")
 
-        return list_of_addresses, streetname_
+        # print(rangeofaddrs)
+
+        # # Return The Street Name From The Text | Do Final Clean Up
+        # streetname = text.strip()
+        # for addr in list_of_addresses:
+        #     streetname = streetname.replace(str(addr), "")
+        #
+        # for char_ in [" - ", " -", "-", " -A ", " & "]:
+        #     streetname = streetname.replace(char_, "")
+        #
+        # streetname = str(streetname).strip()
+        # streetname = streetname.split(",")
+        # streetname_ = streetname[-1].replace("  ", "")
+        #
+        #
+        #
+        #
+        # print(list_of_addresses, streetname_)
 
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -93,21 +126,26 @@ class CoT_Tools:
 
         # This Is O^3 YIKES
         for i, row in df.iterrows():
-            addresses, streetname = CoT_Tools._sep_addr(row[street_col])
+            CoT_Tools._sep_addr(row[street_col])
 
-            for addr in addresses:
-                address = str(addr)
 
-                if address[-1] != " ":
-                    complete_street = address + " " + streetname
-                else:
-                    complete_street = address + streetname
 
-                for char_ in [" - ", " -A ", "  ", "   "]:
-                    complete_street = complete_street.replace(char_, " ")
 
-                for col in col_names:
-                    temp_dict[col].append(row[col])
-                temp_dict[street_col].append(complete_street)
 
-        return pd.DataFrame.from_dict(temp_dict)
+
+            # for addr in addresses:
+            #     address = str(addr)
+            #
+            #     if address[-1] != " ":
+            #         complete_street = address + " " + streetname
+            #     else:
+            #         complete_street = address + streetname
+            #
+            #     for char_ in [" - ", " -A ", "  ", "   "]:
+            #         complete_street = complete_street.replace(char_, " ")
+            #
+            #     for col in col_names:
+            #         temp_dict[col].append(row[col])
+            #     temp_dict[street_col].append(complete_street)
+
+        return 1 # pd.DataFrame.from_dict(temp_dict)

@@ -21,7 +21,7 @@ def main():
     # Expand Rows With Multiple Addresses With
     df = CoT_Tools.seperate_addresses(df, "StreetName")
 
-    df.to_csv(r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\StreetCleanUp\Data\CleanedTestData.csv", index=False)
+    # df.to_csv(r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\StreetCleanUp\Data\CleanedTestData.csv", index=False)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
