@@ -87,28 +87,22 @@ class CoT_Tools:
 
         # Final Addr Clean Up
         final_addr_list = list({str(x) for x in addresses})
-        print(final_addr_list)
 
 
+        # Return The Street Name From The Text | Do Final Clean Up
+        streetname = text.strip()
+        for addr in final_addr_list:
+            streetname = streetname.replace(str(addr), "")
 
-        # print(rangeofaddrs)
+        for char_ in [" - ", " -", "-", " -A ", " A ", " & "]:
+            streetname = streetname.replace(char_, "")
 
-        # # Return The Street Name From The Text | Do Final Clean Up
-        # streetname = text.strip()
-        # for addr in list_of_addresses:
-        #     streetname = streetname.replace(str(addr), "")
-        #
-        # for char_ in [" - ", " -", "-", " -A ", " & "]:
-        #     streetname = streetname.replace(char_, "")
-        #
-        # streetname = str(streetname).strip()
-        # streetname = streetname.split(",")
-        # streetname_ = streetname[-1].replace("  ", "")
-        #
-        #
-        #
-        #
-        # print(list_of_addresses, streetname_)
+        streetname = str(streetname).strip()
+        streetname = streetname.split(",")
+        streetname_ = streetname[-1].replace("  ", "")
+
+
+        return final_addr_list, streetname_
 
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -126,26 +120,18 @@ class CoT_Tools:
 
         # This Is O^3 YIKES
         for i, row in df.iterrows():
-            CoT_Tools._sep_addr(row[street_col])
+            addresses, streetname = CoT_Tools._sep_addr(row[street_col])
 
+            for addr in addresses:
+                address = str(addr)
 
+                if address[-1] != " ":
+                    complete_street = address + " " + streetname
+                else:
+                    complete_street = address + streetname
 
+                for col in col_names:
+                    temp_dict[col].append(row[col])
+                temp_dict[street_col].append(complete_street)
 
-
-
-            # for addr in addresses:
-            #     address = str(addr)
-            #
-            #     if address[-1] != " ":
-            #         complete_street = address + " " + streetname
-            #     else:
-            #         complete_street = address + streetname
-            #
-            #     for char_ in [" - ", " -A ", "  ", "   "]:
-            #         complete_street = complete_street.replace(char_, " ")
-            #
-            #     for col in col_names:
-            #         temp_dict[col].append(row[col])
-            #     temp_dict[street_col].append(complete_street)
-
-        return 1 # pd.DataFrame.from_dict(temp_dict)
+        return pd.DataFrame.from_dict(temp_dict)
