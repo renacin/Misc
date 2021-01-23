@@ -9,12 +9,8 @@ import re
 
 
 class CoT_Tools:
-    """
-    TODO:
-        + Tool That Removes (X) Count Of Rows In Entry
 
-    """
-    # ------------------------------------------------------------------------------------------------------------------
+
     # For [Function 1] Clean Addresses
     def _clean(entry):
         row_entry = entry.strip()
@@ -30,7 +26,6 @@ class CoT_Tools:
         return row_entry
 
 
-    # ------------------------------------------------------------------------------------------------------------------
     # [Function 1] Remove Unneeded Characters
     @staticmethod
     def clean_entry(df_col):
@@ -38,7 +33,6 @@ class CoT_Tools:
         return [CoT_Tools._clean(x) for x in df_col]
 
 
-    # ------------------------------------------------------------------------------------------------------------------
     # For [Function 2] Seperates Multiple Addresses
     def _sep_addr(text):
 
@@ -88,7 +82,6 @@ class CoT_Tools:
         # Final Addr Clean Up
         final_addr_list = list({str(x) for x in addresses})
 
-
         # Return The Street Name From The Text | Do Final Clean Up
         streetname = text.strip()
         for addr in final_addr_list:
@@ -101,11 +94,9 @@ class CoT_Tools:
         streetname = streetname.split(",")
         streetname_ = streetname[-1].replace("  ", "")
 
-
         return final_addr_list, streetname_
 
 
-    # ------------------------------------------------------------------------------------------------------------------
     # [Function 2] Seperate Addresses Just In Case | Takes Entire DataFrame
     @staticmethod
     def seperate_addresses(df, street_col):
@@ -123,13 +114,23 @@ class CoT_Tools:
             addresses, streetname = CoT_Tools._sep_addr(row[street_col])
 
             for address in addresses:
+                for string2clean in ["A "]:
+                    streetname = streetname.replace(string2clean, " ")
+
                 complete_street = str(address + " " + streetname).split()
                 complete_street = " ".join(complete_street)
 
-                print(complete_street)
+                for col in col_names:
+                    temp_dict[col].append(row[col])
+                temp_dict[street_col].append(complete_street)
 
-        #         for col in col_names:
-        #             temp_dict[col].append(row[col])
-        #         temp_dict[street_col].append(complete_street)
-        #
-        # return pd.DataFrame.from_dict(temp_dict)
+        return pd.DataFrame.from_dict(temp_dict)
+
+
+    # For [Function 3]
+
+
+    # [Function 3] Seperate Addresses Just In Case | Takes Entire DataFrame
+    def full_street(text):
+
+        pass
