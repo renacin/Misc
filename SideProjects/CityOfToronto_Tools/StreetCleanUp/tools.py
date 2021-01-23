@@ -133,4 +133,25 @@ class CoT_Tools:
     # [Function 3] Seperate Addresses Just In Case | Takes Entire DataFrame
     def full_street(text):
 
-        pass
+        full_st_type = ['ALLEY', 'ALLEY', 'ALLEY', 'ALLEY', 'ANEX', 'ANEX', 'ANEX', 'ANEX', 'AVENUE', 'AVENUE',
+        'AVENUE', 'AVENUE', 'AVENUE', 'AVENUE', 'AVENUE', 'BOTTOM', 'BOTTOM', 'BOTTOM', 'BOULEVARD', 'BOULEVARD',
+        'BOULEVARD', 'BOULEVARD', 'BOULEVARD', 'BRIDGE', 'CENTRE', 'CENTRE', 'CENTRE', 'CENTRE', 'CENTRE', 'CENTRE',
+        'CENTRE', 'COMMON', 'CORNER', 'COURSE', 'COURT', 'COURT', 'CREEK', 'CRESCENT', 'CRESCENT', 'CRESCENT',
+        'CRESCENT', 'CROSSING', 'CROSSING', 'CROSSING', 'CIRCLE','DRIVE', 'DRIVE', 'DRIVE', 'EXPRESSWAY',
+        'EXPRESSWAY', 'EXPRESSWAY', 'EXPRESSWAY', 'EXPRESSWAY', 'EXPRESSWAY', 'GARDEN', 'GARDEN', 'GARDEN', 'GARDEN',
+        'GARDENS', 'GATE', 'GROVE', 'GATEWAY', 'GATEWAY', 'GATEWAY', 'GATEWAY', 'GATEWAY', 'GATEWAY', 'HIGHWAY',
+        'HIGHWAY', 'HIGHWAY', 'HIGHWAY', 'HIGHWAY', 'HILL', 'HEIGHTS', 'JUNCTION', 'JUNCTION', 'JUNCTION', 'JUNCTION',
+        'LANE', 'LANE', 'LAWN', 'LINE', 'PARK', 'PARK', 'PARKWAY', 'PARKWAY', 'PARKWAY', 'PARKWAY', 'PATH', 'PLAZA',
+        'PLAZA', 'PLACE', 'POINT', 'RIVER', 'RIVER', 'RIVER', 'ROAD', 'ROUTE', 'ROADWAY', 'ROADWAY', 'SHORE', 'SHORE',
+        'SQUARE', 'SQUARE', 'SQUARE', 'SQUARE', 'STATION', 'STATION', 'STATION', 'STREET', 'STREET', 'STREET', 'TRAIL',
+        'TERRACE', 'VILLE', 'VILLE', 'WAY', 'WOODS']
+
+        abbrv_st_type = ['ALLEE', 'ALLEY', 'ALLY', 'ALY', 'ANEX', 'ANNEX', 'ANNX', 'ANX', 'AV', 'AVE', 'AVEN', 'AVENU',
+        'AVENUE', 'AVN', 'AVNUE', 'BOT', 'BTM', 'BOTTM', 'BLVD', 'BOUL', 'BOULV', 'BLVRD', 'BV', 'BDGE', 'CEN', 'CTR',
+        'CENT', 'CENTR', 'CENTR', 'CNTER', 'CNTR', 'CMN', 'COR', 'CRSE', 'CRT', 'CT', 'CR', 'CRES', 'CRSENT', 'CRSNT',
+        'CRSNT', 'CROSSING', 'XING', 'CRSSNG', 'CRCL', 'DR', 'DRIV', 'DRV', 'EXP', 'EXPY', 'EXPR', 'EXPRESS', 'EXPW',
+        'EXPY', 'GDN', 'GARDN', 'GRDEN', 'GRDN', 'GDNS', 'GT', 'GRV', 'GTWY', 'GATEWY', 'GATWAY', 'GTWAY', 'GTWAY',
+        'GTWY', 'HWY', 'HIGHWY', 'HIWAY', 'HIWY', 'HWAY', 'HL', 'HTS', 'JCT', 'JCTION', 'JUNCTN', 'JUNCTON', 'LN',
+        'Ln', 'LWN', 'LI', 'PRK', 'PK', 'PARKWY', 'PKWAY', 'PKWY', 'PKY', 'PTH', 'PLZ', 'PLZA', 'PL', 'PT', 'RIV',
+        'RIVR', 'RVR', 'RD', 'RTE', 'ROADWAY', 'RDWY', 'SHOAR', 'SHR', 'SQ', 'SQR', 'SQRE', 'SQU', 'STA', 'STATN',
+        'STN', 'ST', 'STR', 'STRT', 'TRL', 'TER', 'VL', 'VIL', 'WY', 'WDS']
