@@ -28,8 +28,8 @@ StreetName,String,Other
 106 BROADVIEW AVE,Blah,BlahBlah
 537 BROADVIEW AVE,Blah,BlahBlah
 958 BROADVIEW AVE,Blah,BlahBlah
-811 BROADVIEW AVE,Blah,BlahBlah
 813 BROADVIEW AVE,Blah,BlahBlah
+811 BROADVIEW AVE,Blah,BlahBlah
 642 CHURCH ST,Blah,BlahBlah
 68 DAISY AVE,Blah,BlahBlah
 1192 DANFORTH AVE,Blah,BlahBlah
@@ -74,24 +74,24 @@ StreetName,String,Other
 219 OSSINGTON,Blah,BlahBlah
 222 OSSINGTON,Blah,BlahBlah
 224 OSSINGTON,Blah,BlahBlah
-133 OSSINGTON,Blah,BlahBlah
 131 OSSINGTON,Blah,BlahBlah
+133 OSSINGTON,Blah,BlahBlah
 199 OSSINGTON,Blah,BlahBlah
 199A OSSINGTON,Blah,BlahBlah
-209 OSSINGTON,Blah,BlahBlah
 209A OSSINGTON,Blah,BlahBlah
+209 OSSINGTON,Blah,BlahBlah
 212A OSSINGTON,Blah,BlahBlah
 212 OSSINGTON,Blah,BlahBlah
-218A OSSINGTON,Blah,BlahBlah
 218 OSSINGTON,Blah,BlahBlah
+218A OSSINGTON,Blah,BlahBlah
 220A OSSINGTON,Blah,BlahBlah
 220 OSSINGTON,Blah,BlahBlah
-50 OSSINGTON,Blah,BlahBlah
 48 OSSINGTON,Blah,BlahBlah
-51 OSSINGTON,Blah,BlahBlah
 49 OSSINGTON,Blah,BlahBlah
-59A OSSINGTON,Blah,BlahBlah
+50 OSSINGTON,Blah,BlahBlah
+51 OSSINGTON,Blah,BlahBlah
 59 OSSINGTON,Blah,BlahBlah
+59A OSSINGTON,Blah,BlahBlah
 877 QUEEN ST E,Blah,BlahBlah
 366 QUEEN ST E,Blah,BlahBlah
 364 QUEEN ST E,Blah,BlahBlah
@@ -152,26 +152,26 @@ StreetName,String,Other
 1141 BLOOR ST W,Blah,BlahBlah
 1691 BLOOR ST W,Blah,BlahBlah
 112 BOND ST,Blah,BlahBlah
-235 BOOTH AVE,Blah,BlahBlah
-257 BOOTH AVE,Blah,BlahBlah
-233 BOOTH AVE,Blah,BlahBlah
-249 BOOTH AVE,Blah,BlahBlah
-231 BOOTH AVE,Blah,BlahBlah
 241 BOOTH AVE,Blah,BlahBlah
-255 BOOTH AVE,Blah,BlahBlah
-267 BOOTH AVE,Blah,BlahBlah
-237 BOOTH AVE,Blah,BlahBlah
-251 BOOTH AVE,Blah,BlahBlah
-261 BOOTH AVE,Blah,BlahBlah
 229 BOOTH AVE,Blah,BlahBlah
+261 BOOTH AVE,Blah,BlahBlah
 247 BOOTH AVE,Blah,BlahBlah
-239 BOOTH AVE,Blah,BlahBlah
-259 BOOTH AVE,Blah,BlahBlah
-265 BOOTH AVE,Blah,BlahBlah
-245 BOOTH AVE,Blah,BlahBlah
-253 BOOTH AVE,Blah,BlahBlah
+267 BOOTH AVE,Blah,BlahBlah
+255 BOOTH AVE,Blah,BlahBlah
 243 BOOTH AVE,Blah,BlahBlah
 263 BOOTH AVE,Blah,BlahBlah
+231 BOOTH AVE,Blah,BlahBlah
+251 BOOTH AVE,Blah,BlahBlah
+259 BOOTH AVE,Blah,BlahBlah
+233 BOOTH AVE,Blah,BlahBlah
+235 BOOTH AVE,Blah,BlahBlah
+237 BOOTH AVE,Blah,BlahBlah
+253 BOOTH AVE,Blah,BlahBlah
+257 BOOTH AVE,Blah,BlahBlah
+249 BOOTH AVE,Blah,BlahBlah
+245 BOOTH AVE,Blah,BlahBlah
+239 BOOTH AVE,Blah,BlahBlah
+265 BOOTH AVE,Blah,BlahBlah
 79 BORDEN ST,Blah,BlahBlah
 28 BRACKEN AVE,Blah,BlahBlah
 1100 BRIAR HILL AVE,Blah,BlahBlah
@@ -206,12 +206,12 @@ StreetName,String,Other
 513 CHURCH ST,Blah,BlahBlah
 625 CHURCH ST,Blah,BlahBlah
 40 COLBORNE ST,Blah,BlahBlah
-20 COLGATE AVE,Blah,BlahBlah
-22 COLGATE AVE,Blah,BlahBlah
-26 COLGATE AVE,Blah,BlahBlah
-24 COLGATE AVE,Blah,BlahBlah
 18 COLGATE AVE,Blah,BlahBlah
+20 COLGATE AVE,Blah,BlahBlah
+24 COLGATE AVE,Blah,BlahBlah
+26 COLGATE AVE,Blah,BlahBlah
 28 COLGATE AVE,Blah,BlahBlah
+22 COLGATE AVE,Blah,BlahBlah
 233 COLLEGE ST,Blah,BlahBlah
 548 COLLEGE ST,Blah,BlahBlah
 550 COLLEGE ST,Blah,BlahBlah
@@ -266,17 +266,17 @@ StreetName,String,Other
 2844 DUNDAS ST W,Blah,BlahBlah
 2871 DUNDAS ST W,Blah,BlahBlah
 3079 DUNDAS ST W,Blah,BlahBlah
-2965 DUNDAS ST W,Blah,BlahBlah
 2961 DUNDAS ST W,Blah,BlahBlah
 2957 DUNDAS ST W,Blah,BlahBlah
+2965 DUNDAS ST W,Blah,BlahBlah
 2963 DUNDAS ST W,Blah,BlahBlah
 2863 DUNDAS ST W,Blah,BlahBlah
-2861 DUNDAS ST W,Blah,BlahBlah
 2865 DUNDAS ST W,Blah,BlahBlah
-2955 DUNDAS ST W,Blah,BlahBlah
-2951 DUNDAS ST W,Blah,BlahBlah
+2861 DUNDAS ST W,Blah,BlahBlah
 2949 DUNDAS ST W,Blah,BlahBlah
+2955 DUNDAS ST W,Blah,BlahBlah
 2953 DUNDAS ST W,Blah,BlahBlah
+2951 DUNDAS ST W,Blah,BlahBlah
 79 EAST DON ROADWAY,Blah,BlahBlah
 1 EASTVILLE AVE,Blah,BlahBlah
 1 EDMUND GT,Blah,BlahBlah
@@ -304,9 +304,9 @@ StreetName,String,Other
 103 HEATH ST W,Blah,BlahBlah
 113 HOMESTEAD RD,Blah,BlahBlah
 11 HUMBERVIEW CRES,Blah,BlahBlah
-663 HURON STREET,Blah,BlahBlah
-661 HURON STREET,Blah,BlahBlah
 665 HURON STREET,Blah,BlahBlah
+661 HURON STREET,Blah,BlahBlah
+663 HURON STREET,Blah,BlahBlah
 4 INDIAN GROVE,Blah,BlahBlah
 2200 ISLINGTON AVE,Blah,BlahBlah
 414 JARVIS ST,Blah,BlahBlah
@@ -322,11 +322,11 @@ StreetName,String,Other
 1678 KINGSTON RD,Blah,BlahBlah
 1680 KINGSTON RD,Blah,BlahBlah
 4672 KINGSTON RD,Blah,BlahBlah
-968 KINGSTON RD,Blah,BlahBlah
-974 KINGSTON RD,Blah,BlahBlah
-970 KINGSTON RD,Blah,BlahBlah
-972 KINGSTON RD,Blah,BlahBlah
 976 KINGSTON RD,Blah,BlahBlah
+968 KINGSTON RD,Blah,BlahBlah
+970 KINGSTON RD,Blah,BlahBlah
+974 KINGSTON RD,Blah,BlahBlah
+972 KINGSTON RD,Blah,BlahBlah
 299 KINGSWOOD RD,Blah,BlahBlah
 33 LAIRD DR,Blah,BlahBlah
 143 LAIRD DR,Blah,BlahBlah
@@ -348,20 +348,20 @@ StreetName,String,Other
 181 LOGAN AVE,Blah,BlahBlah
 245 LOGAN AVE,Blah,BlahBlah
 401 LOGAN AVE,Blah,BlahBlah
-314 LOGAN AVE,Blah,BlahBlah
-298 LOGAN AVE,Blah,BlahBlah
-306 LOGAN AVE,Blah,BlahBlah
-308 LOGAN AVE,Blah,BlahBlah
-312 LOGAN AVE,Blah,BlahBlah
-316 LOGAN AVE,Blah,BlahBlah
 304 LOGAN AVE,Blah,BlahBlah
+308 LOGAN AVE,Blah,BlahBlah
+306 LOGAN AVE,Blah,BlahBlah
+298 LOGAN AVE,Blah,BlahBlah
 292 LOGAN AVE,Blah,BlahBlah
-290 LOGAN AVE,Blah,BlahBlah
 296 LOGAN AVE,Blah,BlahBlah
 294 LOGAN AVE,Blah,BlahBlah
-300 LOGAN AVE,Blah,BlahBlah
-310 LOGAN AVE,Blah,BlahBlah
 302 LOGAN AVE,Blah,BlahBlah
+300 LOGAN AVE,Blah,BlahBlah
+290 LOGAN AVE,Blah,BlahBlah
+314 LOGAN AVE,Blah,BlahBlah
+310 LOGAN AVE,Blah,BlahBlah
+316 LOGAN AVE,Blah,BlahBlah
+312 LOGAN AVE,Blah,BlahBlah
 195 LYTTON BLVD,Blah,BlahBlah
 33 MACKENZIE CRES,Blah,BlahBlah
 292 MAIN ST,Blah,BlahBlah
@@ -389,9 +389,9 @@ StreetName,String,Other
 69 NIAGAR ST,Blah,BlahBlah
 29 ORIOLE GDNS,Blah,BlahBlah
 91 OXFORD ST,Blah,BlahBlah
-15 PALMERSTON AVE,Blah,BlahBlah
 9 PALMERSTON AVE,Blah,BlahBlah
 11.5 PALMERSTON AVE,Blah,BlahBlah
+15 PALMERSTON AVE,Blah,BlahBlah
 11 PALMERSTON AVE,Blah,BlahBlah
 309 PALMERSTON BLVD,Blah,BlahBlah
 311 PALMERSTON BLVD,Blah,BlahBlah
@@ -476,18 +476,18 @@ StreetName,String,Other
 2234 QUEEN ST E,Blah,BlahBlah
 2379 QUEEN ST E,Blah,BlahBlah
 1858 QUEEN ST E,Blah,BlahBlah
-1854 QUEEN ST E,Blah,BlahBlah
 1862 QUEEN ST E,Blah,BlahBlah
-1860 QUEEN ST E,Blah,BlahBlah
 1856 QUEEN ST E,Blah,BlahBlah
-2241 QUEEN ST E,Blah,BlahBlah
+1860 QUEEN ST E,Blah,BlahBlah
+1854 QUEEN ST E,Blah,BlahBlah
 2239 QUEEN ST E,Blah,BlahBlah
+2241 QUEEN ST E,Blah,BlahBlah
 2273 QUEEN ST E,Blah,BlahBlah
 2275 QUEEN ST E,Blah,BlahBlah
-2375 QUEEN ST E,Blah,BlahBlah
 2373 QUEEN ST E,Blah,BlahBlah
-2377 QUEEN ST E,Blah,BlahBlah
 2371 QUEEN ST E,Blah,BlahBlah
+2377 QUEEN ST E,Blah,BlahBlah
+2375 QUEEN ST E,Blah,BlahBlah
 1040 QUEEN ST W,Blah,BlahBlah
 1042 QUEEN ST W,Blah,BlahBlah
 100 QUEEN'S PARK,Blah,BlahBlah
@@ -500,9 +500,9 @@ StreetName,String,Other
 47 SAULTER ST,Blah,BlahBlah
 49 SAULTER ST,Blah,BlahBlah
 51 SAULTER ST,Blah,BlahBlah
+281 SCARBOROUGH RD,Blah,BlahBlah
 283 SCARBOROUGH RD,Blah,BlahBlah
 285 SCARBOROUGH RD,Blah,BlahBlah
-281 SCARBOROUGH RD,Blah,BlahBlah
 45 SHARRON DR,Blah,BlahBlah
 86 SILVER BIRCH AVE,Blah,BlahBlah
 462 SPADIN AVE,Blah,BlahBlah
