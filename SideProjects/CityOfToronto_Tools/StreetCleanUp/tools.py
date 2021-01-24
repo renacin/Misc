@@ -242,6 +242,9 @@ class CoT_Tools:
         cleaned_text = cleaned_text.lower()
         cleaned_text = cleaned_text.title()
 
+        # Fix 'S Issue
+        cleaned_text = cleaned_text.replace("'S ", "'s ")
+
         # Return Value
         return cleaned_text
 

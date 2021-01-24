@@ -9,16 +9,22 @@ from tools import CoT_Tools
 
 def main():
 
-    # Import Test DF & Run Through Created Tools
-    df = pd.read_csv(r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\StreetCleanUp\Data\TestData.csv")
+    # Import Test DF & Run Through Created Tool
+    try:
+        df = pd.read_csv(r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\StreetCleanUp\Data\TestData.csv")
 
-    # Make Sure Entries Are In Uppercase! | Then Clean Entries | Seperate Addresses | Modify Street Types
-    df["StreetName"] = df["StreetName"].str.upper()
-    df["StreetName"] = CoT_Tools.clean_entry(df["StreetName"])
+        # Make Sure Entries Are In Uppercase! | Then Clean Entries | Seperate Addresses | Modify Street Types
+        df["StreetName"] = df["StreetName"].str.upper()
+        df["StreetName"] = CoT_Tools.clean_entry(df["StreetName"])
 
-    expanded_df = CoT_Tools.seperate_addresses(df, "StreetName")
-    expanded_df["StreetName"] = CoT_Tools.full_street(expanded_df["StreetName"])
-    expanded_df.to_csv(r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\StreetCleanUp\Data\CleanedTestData.csv", index=False)
+        expanded_df = CoT_Tools.seperate_addresses(df, "StreetName")
+        expanded_df["StreetName"] = CoT_Tools.full_street(expanded_df["StreetName"])
+        expanded_df.to_csv(r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\StreetCleanUp\Data\CleanedTestData.csv", index=False)
+
+    except PermissionError:
+        print("The Excel File Is Currently Open In Another Program")
+
+
 
 
 # ----------------------------------------------------------------------------------------------------------------------
