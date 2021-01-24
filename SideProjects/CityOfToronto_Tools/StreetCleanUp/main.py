@@ -12,16 +12,13 @@ def main():
     # Import Test DF & Run Through Created Tools
     df = pd.read_csv(r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\StreetCleanUp\Data\TestData.csv")
 
-    # Make Sure Entries Are In Uppercase!
+    # Make Sure Entries Are In Uppercase! | Then Clean Entries | Seperate Addresses | Modify Street Types
     df["StreetName"] = df["StreetName"].str.upper()
-
-    # Clean Streets With CoT_Tools.clean_entry
     df["StreetName"] = CoT_Tools.clean_entry(df["StreetName"])
 
-    # Expand Rows With Multiple Addresses With
-    cleaned_df = CoT_Tools.seperate_addresses(df, "StreetName")
-
-    cleaned_df.to_csv(r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\StreetCleanUp\Data\CleanedTestData.csv", index=False)
+    expanded_df = CoT_Tools.seperate_addresses(df, "StreetName")
+    expanded_df["StreetName"] = CoT_Tools.full_street(expanded_df["StreetName"])
+    expanded_df.to_csv(r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\StreetCleanUp\Data\CleanedTestData.csv", index=False)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
