@@ -10,13 +10,18 @@ from Funcs.functions import *
 def main():
     """ This function will define the main logic of this data collection experiment """
 
-    # Create a WebCrawler Instance & Gather Data For Bus Locations
-    Crawler = WebCrawler()
-    raw_data = Crawler.gather_data("http://nextride.brampton.ca:81/API/VehiclePositions?format=json")
+    # Create a WebCrawler Instance
+    Crawler = WebCrawler("http://nextride.brampton.ca:81/API/VehiclePositions?format=json")
 
-    # Clean Raw Data
+    # Constantly gather from JSON stream | Every 30 seconds?
+    while True:
+        try:
+            raw_data = Crawler.gather_data()
+            cleaned_data = Crawler.clean_data(raw_data)
+            time.sleep(30)
 
-
+        except Exception:
+            break
 
 # ----------------------------------------------------------------------------------------------------------------------
 
