@@ -11,14 +11,14 @@ def main():
     """ This function will define the main logic of this data collection experiment """
 
     # Create a WebCrawler Instance
-    Crawler = WebCrawler("http://nextride.brampton.ca:81/API/VehiclePositions?format=json")
+    Crawler = WebCrawler()
 
     # Constantly gather from JSON stream | Every 30 seconds?
     while True:
         try:
-            raw_data = Crawler.gather_data()
-            cleaned_data = Crawler.clean_data(raw_data)
-            time.sleep(30)
+            # raw_data = Crawler.gather_transit_data()
+            # cleaned_data = Crawler.clean_data(raw_data)
+            time.sleep(45)
 
         except Exception:
             break

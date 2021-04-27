@@ -16,15 +16,25 @@ class WebCrawler:
     """ This class will store the answers to basic recursive python questions """
 
 
-    def __init__(self, json_url):
-        self.jurl = json_url
+    def __init__(self):
+        self.transit_url = "http://nextride.brampton.ca:81/API/VehiclePositions?format=json"
+        self.weather_url = "http://nextride.brampton.ca:81/API/VehiclePositions?format=json"
 
 
-    def gather_data(self):
+    def gather_weather_data(self):
+        """ This function takes the weather link provided and grabs weather data for brampton """
+
+        # Grab data from JSON stream
+        res = requests.get(self.transit_url)
+        soup = str(BeautifulSoup(res.content, "lxml"))
+
+
+
+    def gather_transit_data(self):
         """ This function takes the JSON link associated with Brampton Transit's GTFS link and parses JSON data from the webpage """
 
         # Grab data from JSON stream
-        res = requests.get(self.jurl)
+        res = requests.get(self.transit_url)
         soup = str(BeautifulSoup(res.content, "lxml"))
 
         # Clean up html tags
