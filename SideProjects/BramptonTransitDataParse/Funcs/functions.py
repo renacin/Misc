@@ -18,7 +18,7 @@ class WebCrawler:
 
     def __init__(self):
         self.transit_url = "http://nextride.brampton.ca:81/API/VehiclePositions?format=json"
-        self.weather_url = "https://w1.weather.gov/data/obhistory/CYYZ.html"
+        self.weather_url = "https://forecast.weather.gov/data/obhistory/metric/CYYZ.html"
 
 
 
@@ -30,9 +30,16 @@ class WebCrawler:
         df_list = pd.read_html(wea_html.text) # this parses all the tables in webpages to a list
         weather_df = df_list[3]
         weather_df = weather_df.iloc[3:4]
-        print(weather_df)
 
-        # CLEAN UP WEATHER DATA FOR METRIC!!!!
+        # Change Column Names
+        new_columns = ["Date", "Time", "Wind", "Visib", "Weather",
+                       "SkyCond", "AirTemp", "DewPoint", "6HrMax",
+                       "6HrMin", "RelHum", "WindChill", "HeatIndex",
+                       "AltPres", "SeaPres", "Precip1hr", "Precitp3hr",
+                       "Precip6hr"]
+
+        weather_df.columns = new_columns
+        return weather_df
 
 
     def gather_transit_data(self):

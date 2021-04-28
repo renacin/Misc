@@ -10,17 +10,20 @@ from Funcs.functions import *
 def main():
     """ This function will define the main logic of this data collection experiment """
 
-    # Create a WebCrawler Instance
+    # Instance & setup WebCrawler database
     Crawler = WebCrawler()
 
     # Constantly gather from JSON stream | Every 30 seconds?
     while True:
         try:
-            # raw_data = Crawler.gather_transit_data()
-            # cleaned_data = Crawler.clean_data(raw_data)
-            Crawler.gather_weather_data()
+
+            # Gather Data
+            raw_data = Crawler.gather_transit_data()
+            cleaned_data = Crawler.clean_data(raw_data)
+            weather_data = Crawler.gather_weather_data()
+
+            # Append Data To Database
             break
-            # time.sleep(45)
 
         except Exception:
             break
