@@ -18,7 +18,9 @@ def main():
         try:
             # raw_data = Crawler.gather_transit_data()
             # cleaned_data = Crawler.clean_data(raw_data)
-            time.sleep(45)
+            Crawler.gather_weather_data()
+            break
+            # time.sleep(45)
 
         except Exception:
             break

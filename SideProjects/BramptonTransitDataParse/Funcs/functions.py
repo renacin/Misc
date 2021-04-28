@@ -3,10 +3,9 @@
 # Title                  Main functions used within data collection effort will be found in this file
 #
 # ----------------------------------------------------------------------------------------------------------------------
-import os, sys, time
-import json, requests
+import os, sys, time, re
+import json, requests, ast
 
-import ast
 import pandas as pd
 from bs4 import BeautifulSoup
 # ----------------------------------------------------------------------------------------------------------------------
@@ -16,18 +15,24 @@ class WebCrawler:
     """ This class will store the answers to basic recursive python questions """
 
 
+
     def __init__(self):
         self.transit_url = "http://nextride.brampton.ca:81/API/VehiclePositions?format=json"
-        self.weather_url = "http://nextride.brampton.ca:81/API/VehiclePositions?format=json"
+        self.weather_url = "https://w1.weather.gov/data/obhistory/CYYZ.html"
+
 
 
     def gather_weather_data(self):
         """ This function takes the weather link provided and grabs weather data for brampton """
 
-        # Grab data from JSON stream
-        res = requests.get(self.transit_url)
-        soup = str(BeautifulSoup(res.content, "lxml"))
+        # Grab raw HTML data from weather page
+        wea_html = requests.get(self.weather_url)
+        df_list = pd.read_html(wea_html.text) # this parses all the tables in webpages to a list
+        weather_df = df_list[3]
+        weather_df = weather_df.iloc[3:4]
+        print(weather_df)
 
+        # CLEAN UP WEATHER DATA FOR METRIC!!!!
 
 
     def gather_transit_data(self):
@@ -47,6 +52,7 @@ class WebCrawler:
         return [data["vehicle"] for data in all_data["entity"]]
 
 
+
     def clean_data(self, raw_data):
         """ This function takes the parsed JSON data, cleans it and returns as a pandas dataframe """
 
@@ -64,7 +70,5 @@ class WebCrawler:
             # Add columns to orginal dataset & remove old columns
             df = pd.concat([df, temp_df], axis=1)
             df.drop(columns=[col_2_xpand], inplace=True)
-
-        print(len(df))
 
         return df
