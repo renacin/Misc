@@ -10,8 +10,9 @@ from Funcs.functions import *
 def main():
     """ This function will define the main logic of this data collection experiment """
 
-    # Instance & setup WebCrawler database
+    # Instantiate webcrawler, and connect to databse
     Crawler = WebCrawler()
+    SQLite_DB = SQLite_Database(r"DataStorage.db")
 
     # Constantly gather from JSON stream | Every 30 seconds?
     while True:
