@@ -14,13 +14,18 @@ def main():
     Crawler = WebCrawler()
     SQLite_DB = SQLite_Database(r"DataStorage.db")
 
-    # Constantly gather from JSON stream | Every 30 seconds?
-    raw_data = Crawler.gather_transit_data()
-    cleaned_data = Crawler.clean_transit_data(raw_data)
-    weather_data = Crawler.gather_weather_data()
+    while True:
+        # Constantly gather from JSON stream | Every 30 seconds?
+        raw_data = Crawler.gather_transit_data()
+        cleaned_data = Crawler.clean_transit_data(raw_data)
+        weather_data = Crawler.gather_weather_data()
 
-    # Append Data To Database
-    SQLite_DB.addtoDB(weather_data, 2)
+        # Append Data To Database
+        SQLite_DB.addtoDB(weather_data, 2)
+        SQLite_DB.addtoDB(cleaned_data, 1)
+
+        # Wait 30 Seconds
+        time.sleep(10)
 
 
 # ----------------------------------------------------------------------------------------------------------------------

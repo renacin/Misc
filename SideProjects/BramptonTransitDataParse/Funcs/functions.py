@@ -123,30 +123,49 @@ class SQLite_Database:
 
 
     # Function To Insert Data Into Database
-    def addtoDB(self, new_weather_df, table_num):
+    def addtoDB(self, data_df, table_num):
         cursor = self.conn.cursor()
 
         # Insert into bus location table
         if table_num == 1:
-            pass
+            old_buslocation_df = pd.read_sql_query("SELECT * FROM TRANSIT_LOCATION_DB", self.conn)
+            old_weather_df = pd.read_sql_query("SELECT * FROM WEATHER_DB", self.conn)
+
+            new_buslocation_df = data_df
+            old_wea_list = list(old_weather_df.iloc[-1])
+            new_buslocation_df["weather_id"] = old_wea_list[0]
+            updated_buslocation_df = pd.concat([old_buslocation_df, new_buslocation_df])
+            updated_buslocation_df.drop_duplicates(subset=["timestamp", "latitude", "longitude", "label", "id"], inplace=True)
+
+            # Print update & append data
+            print(f"Location Database Size {len(updated_buslocation_df)}")
+            updated_buslocation_df.to_sql("TRANSIT_LOCATION_DB", self.conn, if_exists="replace", index=False)
+
 
         # Insert into weather table
         elif table_num == 2:
             old_weather_df = pd.read_sql_query("SELECT * FROM WEATHER_DB", self.conn)
+            new_weather_df = data_df
 
             try:
-                # Find most recent entry, if its the same as the entry in the new df pass, else add to old dataframe
                 new_comp = list(new_weather_df.iloc[0])
                 old_comp = list(old_weather_df.iloc[-1])
 
                 if new_comp[1:5] != old_comp[1:5]:
-                    new_weather_df["weather_id"] = old_comp[0] + 1
+                    new_weather_df["weather_id"] = str(int(old_comp[0]) + 1)
                     updated_weather_df = pd.concat([old_weather_df, new_weather_df])
-                    updated_weather_df.to_sql("WEATHER_DB", self.conn, if_exists='append', index=False)
+
+                    # Print update & append data
+                    print(f"Weather Database Size {len(updated_weather_df)}")
+                    updated_weather_df.to_sql("WEATHER_DB", self.conn, if_exists="replace", index=False)
 
             except IndexError:
                 # If no entry add data to table
                 updated_weather_df = pd.concat([old_weather_df, new_weather_df])
+                updated_weather_df.to_sql("WEATHER_DB", self.conn, if_exists="replace", index=False)
+
+        else:
+            pass
 
 
         self.conn.commit()
