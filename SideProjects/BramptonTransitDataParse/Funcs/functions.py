@@ -138,7 +138,6 @@ class SQLite_Database:
             updated_buslocation_df.drop_duplicates(subset=["timestamp", "latitude", "longitude", "label", "id"], inplace=True)
 
             # Print update & append data
-            print(f"Location Database Size {len(updated_buslocation_df)}")
             updated_buslocation_df.to_sql("TRANSIT_LOCATION_DB", self.conn, if_exists="replace", index=False)
 
 
@@ -156,7 +155,6 @@ class SQLite_Database:
                     updated_weather_df = pd.concat([old_weather_df, new_weather_df])
 
                     # Print update & append data
-                    print(f"Weather Database Size {len(updated_weather_df)}")
                     updated_weather_df.to_sql("WEATHER_DB", self.conn, if_exists="replace", index=False)
 
             except IndexError:
