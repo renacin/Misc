@@ -6,7 +6,9 @@
 import os, sys, time, re
 import json, requests, ast
 
+import datetime
 import sqlite3
+
 import pandas as pd
 from bs4 import BeautifulSoup
 # ----------------------------------------------------------------------------------------------------------------------
@@ -28,7 +30,7 @@ class WebCrawler:
         wea_html = requests.get(self.weather_url)
         df_list = pd.read_html(wea_html.text) # this parses all the tables in webpages to a list
         weather_df = df_list[3]
-        weather_df = weather_df.iloc[3:4]
+        cleaned_weather_df = weather_df.iloc[3:4]
 
         # Change Column Names
         new_columns = ["Date", "Time", "Wind", "Visib", "Weather",
@@ -37,8 +39,15 @@ class WebCrawler:
                        "AltPres", "SeaPres", "Precip1hr", "Precitp3hr",
                        "Precip6hr"]
 
-        weather_df.columns = new_columns
-        return weather_df
+        # Final clean up
+        cleaned_weather_df.columns = new_columns
+        cleaned_weather_df = cleaned_weather_df.reset_index()
+        cleaned_weather_df.drop(columns=["index"], inplace=True)
+        cleaned_weather_df["weather_id"] = str(0)
+        cleaned_weather_df["Month"] = str(datetime.datetime.now().strftime("%m"))
+        cleaned_weather_df["Year"] = str(datetime.date.today().year)
+
+        return cleaned_weather_df[["weather_id", "Year", "Month", "Date", "Time", "Wind", "Visib", "Weather", "SkyCond", "AirTemp", "DewPoint", "HrMax6", "HrMin6", "RelHum", "WindChill", "HeatIndex", "AltPres", "SeaPres", "Precip1hr", "Precitp3hr", "Precip6hr"]]
 
 
     def gather_transit_data(self):
@@ -58,7 +67,7 @@ class WebCrawler:
         return [data["vehicle"] for data in all_data["entity"]]
 
 
-    def clean_data(self, raw_data):
+    def clean_transit_data(self, raw_data):
         """ This function takes the parsed JSON data, cleans it and returns as a pandas dataframe """
 
         # Create pandas DF with data
@@ -93,18 +102,19 @@ class SQLite_Database:
             # Connect to database check if it has data in it | Create two tables joined by primary key
             self.conn = sqlite3.connect(db_location)
             self.conn.execute('''CREATE TABLE IF NOT EXISTS TRANSIT_LOCATION_DB
-                (congestion_level TEXT NOT NULL, current_status TEXT NOT NULL, current_stop_sequence TEXT NOT NULL,
-                stop_id TEXT NOT NULL, timestamp TEXT NOT NULL, latitude TEXT NOT NULL, longitude TEXT NOT NULL,
-                bearing TEXT NOT NULL, odometer TEXT NOT NULL, speed TEXT NOT NULL, trip_id TEXT NOT NULL,
-                start_time TEXT NOT NULL, start_date TEXT NOT NULL, schedule_relationship TEXT NOT NULL,
-                route_id TEXT NOT NULL, id TEXT NOT NULL, label TEXT NOT NULL, license_plate TEXT NOT NULL,
-                weather_id TEXT NOT NULL);''')
+                (congestion_level TEXT, current_status TEXT, current_stop_sequence TEXT,
+                stop_id TEXT, timestamp TEXT, latitude TEXT, longitude TEXT,
+                bearing TEXT, odometer TEXT, speed TEXT, trip_id TEXT,
+                start_time TEXT, start_date TEXT, schedule_relationship TEXT,
+                route_id TEXT, id TEXT, label TEXT, license_plate TEXT,
+                weather_id TEXT);''')
 
             self.conn.execute('''CREATE TABLE IF NOT EXISTS WEATHER_DB
-                (weather_id TEXT NOT NULL, Date TEXT NOT NULL, Time TEXT NOT NULL, Wind TEXT NOT NULL, Visib TEXT NOT NULL,
-                Weather TEXT NOT NULL, SkyCond TEXT NOT NULL, AirTemp TEXT NOT NULL, DewPoint TEXT NOT NULL, HrMax6 TEXT NOT NULL,
-                HrMin6 TEXT NOT NULL, RelHum TEXT NOT NULL, WindChill TEXT NOT NULL, HeatIndex TEXT NOT NULL, AltPres TEXT NOT NULL,
-                SeaPres TEXT NOT NULL, Precip1hr TEXT NOT NULL, Precitp3hr TEXT NOT NULL, Precip6hr TEXT NOT NULL);''')
+                (weather_id TEXT, Year TEXT, Month TEXT, Date TEXT, Time TEXT,
+                Wind TEXT, Visib TEXT, Weather TEXT, SkyCond TEXT, AirTemp TEXT,
+                DewPoint TEXT, HrMax6 TEXT, HrMin6 TEXT, RelHum TEXT,
+                WindChill TEXT, HeatIndex TEXT, AltPres TEXT, SeaPres TEXT,
+                Precip1hr TEXT, Precitp3hr TEXT, Precip6hr TEXT);''')
 
             print("Connected To Database")
 
@@ -113,20 +123,31 @@ class SQLite_Database:
 
 
     # Function To Insert Data Into Database
-    def addtoDB(self, parsed_data, table_num):
+    def addtoDB(self, new_weather_df, table_num):
         cursor = self.conn.cursor()
 
         # Insert into bus location table
         if table_num == 1:
-            cursor.execute("""INSERT INTO TPA_ITEM_DB(ITEM_NAME, SKU, CUR_PRICE, MIN_UPBID, UPBID_PRICE, MINUTES_LEFT, START_DATE, END_DATE, NUM_BIDS, HIGHEST_BIDR)
-                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);""", (parsed_data[0], parsed_data[1], parsed_data[2], parsed_data[3], parsed_data[4], parsed_data[5], parsed_data[6], parsed_data[7], parsed_data[8], parsed_data[9]))
+            pass
 
+        # Insert into weather table
         elif table_num == 2:
-            cursor.execute("""INSERT INTO TPA_ITEM_DB(ITEM_NAME, SKU, CUR_PRICE, MIN_UPBID, UPBID_PRICE, MINUTES_LEFT, START_DATE, END_DATE, NUM_BIDS, HIGHEST_BIDR)
-                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);""", (parsed_data[0], parsed_data[1], parsed_data[2], parsed_data[3], parsed_data[4], parsed_data[5], parsed_data[6], parsed_data[7], parsed_data[8], parsed_data[9]))
+            old_weather_df = pd.read_sql_query("SELECT * FROM WEATHER_DB", self.conn)
 
-        else:
-            raise IndexError ("Table ID Out Of Index")
+            try:
+                # Find most recent entry, if its the same as the entry in the new df pass, else add to old dataframe
+                new_comp = list(new_weather_df.iloc[0])
+                old_comp = list(old_weather_df.iloc[-1])
+
+                if new_comp[1:5] != old_comp[1:5]:
+                    new_weather_df["weather_id"] = old_comp[0] + 1
+                    updated_weather_df = pd.concat([old_weather_df, new_weather_df])
+                    updated_weather_df.to_sql("WEATHER_DB", self.conn, if_exists='append', index=False)
+
+            except IndexError:
+                # If no entry add data to table
+                updated_weather_df = pd.concat([old_weather_df, new_weather_df])
+
 
         self.conn.commit()
         cursor.close()
