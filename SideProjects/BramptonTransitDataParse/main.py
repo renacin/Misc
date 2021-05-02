@@ -32,9 +32,16 @@ def main():
         # Wait 30 Seconds
         time.sleep(30)
 
+def secondary():
+    conn = sqlite3.connect(r"C:\Users\renac\Desktop\DataStorage.db")
+    old_buslocation_df = pd.read_sql_query("SELECT * FROM TRANSIT_LOCATION_DB", conn)
+    old_buslocation_df.to_csv(r"C:\Users\renac\Desktop\BusLocations.csv", index=False)
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 
 # Main Entry Point Into Python Code
 if __name__ == "__main__":
-    main()
+
+    # main()
+    secondary()
