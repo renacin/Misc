@@ -7,6 +7,7 @@ from Funcs.functions import *
 # ----------------------------------------------------------------------------------------------------------------------
 
 
+
 def main():
     """ This function will define the main logic of this data collection experiment """
 
@@ -32,7 +33,10 @@ def main():
         # Wait 30 Seconds
         time.sleep(30)
 
+
+
 def secondary():
+    """ This function will define the main logic of thedata exploration section of this project """
     conn = sqlite3.connect(r"C:\Users\renac\Desktop\DataStorage.db")
     old_buslocation_df = pd.read_sql_query("SELECT * FROM TRANSIT_LOCATION_DB", conn)
     old_buslocation_df.to_csv(r"C:\Users\renac\Desktop\BusLocations.csv", index=False)
