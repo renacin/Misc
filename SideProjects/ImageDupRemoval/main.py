@@ -1,6 +1,6 @@
 # Name:                                            Renacin Matadeen
-# Date:                                               04/25/2021
-# Title                  Main functions used within data collection effort will be found in this file
+# Date:                                               06/28/2021
+# Title                                 Main Logic For Image Duplicate Removal
 #
 # ----------------------------------------------------------------------------------------------------------------------
 from Functions.functions import *
@@ -11,7 +11,7 @@ from Functions.functions import *
 def main():
 
 	# Instantiate Class Pointing To Main Folder
-	image_set = ImageSet(r"C:/Users/renac/Desktop/TestImages/Pictures1")
+	image_set = ImageSet(r"C:/Users/renac/Desktop/TestImages/Folder_1")
 
 
 
