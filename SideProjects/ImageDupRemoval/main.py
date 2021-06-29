@@ -13,13 +13,15 @@ def main():
 	# Instantiate Class Pointing To Main Folder
 	image_set = ImageSet()
 
+	# Ingest Images Keep Unique
 	for folder_name in ["Folder_1", "Folder_2"]:
 		image_set.ingest_images(f"C:/Users/renac/Desktop/TestImages/{folder_name}")
 
-	# For Debugging
-	print(image_set.file_ext_dict["FileExtensions"])
+	# Rewrite Unique Images Renaming Them With Date Taken Information
+	image_set.rewrite_images("C:/Users/renac/Desktop/TestImages/")
 
-	# FILES IN FOLDER 1: 436, FILES IN FOLDER 2: 339, TOTAL 775
+
+	# F1: 436, F2: 339, TOTAL 775
 
 # ----------------------------------------------------------------------------------------------------------------------
 

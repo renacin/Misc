@@ -3,27 +3,28 @@
 # Title                              Main Functions That Will Query Images Provided
 #
 # ----------------------------------------------------------------------------------------------------------------------
-import os, sys, time, glob, shutil
+import os, shutil
 from PIL import Image, ExifTags
 # ----------------------------------------------------------------------------------------------------------------------
 
 
-""" This class will take a path to a set of images, and perform a number of functions on those images  """
 class ImageSet:
+    """ This class will take a path to a set of images, and perform a number of functions on those images  """
 
 
-    """ On Instantiation A Dictionary Is Created To Store Paths & Date Information """
     def __init__(self):
+        """ On Instantiation A Dictionary Is Created To Store Paths & Date Information """
 
         # Create Dictionaries To Store Pertinent Data
-        self.img_dict = {"DateTaken": [], "FilePath": []}
+        self.img_dict = {}
         self.err_img_dict = {"FilePath": []}
         self.non_img_dict = {"FilePath": []}
         self.file_ext_dict = {"FileExtensions":[]}
 
 
-    """ This Function Will Add Image Location & Date Taken Data To Main Dictionary """
     def ingest_images(self, Folder_Path):
+        """ This Function Will Add Image Location & Date Taken Data To Main Dictionary """
+
         image_path = Folder_Path
         
         # Iterate Through Each File In Folder
@@ -42,12 +43,12 @@ class ImageSet:
                     img_exif_dict = dict(img_exif)
 
                     try:
-                        self.img_dict["FilePath"].append(file_path)
-                        self.img_dict["DateTaken"].append(img_exif_dict[306].replace(" ", "_"))
+                        date_taken = img_exif_dict[306].replace(" ", "_")
+                        date_taken = date_taken.replace(":", "")
+                        self.img_dict[date_taken] = file_path
                     
                     except KeyError:
                         print(f"Error With File: {file_path}")
-                        print(img_exif_dict)
                         self.err_img_dict["FilePath"].append(file_path)
 
             else:
@@ -60,11 +61,24 @@ class ImageSet:
 
 
 
-    """ Having Parsed Date Taken Information Ckeck If Duplicate Images Are Present """
-    def IdentifyDuplicateImages():
-        pass
+    def rewrite_images(self, FolderPath):
+        """ Having Parsed Date Taken Information Ckeck If Duplicate Images Are Present """
 
+        # Ensure Folder Exists | If Not Create For Images & Misc Files
+        for new_folder_name in ["CleanedImages", "MiscFiles"]:
+            focus_path = f"{FolderPath}/{new_folder_name}"
+            if os.path.exists(focus_path):
+                os.rmdir(focus_path)    
+            os.makedirs(focus_path)
 
-    """ Having Identified Duplicate Images Delete Them """
-    def RemoveDuplicateImages():
-        pass
+        # Iterate Through Img Dict | Write Images To Folder | Change Name To Date Taken!
+        for date_taken, org_file_path in self.img_dict.items():
+            root, extension = os.path.splitext(org_file_path)
+            new_path = f"{FolderPath}/CleanedImages/{date_taken}{extension}"
+            shutil.move(org_file_path, new_path)
+
+        # Iterate Through Non-Img Dict | Write Images To Folder
+        for org_file_path in self.non_img_dict["FilePath"]:
+            file_name = org_file_path.split("/")[-1]
+            new_path = f"{FolderPath}/MiscFiles/{file_name}"
+            shutil.move(org_file_path, new_path)
