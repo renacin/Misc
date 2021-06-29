@@ -11,9 +11,9 @@ from Functions.functions import *
 def main():
 
 	# Instantiate Class Pointing To Main Folder
-	image_set = ImageSet(r"C:/Users/renac/Desktop/TestImages/Folder_1")
-
-
+	folder_path = r"C:/Users/renac/Desktop/TestImages/Folder_1"
+	image_set = ImageSet()
+	image_set.ingest_images(folder_path)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
