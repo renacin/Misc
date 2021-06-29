@@ -62,7 +62,7 @@ class ImageSet:
 
 
     def rewrite_images(self, FolderPath):
-        """ Having Parsed Date Taken Information Ckeck If Duplicate Images Are Present """
+        """ Having Parsed Date Taken Information Check If Duplicate Images Are Present """
 
         # Ensure Folder Exists | If Not Create For Images & Misc Files
         for new_folder_name in ["CleanedImages", "MiscFiles", "ErrorFiles"]:
@@ -88,3 +88,10 @@ class ImageSet:
             file_name = org_file_path.split("/")[-1]
             new_path = f"{FolderPath}/ErrorFiles/{file_name}"
             shutil.move(org_file_path, new_path)
+
+
+
+    @staticmethod
+    def rename_images():
+        """ Given A Folder, This Function Will Rename JPEG images In Accordance To Their DateTaken Data"""
+        pass

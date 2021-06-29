@@ -7,10 +7,10 @@ from Functions.functions import *
 # ----------------------------------------------------------------------------------------------------------------------
 
 
-""" The following function will store the main logic of this research project """
 def main():
+	""" The following function will store the main logic of this research project """
 
-	# Instantiate Class Pointing To Main Folder
+	# Instantiate Class
 	image_set = ImageSet()
 
 	# Ingest Images Keep Unique
@@ -21,11 +21,14 @@ def main():
 	image_set.rewrite_images("C:/Users/renac/Desktop/TestImages/")
 
 
-	# F1: 436, F2: 339, 
-	# BEFORE CLEANUP: 775, AFTER CLEANUP 517 
+def secondary():
+	""" The following function will store secondary logic of this research project """
+
+	# Instantiate Class
+	image_set = ImageSet()
+
 
 # ----------------------------------------------------------------------------------------------------------------------
-
 # Main Entry Point Into Python Code
 if __name__ == "__main__":
     main()
