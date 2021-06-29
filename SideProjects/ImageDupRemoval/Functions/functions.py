@@ -3,7 +3,7 @@
 # Title                              Main Functions That Will Query Images Provided
 #
 # ----------------------------------------------------------------------------------------------------------------------
-import os, sys, time, re
+import os, sys, time, glob, shutil
 from PIL import Image, ExifTags
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -11,14 +11,15 @@ from PIL import Image, ExifTags
 """ This class will take a path to a set of images, and perform a number of functions on those images  """
 class ImageSet:
 
-    
-
 
     """ On Instantiation A Dictionary Is Created To Store Paths & Date Information """
     def __init__(self):
 
-        # Create Dictionary To Store Data
-        self.nt_dict = {"FilePath": [], "DateTaken": []}
+        # Create Dictionaries To Store Pertinent Data
+        self.img_dict = {"DateTaken": [], "FilePath": []}
+        self.err_img_dict = {"FilePath": []}
+        self.non_img_dict = {"FilePath": []}
+        self.file_ext_dict = {"FileExtensions":[]}
 
 
     """ This Function Will Add Image Location & Date Taken Data To Main Dictionary """
@@ -32,27 +33,31 @@ class ImageSet:
 
             # Filter By Image Extension
             root, extension = os.path.splitext(file_path)
-            if extension in [".jpeg", ".jpg", ".png", ".tiff", ".tif"]:
+            if extension in [".jpeg", ".jpg", ".tiff", ".tif"]:
                 image = Image.open(file_path)
                 img_exif = image.getexif()
 
                 # Look For EXIF Data | Create Cleaned Dict | Append To Main Dict
                 if img_exif:
-                    temp_dict = {}
                     img_exif_dict = dict(img_exif)
-                    for key, val in img_exif_dict.items():
-                        if key in ExifTags.TAGS:
-                            temp_dict[ExifTags.TAGS[key]] = val
 
-            self.nt_dict["FilePath"].append(file_path)
-            self.nt_dict["DateTaken"].append(temp_dict["DateTime"].replace(" ", "_"))
+                    try:
+                        self.img_dict["FilePath"].append(file_path)
+                        self.img_dict["DateTaken"].append(img_exif_dict[306].replace(" ", "_"))
+                    
+                    except KeyError:
+                        print(f"Error With File: {file_path}")
+                        print(img_exif_dict)
+                        self.err_img_dict["FilePath"].append(file_path)
 
-        print(self.nt_dict)
+            else:
+                self.non_img_dict["FilePath"].append(file_path)
 
 
-    """ Having Parsed Date Taken Information Change Name Of Pictures """
-    def Name2DateTaken():
-        pass
+            # To Better Understand Files, Collect Data On Extension Types
+            if extension not in self.file_ext_dict["FileExtensions"]:
+                self.file_ext_dict["FileExtensions"].append(extension)
+
 
 
     """ Having Parsed Date Taken Information Ckeck If Duplicate Images Are Present """

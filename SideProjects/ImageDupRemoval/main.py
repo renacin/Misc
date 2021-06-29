@@ -11,10 +11,15 @@ from Functions.functions import *
 def main():
 
 	# Instantiate Class Pointing To Main Folder
-	folder_path = r"C:/Users/renac/Desktop/TestImages/Folder_1"
 	image_set = ImageSet()
-	image_set.ingest_images(folder_path)
 
+	for folder_name in ["Folder_1", "Folder_2"]:
+		image_set.ingest_images(f"C:/Users/renac/Desktop/TestImages/{folder_name}")
+
+	# For Debugging
+	print(image_set.file_ext_dict["FileExtensions"])
+
+	# FILES IN FOLDER 1: 436, FILES IN FOLDER 2: 339, TOTAL 775
 
 # ----------------------------------------------------------------------------------------------------------------------
 
