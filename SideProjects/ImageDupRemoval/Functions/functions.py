@@ -34,7 +34,7 @@ class ImageSet:
 
             # Filter By Image Extension
             root, extension = os.path.splitext(file_path)
-            if extension in [".jpeg", ".jpg", ".tiff", ".tif"]:
+            if extension in [".jpeg", ".jpg", ".JPG", ".tiff", ".tif"]:
                 image = Image.open(file_path)
                 img_exif = image.getexif()
 
@@ -65,7 +65,7 @@ class ImageSet:
         """ Having Parsed Date Taken Information Ckeck If Duplicate Images Are Present """
 
         # Ensure Folder Exists | If Not Create For Images & Misc Files
-        for new_folder_name in ["CleanedImages", "MiscFiles"]:
+        for new_folder_name in ["CleanedImages", "MiscFiles", "ErrorFiles"]:
             focus_path = f"{FolderPath}/{new_folder_name}"
             if os.path.exists(focus_path):
                 os.rmdir(focus_path)    
@@ -81,4 +81,10 @@ class ImageSet:
         for org_file_path in self.non_img_dict["FilePath"]:
             file_name = org_file_path.split("/")[-1]
             new_path = f"{FolderPath}/MiscFiles/{file_name}"
+            shutil.move(org_file_path, new_path)
+
+        # Iterate Through Error Dict | Write Images To Folder
+        for org_file_path in self.err_img_dict["FilePath"]:
+            file_name = org_file_path.split("/")[-1]
+            new_path = f"{FolderPath}/ErrorFiles/{file_name}"
             shutil.move(org_file_path, new_path)
