@@ -124,3 +124,5 @@ class ImageSet:
                     
                     except KeyError:
                         print(f"Error With File: {file_path}")
+            else:
+                print(f"File Could Not Be Renamed: {file_path}")

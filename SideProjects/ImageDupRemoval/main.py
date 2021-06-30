@@ -23,8 +23,12 @@ def main():
 
 def secondary():
 	""" The following function will store secondary logic of this research project """
-	
-	ImageSet.rename_images("C:/Users/renac/Desktop/Pictures/2005_04_23_Alex3rdBirthday_VisitFromNewYorkFamily_B")
+	main_path = "C:/Users/renac/Desktop/Pictures"
+	image_folder = os.listdir(main_path)
+	for item in image_folder:
+		full_path = f"{main_path}/{item}"
+		if os.path.isdir(full_path):
+			ImageSet.rename_images(full_path)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
