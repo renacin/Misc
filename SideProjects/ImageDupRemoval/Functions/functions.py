@@ -106,23 +106,28 @@ class ImageSet:
             # Filter By Image Extension
             root, extension = os.path.splitext(file_path)
             if extension in [".jpeg", ".jpg", ".JPG", ".tiff", ".tif"]:
-                image = Image.open(file_path)
-                img_exif = image.getexif()
+                try:
+                    image = Image.open(file_path)
+                    img_exif = image.getexif()
 
-                # Look For EXIF Data | Create Cleaned Dict | Append To Main Dict
-                if img_exif:
-                    img_exif_dict = dict(img_exif)
+                    # Look For EXIF Data | Create Cleaned Dict | Append To Main Dict
+                    if img_exif:
+                        img_exif_dict = dict(img_exif)
 
-                    try:
-                        date_taken = img_exif_dict[306].replace(" ", "_")
-                        date_taken = date_taken.replace(":", "")
-                        cleaned_path = file_path.replace(file, "")
-                        new_path = f"{cleaned_path}{date_taken}{extension}" 
+                        try:
+                            date_taken = img_exif_dict[306].replace(" ", "_")
+                            date_taken = date_taken.replace(":", "")
+                            cleaned_path = file_path.replace(file, "")
+                            new_path = f"{cleaned_path}{date_taken}{extension}" 
 
-                        image.close()
-                        os.rename(file_path, new_path)
-                    
-                    except KeyError:
-                        print(f"Error With File: {file_path}")
+                            image.close()
+                            os.rename(file_path, new_path)
+                        
+                        except KeyError:
+                            print(f"Error With File: {file_path}")
+
+                except Exception:
+                    print(f"Error With File: {file_path}")
+
             else:
                 print(f"File Could Not Be Renamed: {file_path}")

@@ -23,11 +23,14 @@ def main():
 
 def secondary():
 	""" The following function will store secondary logic of this research project """
-	main_path = "C:/Users/renac/Desktop/Pictures"
+	main_path = "E:/Pictures/Matadeen_Pictures"
 	image_folder = os.listdir(main_path)
+
 	for item in image_folder:
 		full_path = f"{main_path}/{item}"
-		if os.path.isdir(full_path):
+
+		if (os.path.isdir(full_path)) and (item not in ["0000_00_00_Untracked", "2021_03_25_StevenAndUmaWedding"]):
+			print(f"Working On Folder: {item}")
 			ImageSet.rename_images(full_path)
 
 
