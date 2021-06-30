@@ -3,7 +3,7 @@
 # Title                              Main Functions That Will Query Images Provided
 #
 # ----------------------------------------------------------------------------------------------------------------------
-import os, shutil
+import os, shutil, time
 from PIL import Image, ExifTags
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -15,6 +15,7 @@ class ImageSet:
     def __init__(self):
         """ On Instantiation A Dictionary Is Created To Store Paths & Date Information """
 
+
         # Create Dictionaries To Store Pertinent Data
         self.img_dict = {}
         self.err_img_dict = {"FilePath": []}
@@ -24,6 +25,7 @@ class ImageSet:
 
     def ingest_images(self, Folder_Path):
         """ This Function Will Add Image Location & Date Taken Data To Main Dictionary """
+
 
         image_path = Folder_Path
         
@@ -64,6 +66,7 @@ class ImageSet:
     def rewrite_images(self, FolderPath):
         """ Having Parsed Date Taken Information Check If Duplicate Images Are Present """
 
+
         # Ensure Folder Exists | If Not Create For Images & Misc Files
         for new_folder_name in ["CleanedImages", "MiscFiles", "ErrorFiles"]:
             focus_path = f"{FolderPath}/{new_folder_name}"
@@ -92,6 +95,32 @@ class ImageSet:
 
 
     @staticmethod
-    def rename_images():
+    def rename_images(FolderPath):
         """ Given A Folder, This Function Will Rename JPEG images In Accordance To Their DateTaken Data"""
-        pass
+
+        focus_folder = os.listdir(FolderPath)
+        for file in focus_folder:
+
+            file_path = FolderPath + "/" + file
+
+            # Filter By Image Extension
+            root, extension = os.path.splitext(file_path)
+            if extension in [".jpeg", ".jpg", ".JPG", ".tiff", ".tif"]:
+                image = Image.open(file_path)
+                img_exif = image.getexif()
+
+                # Look For EXIF Data | Create Cleaned Dict | Append To Main Dict
+                if img_exif:
+                    img_exif_dict = dict(img_exif)
+
+                    try:
+                        date_taken = img_exif_dict[306].replace(" ", "_")
+                        date_taken = date_taken.replace(":", "")
+                        cleaned_path = file_path.replace(file, "")
+                        new_path = f"{cleaned_path}{date_taken}{extension}" 
+
+                        image.close()
+                        os.rename(file_path, new_path)
+                    
+                    except KeyError:
+                        print(f"Error With File: {file_path}")

@@ -18,17 +18,18 @@ def main():
 		image_set.ingest_images(f"C:/Users/renac/Desktop/TestImages/{folder_name}")
 
 	# Rewrite Unique Images Renaming Them With Date Taken Information
-	image_set.rewrite_images("C:/Users/renac/Desktop/TestImages/")
+	image_set.rewrite_images("C:/Users/renac/Desktop/Pictures/")
 
 
 def secondary():
 	""" The following function will store secondary logic of this research project """
-
-	# Instantiate Class
-	image_set = ImageSet()
+	
+	ImageSet.rename_images("C:/Users/renac/Desktop/Pictures/2005_04_23_Alex3rdBirthday_VisitFromNewYorkFamily_B")
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Main Entry Point Into Python Code
 if __name__ == "__main__":
-    main()
+
+	# Run The Following Logic
+    secondary()
