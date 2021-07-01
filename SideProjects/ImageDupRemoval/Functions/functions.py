@@ -96,7 +96,7 @@ class ImageSet:
 
     @staticmethod
     def rename_images(FolderPath):
-        """ Given A Folder, This Function Will Rename JPEG images In Accordance To Their DateTaken Data"""
+        """ Given A Folder, This Function Will Rename JPEG images In Accordance To Their DateTaken Data """
 
         focus_folder = os.listdir(FolderPath)
         for file in focus_folder:
