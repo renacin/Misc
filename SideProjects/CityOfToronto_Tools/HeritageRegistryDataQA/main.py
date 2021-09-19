@@ -8,19 +8,13 @@ from funcs.process import *
 
 def main():
 
-    # Filter Only Address & PRSN Column
+    # Sources Of Data
+    ibms_csv = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\HeritageRegistryDataQA\Data\DataFromIBMSTeam.csv"
+    heritage_csv = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\HeritageRegistryDataQA\Data\DataFromHeritageTeam.csv"
 
-    try:
-        ibms_csv = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\HeritageRegistryDataQA\Data\DataFromIBMSTeam.csv"
-        heritage_csv = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\HeritageRegistryDataQA\Data\DataFromHeritageTeam.csv"
-        
-        from_ibms_df = pd.read_csv(ibms_csv)
-        from_heritage_df = pd.read_csv(heritage_csv)
-
-    except PermissionError:
-        print("Files Currently Open In Another Program")
-
-
+    # Ingest & Filter Only Address & PRSN Column
+    from_ibms_df = Dataset.filter_data(ibms_csv)
+    from_heritage_df = Dataset.filter_data(heritage_csv)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
