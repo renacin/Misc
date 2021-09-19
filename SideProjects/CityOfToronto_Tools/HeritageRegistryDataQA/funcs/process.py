@@ -13,7 +13,6 @@ class ProcessData:
     This class will store needed functions that will help identify common, and uncommon addresses between two datasets
     """
 
-
     # -----------------------------------------------------------------------------------------------------------------
     @staticmethod
     def filter_data(data_path):
