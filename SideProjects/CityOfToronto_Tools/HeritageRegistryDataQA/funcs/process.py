@@ -12,7 +12,7 @@ class Dataset:
     """ Class used as method storage hub """
 
     @staticmethod
-    def filter_data(data_path: string) -> dataframe:
+    def filter_data(data_path: str) -> "Pandas Dataframe":
         """ This function will ingest & filter needed columns only """
 
         try:
