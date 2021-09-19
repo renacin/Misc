@@ -38,7 +38,7 @@ class Dataset:
         rows_removed = df_len_before - len(df_after)
 
         # Report Number Of Addresses Removed
-        print(f"REPORT - {dataframe_name}, Start Lenght: {df_len_before} | Duplicates Removed: {rows_removed} | Rows Remaining: {df_len_before - rows_removed}")
+        print(f"REPORT - {dataframe_name}, Start Length: {df_len_before} | Duplicates Removed: {rows_removed} | Rows Remaining: {df_len_before - rows_removed}")
 
         return df_after
 
@@ -58,7 +58,8 @@ class Dataset:
 
         # Report Number Of Common Rows, Uncommon Rows For Each Dataset
         for origin in mapset.values():
-            print(f"{origin}")
+            filtered_df = combined_df[combined_df["Dataset Origin"] == origin]
+            print(f"REPORT - Unique Rows Found In {origin}: {len(filtered_df)}")
 
         # Export Data As CSV
         combined_df.to_csv(r"C:\Users\renac\Desktop\Comparison_Dataset.csv", index=False)
@@ -86,6 +87,7 @@ def main():
 
     # Compare Both Datasets, Which Are Common, Which Can Only Be Found In Both
     Dataset.compare_data(no_dup_ibms_df, "IBMS Data", no_dup_heritage_df, "Heritage Data")
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 if __name__ == "__main__":
