@@ -22,7 +22,7 @@ class Dataset:
             print("Files Currently Open In Another Program")
 
         # Only Keep Needed Columns
-        columns_to_keep = ["PRSN", "ADDRESS"]
+        columns_to_keep = ["PRSN", "ADDRESS"] # Add RSN, STATUSCODE, STATUS, & Other Needed Columns
         df = df[columns_to_keep]
 
         return df
