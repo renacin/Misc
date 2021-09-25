@@ -53,10 +53,9 @@ Notes:
             attributes are grouped together and redundancy is removed.
 
             + Database Normalization Concepts
-                - Keys:
-                - Functional Dependencies:
-                - Normal Forms:
-
+                - Keys: Column attributes that identify a database record uniquely.
+                - Functional Dependencies: Constraints between two attributes in a relation.
+                - Normal Forms: Steps to accomplish a certain quality of a database.
 
             + Database Normalization Aims To Remove:
                 - Attributes with multiple values.
@@ -66,8 +65,15 @@ Notes:
                 - Attributes created from other features.
 
 
-            + Levels Of Database Normalization:
-                - 
+            + Levels Of Database Normalization [Normal Forms]:
+                Unnormalized Form (UNF)            The state before any normalization. Redundant and complex values are present.
+                First Normal Form (1NF)            Repeating and complex values split up, making all instances atomic.
+                Second Normal Form (2NF)           Partial dependencies decompose to new tables. All rows functionally depend on the primary key.
+                Third Normal Form (3NF)            Transitive dependencies decompose to new tables. Non-key attributes depend on the primary key.
+                Boyce-Codd Normal Form (BCNF)      Transitive and partial functional dependencies for all candidate keys decompose to new tables.
+                Fourth Normal Form (4NF)           Removal of multivalued dependencies.
+                Fifth Normal Form (5NF)            Removal of JOIN dependencies.
+
 
             Ex:
                 School & Student Grades Database [1 Table In Database]
