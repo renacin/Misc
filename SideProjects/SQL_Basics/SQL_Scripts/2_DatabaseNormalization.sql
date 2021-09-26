@@ -36,14 +36,53 @@ Notes:
         Database Normalization Concepts
             Keys: 
                 + Column attributes that identify a database record uniquely
+                + Types Of Keys In Databases
+
+                    - Primary Keys
+                        + There can be only one primary key in a table. It will not accept duplicate or null values. 
+                        The primary key contains unique values.
+
+                    - Candidate Keys
+                        + These are other unique columns that can become a primary key
+
+                    - Composite Keys
+                        + A combination of one or more columns that can uniquely identify the records in a table
+                        + Use composite keys rather than new ID keys in order to save space & reduce the number of
+                        columns in your database
+
+                    - Foreign Keys
+                        + A foreign key can be a common key in two database tables. A primary in one, and a foreign in another
+                        + Foreign keys are not primary keys, and as a result allow for duplicates, as well as null-values
+
 
             Functional Dependencies: 
                 + Constraints between two attributes in a relation.
-                + Example: EMP_NAME, EMP_CONTACT, EMP_ADDRESS --> Depend On EMP_ID
+
+                + Table: Employee Information
+                + Example: EMP_NAME (CK), EMP_CONTACT(CK), EMP_ADDRESS(CK) --> Depend On EMP_ID
+
 
             Partial Dependencies:
                 + Is a type of functional dependency that occurs when non-prime attributes are partially
                 dependent on part of candidate keys
+
+                + Table:    Student Project
+                + Example:  StudentID(CK), ProjectID(CK), StudentName, ProjectName
+                +           StudentName depends on StudentID, but not Project ID
+                +           ProjectName depends on ProjectID, but not Student ID
+                + Solution: Two Tables | EmployeeTable[EMP_ID, PROJECT_ID] | ProjectTable[Project_ID, PROJECT, MANAGER]
+
+
+            Transitive Dependencies:
+                + When an indirect relationship causes functional dependency.
+                
+                + Table:    Employee Performance
+                + Example:  EmployeeID(CK), ProjectID(CK), PerformanceScore, PayHike
+                +           PerformanceScore is functionaly dependent on both EmployeeID, and ProjectID
+                +           PayHike is functionaly dependent on PerformanceScore
+                +           Therefore PayHike is functionaly dependent on both EmployeeID, and ProjectID
+                + Solution: Two Tables | EmployeeTable[EMP_ID, PROJECT_ID, PERFSCORE] | PerfTable[PERFSCORE, HIKE]
+
 
             Normal Forms: 
                 + Steps to accomplish a certain quality of a database.
@@ -66,12 +105,19 @@ Notes:
                 + Partial dependencies must be decomposed into new tables
                 + All rows functionally depend on the primary key.
             
-            
-            
-            Third Normal Form (3NF)            Transitive dependencies decompose to new tables. Non-key attributes depend on the primary key.
-            Boyce-Codd Normal Form (BCNF)      Transitive and partial functional dependencies for all candidate keys decompose to new tables.
-            Fourth Normal Form (4NF)           Removal of multivalued dependencies.
-            Fifth Normal Form (5NF)            Removal of JOIN dependencies.
+            Third Normal Form (3NF)
+                + First 2NF conditions must be met
+                + Transitive dependencies decompose to new tables
+                + Non-key attributes depend on the primary key.
+
+            Boyce-Codd Normal Form (BCNF / 3.5NF)
+                + Transitive and partial functional dependencies for all candidate keys decompose to new tables.
+
+            Fourth Normal Form (4NF)
+                + Removal of multivalued dependencies.
+
+            Fifth Normal Form (5NF)
+                + Removal of JOIN dependencies.
 
 
         Ex:
