@@ -41,28 +41,33 @@ Notes:
                 + Constraints between two attributes in a relation.
                 + Example: EMP_NAME, EMP_CONTACT, EMP_ADDRESS --> Depend On EMP_ID
 
+            Partial Dependencies:
+                + Is a type of functional dependency that occurs when non-prime attributes are partially
+                dependent on part of candidate keys
+
             Normal Forms: 
                 + Steps to accomplish a certain quality of a database.
 
 
-        Database Normalization Aims To Remove:
-            - Attributes with multiple values.
-            - Doubled or repeated attributes.
-            - Non-descriptive attributes.
-            - Attributes with redundant information.
-            - Attributes created from other features.
-
-
         Levels Of Database Normalization [Normal Forms]:
             Unnormalized Form (UNF)
-                - The state before any normalization. Redundant and complex values are present.
-                - Nothing has been changes. Similar to raw CSV data with non-atomic values. 
+                + The state before any normalization. Redundant and complex values are present.
+                + Nothing has been changes. Similar to raw CSV data with non-atomic values. 
 
             First Normal Form (1NF)
-                - Repeating and complex values split up, making all instances atomic.
+                + Repeating and complex values split up, making all instances atomic.
+                + Do not keep multiple values under in one cell
+                + Example: Magazine Subscription [Basketball, Soccer, Golf]
+                + Database is considered in poor condition if 1NF not met
 
-
-            Second Normal Form (2NF)           Partial dependencies decompose to new tables. All rows functionally depend on the primary key.
+            Second Normal Form (2NF)
+                + First 1NF conditions must be met
+                + Tables should not have partial dependencies
+                + Partial dependencies must be decomposed into new tables
+                + All rows functionally depend on the primary key.
+            
+            
+            
             Third Normal Form (3NF)            Transitive dependencies decompose to new tables. Non-key attributes depend on the primary key.
             Boyce-Codd Normal Form (BCNF)      Transitive and partial functional dependencies for all candidate keys decompose to new tables.
             Fourth Normal Form (4NF)           Removal of multivalued dependencies.
