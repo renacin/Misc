@@ -34,6 +34,10 @@ Notes:
 
 
         Database Normalization Concepts
+            Prime Attributes:
+                + Attributes of the database tables which are candidate keys of the database tables 
+                are called prime attributes
+
             Keys: 
                 + Column attributes that identify a database record uniquely
                 + Types Of Keys In Databases
@@ -70,7 +74,7 @@ Notes:
                 + Example:  StudentID(CK), ProjectID(CK), StudentName, ProjectName
                 +           StudentName depends on StudentID, but not Project ID
                 +           ProjectName depends on ProjectID, but not Student ID
-                + Solution: Two Tables | EmployeeTable[EMP_ID, PROJECT_ID] | ProjectTable[Project_ID, PROJECT, MANAGER]
+                + Solution: Two Tables | Student[StudentID, ProjectID, StudentName] | ProjectTable[Project_ID, PROJECT, MANAGER]
 
 
             Transitive Dependencies:
@@ -93,11 +97,14 @@ Notes:
                 + The state before any normalization. Redundant and complex values are present.
                 + Nothing has been changes. Similar to raw CSV data with non-atomic values. 
 
+
             First Normal Form (1NF)
+                + Each record must be unique
                 + Repeating and complex values split up, making all instances atomic.
                 + Do not keep multiple values under in one cell
                 + Example: Magazine Subscription [Basketball, Soccer, Golf]
                 + Database is considered in poor condition if 1NF not met
+
 
             Second Normal Form (2NF)
                 + First 1NF conditions must be met
@@ -105,19 +112,30 @@ Notes:
                 + Partial dependencies must be decomposed into new tables
                 + All rows functionally depend on the primary key.
             
+
             Third Normal Form (3NF)
                 + First 2NF conditions must be met
                 + Transitive dependencies decompose to new tables
                 + Non-key attributes depend on the primary key.
 
+
             Boyce-Codd Normal Form (BCNF / 3.5NF)
                 + Transitive and partial functional dependencies for all candidate keys decompose to new tables.
+
 
             Fourth Normal Form (4NF)
                 + Removal of multivalued dependencies.
 
+
             Fifth Normal Form (5NF)
                 + Removal of JOIN dependencies.
+
+
+        In Simpler Terms: Normalization Of A Database
+            1) Ensure no duplicate rows are in database, and all values in attributes are atomic
+            2) Find all primary keys, candidate keys, and map all dependencies
+            3) With dependencies mapped, seperate tables to eliminate partial, and transient dependencies
+            4) 
 
 
         Ex:
