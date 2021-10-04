@@ -60,14 +60,41 @@ Notes:
 
     -------------------------------------------------------------------------------------------------------------------
     Object-Oriented Programming:
-        + 
+
+        + OOP is an approach to programming that recognizes everything as a collection of objects, those objects work
+          in tandem with one another to solve a particular problem at hand
+        + Focus of OOP is encapsulation, explains the idea that each object which holds the program is self-sustainable, 
+          all components that make up the object are within the object itself. 
+        + Objects can be taken from one program and used to resolve another problem
+          at hand with little or no alterations.
+        + All functions and methods tied to that Object must be encapsulated within for it to be OOP
+
+        Key Features:
+            + Methods
+            + Encapsulation
+            + Inheritance
+            + Encapsulation
+            + Polymorphism
+
+        Advantages
+            + Due to modularity and encapsulation, OOP offers ease of management
+            + OOP mimics the real world, making it easier to understand
+            + Since objects are whole within themselves, they are reusable in other programs
+
+        Disadvantages
+            + Object-Oriented programs tend to be slower and use up a high amount of memory
+            + Over-generalization
+            + Programs built using this paradigm may take longer to be created
 
         Example:
-            def function(input_list):
-                sum = 0
-                for x in input_list:
-                    sum += x
-                return sum
+            class ChangeList(object):
+                def __init__(self, any_list):
+                    self.any_list = any_list
 
-            print(function(input_list))
+                def do_add(self):
+                  self.sum = sum(self.any_list)
+
+            create_sum = ChangeList(my_list)
+            create_sum.do_add()
+            print(create_sum.sum)
 
