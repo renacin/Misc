@@ -1,161 +1,73 @@
 Name:                                            Renacin Matadeen
-Date:                                               06/30/2020
-Title                                      Understanding Big-O-Notation
+Date:                                              04/10/2021
+Title                                   Procedural Vs. Functional Programming 
 ------------------------------------------------------------------------------------------------------------------------
-General:
-    - Examples From:
-        https://stackabuse.com/big-o-notation-and-algorithm-analysis-with-python-examples/
-        https://towardsdatascience.com/understanding-time-complexity-with-python-examples-2bda6e8158a7
-        https://skerritt.blog/big-o/#-how-to-calculate-big-o-notation-of-a-function-discrete-maths-
+
+Following:
+    + CyberU: Functional Programming In Python
+    + https://hackr.io/blog/procedural-programming
+    + https://newrelic.com/blog/nerd-life/python-programming-styles
+    + https://www.programiz.com/python-programming/object-oriented-programming
 
 
-    - Big O In Order Of Time Complexity:
-        = O(1) ----------- Constant
-        = O(logN) -------- Logarithmic
-        = O(RootN) ------- Root
-        = O(N) ----------- Linear
-        = O(logN^C) ------ PolyLogarithmic
-        = O(N^C) --------- Polynomial
-        = O(C^N) --------- Exponential
-        = O(N!) ---------- Factorial
+Notes:
+    + Like painting, cooking, or writing there are many ways to create an end product. Programming is very similar.
+    + Generally speaking, most developers aim to develop a robust product, that is efficient in its computation, as well as
+      in regards to the time it takes.
 
-    - We don't say that a function is Big O XX, rather that it falls within Big O of XX
+    + A developer can develop code in 4 ways; Procedurally, Functionally, Imperative, or Via Object Oriented Design
+    + Each has it's own strengths, and weaknesses; and it is up to the developer to decide which works best in any scenario
 
-    - Big O refers to the worst case scenario [Upper Bound]
-    - Theta refers to the average case scenario [Average Bound]
-    - Omega Refers to the lowest case scenario [Lower Bound]
+    -------------------------------------------------------------------------------------------------------------------
+    Procedural Programming:
+        + Procedural Programming may be the first programming paradigm that a new developer will learn. Fundamentally, 
+          the procedural code is the one that directly instructs a device on how to finish a task in logical steps
+        + A linear top-down approach and treats data and procedures as two different entities
+        + Procedural Programming divides the program into procedures, which are also known as 
+          routines or functions, simply containing a series of steps to be carried out
 
-    - Remember many operations are conducted in a loop
-        print("Hello")         = 1
-        for x in range(n):     = n + 1 [Loops N times, however at the last loop one more iteration is conducted to end]
-            print(x)           = n [Printed N time]
+        Key Features:
+            + Predefined functions
+            + Local Variable
+            + Global Variable
+            + Modularity
+            + Parameter Passing
 
-        = 1 + n + 1 + n
-        = 2n + 2
+        Advantages
+            + Procedural Programming is excellent for general-purpose programming
+            + The coded simplicity along with ease of implementation of compilers and interpreters
+            + A large variety of books and online course material available on tested algorithms, making it easier to learn along the way
+            + The source code is portable, therefore, it can be used to target a different CPU as well
+            + The code can be reused in different parts of the program, without the need to copy it
+            + Through Procedural Programming technique, the memory requirement also slashes
+            + The program flow can be tracked easily
 
-    - Time complexity depends on the structure that it is in
-        Ex:
-            Time Complexity Of A While Loop
-                + Depends on the control case [the thing that make the true statement that keeps it looping]
+        Disadvantages
+            + The Procedural code is often not reusable, which may pose the need to recreate the code if is needed to use in another application
+            + Difficult to relate with real-world objects
+            + The importance is given to the operation rather than the data, which might pose issues in some data-sensitive cases
+            + The data is exposed to the whole program, making it not so security friendly
 
-                   LINEAR WHILE LOOP
-                    - n = 0               = 1
-                    - while n <= 10:      = n + 1
-                        print(n)          = n
-                        n = n + 1         = n
+        Example:
+            def function(input_list):
+                sum = 0
+                for x in input_list:
+                    sum += x
+                return sum
 
-                    LOGARITHMIC WHILE LOOP
-                     - n = 10'000         = 1
-                     - while n > 0:       = Log10N + 1
-                         print(n)         = Log10N
-                         n = n // 10      = Log10N
+            print(function(input_list))
 
----------------------------------------[EXAMPLE #1A - Constant Complexity]----------------------------------------------
-Ex:
-    print("Hello World")               = 1
 
-BigO:
-    = O(1)
+    -------------------------------------------------------------------------------------------------------------------
+    Object-Oriented Programming:
+        + 
 
-Explanation:
-    - In this case the section of code will always take the same amount of time
-    - Size of inputs does not influence the time a code takes to run
+        Example:
+            def function(input_list):
+                sum = 0
+                for x in input_list:
+                    sum += x
+                return sum
 
----------------------------------------[EXAMPLE #2A - Logarithmic Complexity]-------------------------------------------
-Ex:
-    for name in N:                      = n + 1
-        print(name)                     = n
+            print(function(input_list))
 
-BigO:
-    = n + 1 + n
-    = 2n + 1
-    = O(N)
-
-Explanation:
-    - The time it takes decreases by half for every iteration
-    - 100'000, 50'000, 25'000, 12'500, 6'250, 3'125, 1'562
-    - Resembles a logarithmic pattern
-    -Binary Search Tree is a good example of a function taking O(LogN)
-
-----------------------------------------[EXAMPLE #3A - Logarithmic Complexity]------------------------------------------
-Ex:
-    number = 100'000                    = 1
-    while number > 0:                   = Log10N + 1
-        print(number)                   = Log10N
-        number = number // 10           = Log10N
-
-BigO:
-    = O(LogN) [Note that in this case the base is 10, not 2]
-
-Explanation:
-    - The time it takes to run this section of code depends on the number of inputs
-    - The larger the number of inputs the longer it takes to run this section of code
-
-------------------------------------[EXAMPLE #3B - Complex Linear Complexity]-------------------------------------------
-Ex:
-    print("Last Names:")
-    for last_name in list_of_last_names:
-        print(last_name)
-
-    print("First Names:")
-    for first_name in list_of_first_names:
-        print(first_name)
-
-BigO:
-    = O(1) + O(N) + O(1) + O(N)
-    = O(2) + O(2N)
-    = O(2N)
-
----------------------------------------[EXAMPLE #4A - Polynomial Complexity]--------------------------------------------
-Ex:
-    for first_name in list_of_first_names:
-        for last_name in list_of_last_names:
-            print(first_name, last_name)
-
-BigO:
-    = O(N^2)
-
-Explanation:
-    - For each item in the outer loop, loop through the values of the inner loop
-    - Simply stated, N*N (For the number of nested loops)
-
------------------------------------[EXAMPLE #4B - Complex Polynomial Complexity]----------------------------------------
-Ex:
-    for first_name in list_of_first_names:
-        for last_name in list_of_last_names:
-            for nation in nation_list
-                print(first_name, last_name, nation)
-
-    print("Hello World")
-
-    for first_name in list_of_first_names:
-        print(first_name)
-
-BigO:
-    = O(N^3) + O(1) + O(N)
-    = O(N^3)
-
---------------------------------------[EXAMPLE #5A - Exponential Complexity]--------------------------------------------
-Ex:
-    def recur(n):
-       if n == 1:                               = 1
-            return n                            = 1
-       else:                                    = 2^n
-            return(recur(n-1) + recur(n-1))
-
-BigO:
-    = O(2^N)
-
-Explanation:
-    - If base case is not satisfied, value will create recursively iterate, and then try to compute
-
-    L0                                  4
-                                        |
-    L1                          3 ------------- 3
-                                |               |
-    L2                      2 ----- 2       2 ----- 2
-                            |       |       |       |
-    L3                    1---1   1---1   1---1   1---1
-
-    - In this case Big(O) is 2^N+1 - 1, where N is the number of branches
-    - Recursion is hard, Need more help
