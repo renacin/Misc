@@ -98,3 +98,32 @@ Notes:
             create_sum.do_add()
             print(create_sum.sum)
 
+
+    -------------------------------------------------------------------------------------------------------------------
+    Functional Programming:
+
+        + Another highly used programming paradigm is Functional Programming. Functional Programming is way differs from both Procedural Programming
+          and Object-Oriented Programming as it makes use of mathematical functions. Better yet, it treats everything like a math function
+        + Through this, the operations are performed only on the basis of the inputs that are entered, and they do not rely on temporary or hidden variables.
+
+        Advantages
+            + Functional Programming offers a protected environment
+            + While many other languages require a substantial amount of information in order to perform operations properly, function programming 
+              eliminates the need for a large amount of code needed to define states
+            + Since this paradigm is only dependent on the input arguments, there are no side-effects 
+
+        Disadvantages
+            + Using Functional programming solely in commercial software development is not recommended and done
+            + It requires a large amount of memory and time
+            + It can prove to be less efficient than other paradigms
+
+        Example:
+            import functools
+
+            my_list = [1, 2, 3, 4, 5]
+
+            def add_it(x, y):
+                return (x + y)
+
+            sum = functools.reduce(add_it, my_list)
+            print(sum)
