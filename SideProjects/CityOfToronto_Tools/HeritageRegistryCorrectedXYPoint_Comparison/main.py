@@ -3,46 +3,30 @@
 # Title                  City Of Toronto Heritage Registry - Corrected & Inoperable X/Y Data Comparison
 #
 # ----------------------------------------------------------------------------------------------------------------------
-# import pandas as pd
-# import numpy as np
-
+import pandas as pd
 # ----------------------------------------------------------------------------------------------------------------------
 
-def compare_data(df1: "Pandas Dataframe", df1_name: str, df2: "Pandas Dataframe", df2_name: str) -> "Multiple CSVs":
-    """ Compare Both Datasets & Return Counts Of Common, Uncommon Rows. Outputs CSVs Will Be Written """
-
-    # Merge Datasets
-    combined_df = df1.merge(df2, on="PRSN", how="outer", indicator=True)
-
-    # Change Column Names, Change Merge Values To Better Represent Origin
-    mapset = {"left_only": df1_name, "right_only": df2_name, "both": "Both Datasets"}
-    combined_df.replace({"_merge": mapset}, inplace=True)
-    combined_df.drop(["ADDRESS_y"], axis=1, inplace=True)
-    combined_df.rename(columns = {"ADDRESS_x": "ADDRESS", "_merge": "Dataset Origin"}, inplace = True)
-
-    # Report Number Of Common Rows, Uncommon Rows For Each Dataset
-    for origin in mapset.values():
-        filtered_df = combined_df[combined_df["Dataset Origin"] == origin]
-        print(f"REPORT - Unique Rows Found In {origin}: {len(filtered_df)}")
-
-    # Export Data As CSV
-    combined_df.to_csv(r"C:\Users\renac\Desktop\Comparison_Dataset.csv", index=False)
+def compare_datasets():
+    """ This function compares both datasets """
+    pass
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 def main():
-    """ Main logic of this python script. Import data, clean data, and then create comparison datasets from original
-    data. Run if name equals main. """
-
+    """ Main logic of python file """
     # Sources Of Data
-    good_xy = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\HeritageRegistryDataQA\Data\DataFromIBMSTeam.csv"
-    bad_xy = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\HeritageRegistryDataQA\Data\DataFromHeritageTeam.csv"
+    good_xy = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\HeritageRegistryCorrectedXYPoint_Comparison\Data\Good_XY_Data.csv"
+    bad_xy = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\HeritageRegistryCorrectedXYPoint_Comparison\Data\Bad_XY_Data.csv"
+
+    df_good_xy = pd.read_csv(good_xy)
+    df_bad_xy = pd.read_csv(bad_xy)
 
     # Read Both Sources Of Data
+    print(df_good_xy.info())
+    print(df_bad_xy.info())
 
-
-    # # Compare Both Datasets, Which Are Common, Which Can Only Be Found In Both
-    # Dataset.compare_data(no_dup_ibms_df, "IBMS Data", no_dup_heritage_df, "Heritage Data")
+    # Compare Both Sets Of Data
+    compare_datasets()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
