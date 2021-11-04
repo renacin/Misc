@@ -33,9 +33,26 @@ def clean_datasets(df1_: "Pandas Dataframe", df2_: "Pandas Dataframe", focus_col
     df1[focus_col] = df1[focus_col].apply(lambda x: concat_string(str(x)))
     df2[focus_col] = df2[focus_col].apply(lambda x: concat_string(str(x)))
 
-    # Print Max Comment Lenghts for Each Dataset
-    print(df1.head())
-    print(df2.head())
+    return df1, df2
+
+
+def compare_data(df1: "Pandas Dataframe", df1_name: str, df2: "Pandas Dataframe", df2_name: str) -> "CSV":
+    """ Compare Both Datasets & Return Counts Of Common, Uncommon Rows. Outputs CSVs Will Be Written """
+
+    # Merge Datasets
+    combined_df = df1.merge(df2, on=["Address", "Details"], how="outer", indicator=True)
+
+    # Change Column Names, Change Merge Values To Better Represent Origin
+    mapset = {"left_only": df1_name, "right_only": df2_name, "both": "Both Datasets"}
+    combined_df.rename(columns = {"_merge": "Dataset Origin"}, inplace = True)
+
+    # Report Number Of Common Rows, Uncommon Rows For Each Dataset
+    for origin in mapset.values():
+        filtered_df = combined_df[combined_df["Dataset Origin"] == origin]
+        print(f"REPORT - Unique Rows Found In {origin}: {len(filtered_df)}")
+
+    # Export Data As CSV
+    combined_df.to_csv(r"C:\Users\renac\Desktop\Comparison_Dataset.csv", index=False)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -46,11 +63,15 @@ def main():
     good_xy = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\HeritageRegistryCorrectedXYPoint_Comparison\Data\Good_XY_Data.csv"
     bad_xy = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\HeritageRegistryCorrectedXYPoint_Comparison\Data\Bad_XY_Data.csv"
 
-    # Clean Both Datasets
+    # Read Datasets As Pandas Dataframes
     df_good_xy = pd.read_csv(good_xy)
     df_bad_xy = pd.read_csv(bad_xy)
-    clean_datasets(df_good_xy[["Address", "Details"]], df_bad_xy[["Address", "Details"]], "Details")
 
+    # Clean Datasets
+    df_good_xy, df_bad_xy = clean_datasets(df_good_xy[["Address", "Details"]], df_bad_xy[["Address", "Details"]], "Details")
+
+    # Make Comparisons Between Datasets
+    compare_data(df_good_xy, "Corrected XY Data", df_bad_xy, "Raw IBMS Datacut")
 
 # ----------------------------------------------------------------------------------------------------------------------
 if __name__ == "__main__":
