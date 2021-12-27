@@ -32,3 +32,46 @@ class FileCrawler():
         except PermissionError:
             print("Files Currently Open In Another Program")
             raise PermissionError
+
+
+    @staticmethod
+    def question_1n():
+        """
+        Question:
+        Create a function that looks for through nested folders for images, and returns their metadata.
+        Completed:
+        03-14-2021
+        """
+
+        picture_cache = []
+        def find_picmetadata(path):
+
+            directory_ = os.listdir(path)
+            for item in directory_:
+
+                item_path = path + "\\" + item
+
+                # If The Item Is A Folder Call Recursive Function & Look For Pictures
+                if os.path.isdir(item_path):
+                    find_picmetadata(item_path)
+
+                # The Item Is A File | Append Data To Cache
+                root, extension = os.path.splitext(item_path)
+                if extension in [".jpeg", ".jpg", ".png", ".tiff", ".tif"]:
+                    image = Image.open(item_path)
+                    img_exif = image.getexif()
+
+                    # Look For EXIF Data | Create Cleaned DF | Append To List
+                    if img_exif:
+                        temp_dict = {}
+                        img_exif_dict = dict(img_exif)
+                        for key, val in img_exif_dict.items():
+                            if key in ExifTags.TAGS:
+                                temp_dict[ExifTags.TAGS[key]] = val
+                        temp_dict["IMAGE_NAME"] = item_path
+                        picture_cache.append(temp_dict)
+
+        # specify your path of directory
+        path = r"C:\Users\renac\Documents\Programming\Python\PracticingPython\PracticeQuestions\Misc"
+        find_picmetadata(path)
+        print(picture_cache)
