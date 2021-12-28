@@ -63,7 +63,7 @@ class FileCrawler:
 
         last_acc = str(datetime.datetime.fromtimestamp(int(stat_dict["st_atime"])))
         last_mod = str(datetime.datetime.fromtimestamp(int(stat_dict["st_mtime"])))
-        file_size = round((int(stat_dict["st_size"]) / 1000000), 2)
+        file_size = round((int(stat_dict["st_size"]) / 1000000), 4)
 
         return last_acc, last_mod, file_size
 
@@ -116,3 +116,4 @@ class FileCrawler:
 
         # Grab Data & Write Out To Provided Location
         data_df = pd.DataFrame.from_dict(self.crawler_storage["Data"])
+        data_df.to_csv(out_path, index=False)

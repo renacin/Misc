@@ -12,10 +12,10 @@ def main():
 
     # Create Instance Of File Crawler & Gather Data
     crawler = FileCrawler()
-    crawler.gather_data(r"C:\Users\renac\Desktop\IH_Transfer")
-    crawler.view_data()
+    crawler.gather_data(r"C:\Users\renac\Desktop\IH_Project")
 
     # Once All Files & Folders Have Been Crawled Return Data As CSV
+    crawler.export_data(r"C:\Users\renac\Desktop\Data.csv")
 
 # ----------------------------------------------------------------------------------------------------------------------
 if __name__ == "__main__":
