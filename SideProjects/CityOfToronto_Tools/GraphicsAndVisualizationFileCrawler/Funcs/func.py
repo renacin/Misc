@@ -17,7 +17,7 @@ class FileCrawler:
         self.crawler_storage = {
                                 "Date": str(date.today().strftime("%d/%m/%Y")),
                                 "PathsCrawled": [],
-                                "Data": {}
+                                "Data": []
                                 }
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -42,12 +42,23 @@ class FileCrawler:
 
 
     def __write_data(self, obj_type: str, item_path: str):
-        """ Given a file, gather as much usable information; write to storage. """
+        """ Given a file, gather as much usable information; write to crawler storage. """
 
         if obj_type == "File":
             file_type = "." + item_path.split(".")[-1].upper()
 
-        # print(str(os.stat(item_path)).split(","))
+        rd_1 = str(os.stat(item_path))
+        for correction in ["os.stat_result(", ")", " "]:
+            rd_1 = rd_1.replace(correction, "")
+
+        stat_names = [(x.split("="))[0] for x in rd_1.split(",")]
+        stat_vals = [(x.split("="))[-1] for x in rd_1.split(",")]
+
+        for x, y in zip(stat_names, stat_vals):
+            print(x, y)
+
+        # TODO!!!!!!!!!!!!!!!!!!!!
+
 
 
     # ------------------------------------------------------------------------------------------------------------------
