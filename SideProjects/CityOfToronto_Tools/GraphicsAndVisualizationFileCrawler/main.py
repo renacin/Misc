@@ -10,9 +10,9 @@ from Funcs.func import *
 def main():
     """ Main Logic Of File Crawler """
 
-    # Create Instance Of File Crawler
-
-    # Pass Path To Crawl For Files & Folders
+    # Create Instance Of File Crawler & Gather Data
+    crawler = FileCrawler()
+    crawler.gather_data(r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools")
 
     # Once All Files & Folders Have Been Crawled Return Data As CSV
 

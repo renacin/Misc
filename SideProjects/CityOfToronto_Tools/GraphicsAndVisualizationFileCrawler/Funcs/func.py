@@ -3,75 +3,72 @@
 # Title           Interval House Data Analytics Project: Canadian Census Data K-Means Clustering Attempt
 #
 # ----------------------------------------------------------------------------------------------------------------------
-import os, sys
-import pandas as pd
+from datetime import date
+import os
 # ----------------------------------------------------------------------------------------------------------------------
 
 
-class FileCrawler():
+class FileCrawler:
     """ This class stores all functions of this file crawler"""
 
+    def __init__(self):
+        """ On instantiation create a dictionary that will store parsed """
 
-    @staticmethod
-    def filter_data(data_path: str, focus_variables: list) -> "Pandas Dataframe":
-        """
-        This class method imports the CSV file as a pandas dataframe and filters it
-        based on the fields the user wants to focus on.
-        """
+        self.crawler_storage = {
+                                "Date": str(date.today().strftime("%d/%m/%Y")),
+                                "PathsCrawled": [],
+                                "Data": {}
+                                }
 
-        try:
-            df_raw = pd.read_csv(data_path)
-            df_filtered = df_raw.copy()
-            df_filtered = df_filtered.fillna(0)
+    # ------------------------------------------------------------------------------------------------------------------
+    #   PRIVATE METHODS
+    def __recursive_crawl(self, path: str):
+        """ Given a path, find files and parse data to storage. """
 
-            if len(focus_variables) != 0:
-                return df_filtered[focus_variables]
+        # Iterate Through Files & Folders | Create Complete Path
+        directory_ = os.listdir(path)
+        for item in directory_:
+            item_path = path + "\\" + item
 
-            return df_filtered
+            # If The Item Is A Folder Call Recursive Function
+            if os.path.isdir(item_path):
+                # Gather Some Data On Folders
+                self.__write_data("Folder", item_path)
+                self.__recursive_crawl(item_path)
 
-        except PermissionError:
-            print("Files Currently Open In Another Program")
-            raise PermissionError
+            # The Item Is A File | Scrape All Data
+            else:
+                self.__write_data("File", item_path)
 
 
-    @staticmethod
-    def question_1n():
-        """
-        Question:
-        Create a function that looks for through nested folders for images, and returns their metadata.
-        Completed:
-        03-14-2021
-        """
+    def __write_data(self, obj_type: str, item_path: str):
+        """ Given a file, gather as much usable information; write to storage. """
 
-        picture_cache = []
-        def find_picmetadata(path):
+        if obj_type == "File":
+            file_type = "." + item_path.split(".")[-1].upper()
 
-            directory_ = os.listdir(path)
-            for item in directory_:
+        # print(str(os.stat(item_path)).split(","))
 
-                item_path = path + "\\" + item
 
-                # If The Item Is A Folder Call Recursive Function & Look For Pictures
-                if os.path.isdir(item_path):
-                    find_picmetadata(item_path)
+    # ------------------------------------------------------------------------------------------------------------------
+    #   PUBLIC METHODS
+    def gather_data(self, path: str):
+        """ Given a path to a folder, this function will gather information on each file within that folder,
+        using recursion to reach every file"""
 
-                # The Item Is A File | Append Data To Cache
-                root, extension = os.path.splitext(item_path)
-                if extension in [".jpeg", ".jpg", ".png", ".tiff", ".tif"]:
-                    image = Image.open(item_path)
-                    img_exif = image.getexif()
+        # Check To See If Path Links To Folder. If File Return Nothing | User Error
+        cp_path = path
+        if os.path.isdir(cp_path):
+            self.__recursive_crawl(cp_path)
 
-                    # Look For EXIF Data | Create Cleaned DF | Append To List
-                    if img_exif:
-                        temp_dict = {}
-                        img_exif_dict = dict(img_exif)
-                        for key, val in img_exif_dict.items():
-                            if key in ExifTags.TAGS:
-                                temp_dict[ExifTags.TAGS[key]] = val
-                        temp_dict["IMAGE_NAME"] = item_path
-                        picture_cache.append(temp_dict)
+        else:
+            return
 
-        # specify your path of directory
-        path = r"C:\Users\renac\Documents\Programming\Python\PracticingPython\PracticeQuestions\Misc"
-        find_picmetadata(path)
-        print(picture_cache)
+        # Provided Paths +1
+        if os.path.isdir(path):
+            self.crawler_storage["PathsCrawled"].append(path)
+
+
+    def export_data(self) -> "CSV":
+        """ Once data has been collected this function will export data as a CSV for additional analysis """
+        pass
