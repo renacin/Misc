@@ -1,10 +1,11 @@
 # Name:                                            Renacin Matadeen
-# Date:                                               10/31/2021
-# Title           Interval House Data Analytics Project: Canadian Census Data K-Means Clustering Attempt
+# Date:                                               12/25/2021
+# Title                        City Of Toronto: Graphics & Visualization File Crawler
 #
 # ----------------------------------------------------------------------------------------------------------------------
 import datetime
 import os
+import pandas as pd
 # ----------------------------------------------------------------------------------------------------------------------
 
 
@@ -16,7 +17,7 @@ class FileCrawler:
 
     def __init__(self):
         """ On instantiation create a dictionary that will store parsed """
-        self.all_cols = ["Item_Path", "Object Type", "File Type", "File Size (KB)", "Last Accessed", "Last Modified"]
+        self.all_cols = ["Item_Path", "Object Type", "File Type", "File Size (MB)", "Last Accessed", "Last Modified"]
         self.crawler_storage = {
                                 "Date": str(datetime.date.today().strftime("%d/%m/%Y")),
                                 "PathsCrawled": [],
@@ -55,14 +56,14 @@ class FileCrawler:
         for correction in ["os.stat_result(", ")", " "]:
             rd_1 = rd_1.replace(correction, "")
 
-        # Find Important Information (File Size (In KB), Date Created, Modified, Etc...)
+        # Find Important Information (File Size (In MB), Date Created, Modified, Etc...)
         stat_names = [(x.split("="))[0] for x in rd_1.split(",")]
         stat_vals = [(x.split("="))[-1] for x in rd_1.split(",")]
         stat_dict = dict(zip(stat_names, stat_vals))
 
         last_acc = str(datetime.datetime.fromtimestamp(int(stat_dict["st_atime"])))
         last_mod = str(datetime.datetime.fromtimestamp(int(stat_dict["st_mtime"])))
-        file_size = int(stat_dict["st_mtime"]) / 1000
+        file_size = round((int(stat_dict["st_size"]) / 1000000), 2)
 
         return last_acc, last_mod, file_size
 
@@ -103,6 +104,15 @@ class FileCrawler:
             self.crawler_storage["PathsCrawled"].append(path)
 
 
-    def export_data(self) -> "CSV":
+    def view_data(self):
+        """ Print data as Pandas Dataframe """
+
+        data_df = pd.DataFrame.from_dict(self.crawler_storage["Data"])
+        print(data_df)
+
+
+    def export_data(self, out_path: str) -> "CSV":
         """ Once data has been collected this function will export data as a CSV for additional analysis """
-        print(self.crawler_storage)
+
+        # Grab Data & Write Out To Provided Location
+        data_df = pd.DataFrame.from_dict(self.crawler_storage["Data"])
