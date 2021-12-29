@@ -13,9 +13,6 @@ import pandas as pd
 class FileCrawler:
     """ This class stores all functions of this file crawler"""
 
-    # Private Variables
-
-
     def __init__(self):
         """ On instantiation create a dictionary that will store parsed """
         self.all_cols = ["Item_Path", "File Name", "Object Type", "File Type", "File Size (MB)", "Last Accessed", "Last Modified"]
@@ -49,7 +46,7 @@ class FileCrawler:
                 self.__write_data("File", item_path)
 
 
-    def __str2data(self, item_path: str) -> "Dictionary Row":
+    def __str2data(self, item_path: str):
         """ Given a string, parse out & format important details about file """
 
         # Parse File Size, Date Created Info (In KB, & Date Formats)
@@ -81,7 +78,7 @@ class FileCrawler:
             last_acc, last_mod, file_size, filename= self.__str2data(item_path)
 
         else:
-            file_type, last_acc, last_mod, file_size, filename = "", "", "", "", ""
+            file_type = last_acc = last_mod = file_size = filename = ""
 
         # Write Data To Internal Crawler Storage
         all_data = [item_path, filename, obj_type, file_type, file_size, last_acc, last_mod]
@@ -128,9 +125,9 @@ class FileCrawler:
             data_df = pd.DataFrame.from_dict(self.crawler_storage["Data"])
 
             # Create Add Notes To CSV File
-            with open(out_path, 'a', encoding='UTF8') as f:
+            with open(out_path, 'a', encoding='UTF8') as csv_f:
                 data_df.to_csv(out_path, index=False)
-                writer = csv.writer(f)
+                writer = csv.writer(csv_f)
                 cur_date = self.crawler_storage["Date"]
                 paths_crawled = self.crawler_storage["PathsCrawled"]
 
@@ -150,6 +147,6 @@ if __name__ == "__main__":
 
     # Create Instance Of File Crawler, Gather, & Export
     crawler = FileCrawler()
-    crawler.gather_data(r"C:\Users\renac\Desktop\IH_Project")
+    crawler.gather_data(r"")
     crawler.view_data()
-    crawler.export_data(r"C:\Users\renac\Desktop\Data.csv")
+    crawler.export_data(r"")
