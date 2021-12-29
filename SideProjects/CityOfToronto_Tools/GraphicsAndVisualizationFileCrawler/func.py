@@ -117,3 +117,16 @@ class FileCrawler:
         # Grab Data & Write Out To Provided Location
         data_df = pd.DataFrame.from_dict(self.crawler_storage["Data"])
         data_df.to_csv(out_path, index=False)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+# Main Entry Point
+if __name__ == "__main__":
+
+    # Create Instance Of File Crawler & Gather Data
+    crawler = FileCrawler()
+    crawler.gather_data(r"C:\Users\renac\Desktop\IH_Project")
+
+    # Once All Files & Folders Have Been Crawled Return Data As CSV
+    crawler.export_data(r"C:\Users\renac\Desktop\Data.csv")
