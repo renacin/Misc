@@ -4,6 +4,7 @@
 #
 # ----------------------------------------------------------------------------------------------------------------------
 import datetime
+import csv
 import os
 import pandas as pd
 # ----------------------------------------------------------------------------------------------------------------------
@@ -17,7 +18,7 @@ class FileCrawler:
 
     def __init__(self):
         """ On instantiation create a dictionary that will store parsed """
-        self.all_cols = ["Item_Path", "Object Type", "File Type", "File Size (MB)", "Last Accessed", "Last Modified"]
+        self.all_cols = ["Item_Path", "File Name", "Object Type", "File Type", "File Size (MB)", "Last Accessed", "Last Modified"]
         self.crawler_storage = {
                                 "Date": str(datetime.date.today().strftime("%d/%m/%Y")),
                                 "PathsCrawled": [],
@@ -65,7 +66,10 @@ class FileCrawler:
         last_mod = str(datetime.datetime.fromtimestamp(int(stat_dict["st_mtime"])))
         file_size = round((int(stat_dict["st_size"]) / 1000000), 4)
 
-        return last_acc, last_mod, file_size
+        # Parse File Name
+        filename = item_path.split("\\")[-1].split(".")[0]
+
+        return last_acc, last_mod, file_size, filename
 
 
     def __write_data(self, obj_type: str, item_path: str):
@@ -74,13 +78,13 @@ class FileCrawler:
         # Determine The File Type & Basic Details
         if obj_type == "File":
             file_type = "." + item_path.split(".")[-1].upper()
-            last_acc, last_mod, file_size = self.__str2data(item_path)
+            last_acc, last_mod, file_size, filename= self.__str2data(item_path)
 
         else:
-            file_type, last_acc, last_mod, file_size = "", "", "", ""
+            file_type, last_acc, last_mod, file_size, filename = "", "", "", "", ""
 
         # Write Data To Internal Crawler Storage
-        all_data = [item_path, obj_type, file_type, file_size, last_acc, last_mod]
+        all_data = [item_path, filename, obj_type, file_type, file_size, last_acc, last_mod]
         for name, data_entry in zip(self.all_cols, all_data):
             self.crawler_storage["Data"][name].append(data_entry)
 
@@ -114,9 +118,29 @@ class FileCrawler:
     def export_data(self, out_path: str) -> "CSV":
         """ Once data has been collected this function will export data as a CSV for additional analysis """
 
-        # Grab Data & Write Out To Provided Location
-        data_df = pd.DataFrame.from_dict(self.crawler_storage["Data"])
-        data_df.to_csv(out_path, index=False)
+        # Make Sure The File Isn't Already Open
+        try:
+            # Check To See If File Already Exists | Delete If True
+            if os.path.exists(out_path):
+                os.remove(out_path)
+
+            # Grab Data & Write Out To Provided Location
+            data_df = pd.DataFrame.from_dict(self.crawler_storage["Data"])
+
+            # Create Add Notes To CSV File
+            with open(out_path, 'a', encoding='UTF8') as f:
+                data_df.to_csv(out_path, index=False)
+                writer = csv.writer(f)
+                cur_date = self.crawler_storage["Date"]
+                paths_crawled = self.crawler_storage["PathsCrawled"]
+
+                writer.writerow("")
+                writer.writerow(["Date Collected: ", cur_date])
+                writer.writerow(["# Of Main Paths Searched: ", str(len(paths_crawled))])
+                writer.writerow(["Main Paths Searched: ", paths_crawled])
+
+        except PermissionError as err:
+            print(err)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -124,9 +148,8 @@ class FileCrawler:
 # Main Entry Point
 if __name__ == "__main__":
 
-    # Create Instance Of File Crawler & Gather Data
+    # Create Instance Of File Crawler, Gather, & Export
     crawler = FileCrawler()
     crawler.gather_data(r"C:\Users\renac\Desktop\IH_Project")
-
-    # Once All Files & Folders Have Been Crawled Return Data As CSV
+    crawler.view_data()
     crawler.export_data(r"C:\Users\renac\Desktop\Data.csv")
