@@ -59,9 +59,11 @@ class FileCrawler:
         stat_vals = [(x.split("="))[-1] for x in rd_1.split(",")]
         stat_dict = dict(zip(stat_names, stat_vals))
 
-        last_acc = str(datetime.datetime.fromtimestamp(int(stat_dict["st_atime"])))
-        last_mod = str(datetime.datetime.fromtimestamp(int(stat_dict["st_mtime"])))
+
+        # last_acc = str(datetime.datetime.fromtimestamp(int(1418911410L)))
+        # last_mod = str(datetime.datetime.fromtimestamp(int(1418911410L)))
         file_size = round((int(stat_dict["st_size"]) / 1000000), 4)
+
 
         # Parse File Name
         filename = item_path.split("\\")[-1].split(".")[0]
@@ -146,7 +148,19 @@ class FileCrawler:
 if __name__ == "__main__":
 
     # Create Instance Of File Crawler, Gather, & Export
-    crawler = FileCrawler()
-    crawler.gather_data(r"C:\Users\renac\Desktop\TESTING_OUTPUT")
-    crawler.view_data()
-    crawler.export_data(r"C:\Users\renac\Desktop\Test.csv")
+    # crawler = FileCrawler()
+    # crawler.gather_data(r"C:\Users\renac\Desktop\TESTING_OUTPUT")
+    # crawler.view_data()
+    # crawler.export_data(r"C:\Users\renac\Desktop\Test.csv")
+
+    atime = "1418911410L" # stat_dict["st_atime"]
+    mtime = "1418911410L" # stat_dict["st_mtime"]
+
+    # Clean Timestamps Just Incase
+    print(atime.isnumeric())
+    print(mtime.isnumeric())
+    if (not atime.isnumeric()) or (not mtime.isnumeric()):
+        print("Alpha Detected")
+
+
+    print("df" + 1)
