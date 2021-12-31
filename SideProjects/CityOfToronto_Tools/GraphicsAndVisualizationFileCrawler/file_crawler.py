@@ -27,7 +27,7 @@ class FileCrawler:
 
     # ------------------------------------------------------------------------------------------------------------------
     #   PRIVATE METHODS
-    def __recursive_crawl(self, path: str):
+    def __recursive_crawl(self, path):
         """ Given a path, find files and parse data to storage. """
 
         # Iterate Through Files & Folders | Create Complete Path
@@ -46,7 +46,7 @@ class FileCrawler:
                 self.__write_data("File", item_path)
 
 
-    def __str2data(self, item_path: str):
+    def __str2data(self, item_path):
         """ Given a string, parse out & format important details about file """
 
         # Parse File Size, Date Created Info (In KB, & Date Formats)
@@ -59,11 +59,18 @@ class FileCrawler:
         stat_vals = [(x.split("="))[-1] for x in rd_1.split(",")]
         stat_dict = dict(zip(stat_names, stat_vals))
 
+        # Convert Values To String Just In Case
+        atime = str(stat_dict["st_atime"])
+        mtime = str(stat_dict["st_mtime"])
 
-        # last_acc = str(datetime.datetime.fromtimestamp(int(1418911410L)))
-        # last_mod = str(datetime.datetime.fromtimestamp(int(1418911410L)))
+        # Clean Timestamps Just Incase
+        if atime[-1].isalpha() and mtime[-1].isalpha():
+            atime = atime[:-1]
+            mtime = mtime[:-1]
+
+        last_acc = str(datetime.datetime.fromtimestamp(int(atime)))
+        last_mod = str(datetime.datetime.fromtimestamp(int(mtime)))
         file_size = round((int(stat_dict["st_size"]) / 1000000), 4)
-
 
         # Parse File Name
         filename = item_path.split("\\")[-1].split(".")[0]
@@ -71,7 +78,7 @@ class FileCrawler:
         return last_acc, last_mod, file_size, filename
 
 
-    def __write_data(self, obj_type: str, item_path: str):
+    def __write_data(self, obj_type, item_path):
         """ Given a file, gather as much usable information; write to crawler storage. """
 
         # Determine The File Type & Basic Details
@@ -90,7 +97,7 @@ class FileCrawler:
 
     # ------------------------------------------------------------------------------------------------------------------
     #   PUBLIC METHODS
-    def gather_data(self, path: str):
+    def gather_data(self, path):
         """ Given a path to a folder, this function will gather information on each file within that folder,
         using recursion to reach every file"""
 
@@ -114,7 +121,7 @@ class FileCrawler:
         print(data_df)
 
 
-    def export_data(self, out_path: str) -> "CSV":
+    def export_data(self, out_path):
         """ Once data has been collected this function will export data as a CSV for additional analysis """
 
         # Make Sure The File Isn't Already Open
@@ -148,19 +155,7 @@ class FileCrawler:
 if __name__ == "__main__":
 
     # Create Instance Of File Crawler, Gather, & Export
-    # crawler = FileCrawler()
-    # crawler.gather_data(r"C:\Users\renac\Desktop\TESTING_OUTPUT")
-    # crawler.view_data()
-    # crawler.export_data(r"C:\Users\renac\Desktop\Test.csv")
-
-    atime = "1418911410L" # stat_dict["st_atime"]
-    mtime = "1418911410L" # stat_dict["st_mtime"]
-
-    # Clean Timestamps Just Incase
-    print(atime.isnumeric())
-    print(mtime.isnumeric())
-    if (not atime.isnumeric()) or (not mtime.isnumeric()):
-        print("Alpha Detected")
-
-
-    print("df" + 1)
+    crawler = FileCrawler()
+    crawler.gather_data(r"")
+    crawler.view_data()
+    crawler.export_data(r"")
