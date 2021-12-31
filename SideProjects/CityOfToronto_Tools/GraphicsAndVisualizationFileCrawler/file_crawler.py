@@ -15,7 +15,7 @@ class FileCrawler:
 
     def __init__(self):
         """ On instantiation create a dictionary that will store parsed """
-        self.all_cols = ["Item_Path", "File Name", "Object Type", "File Type", "File Size (MB)", "Last Accessed", "Last Modified"]
+        self.all_cols = ["Item_Path", "File Name", "Object Type", "File Type", "File Size (KB)", "Last Accessed", "Last Modified"]
         self.crawler_storage = {
                                 "Date": str(datetime.date.today().strftime("%d/%m/%Y")),
                                 "PathsCrawled": [],
@@ -62,18 +62,24 @@ class FileCrawler:
         # Convert Values To String Just In Case
         atime = str(stat_dict["st_atime"])
         mtime = str(stat_dict["st_mtime"])
+        fsize = str(stat_dict["st_size"])
+
 
         # Clean Timestamps Just Incase
         if atime[-1].isalpha() and mtime[-1].isalpha():
             atime = atime[:-1]
             mtime = mtime[:-1]
 
+        # Clean Size Just Incase
+        if fsize[-1].isalpha():
+            fsize = fsize[:-1]
+
         last_acc = str(datetime.datetime.fromtimestamp(int(atime)))
         last_mod = str(datetime.datetime.fromtimestamp(int(mtime)))
-        file_size = round((int(stat_dict["st_size"]) / 1000000), 4)
+        file_size = (int(fsize) / 1000)
 
         # Parse File Name
-        filename = item_path.split("\\")[-1].split(".")[0]
+        filename = item_path.split("\\")[-1]
 
         return last_acc, last_mod, file_size, filename
 
@@ -124,7 +130,6 @@ class FileCrawler:
     def export_data(self, out_path):
         """ Once data has been collected this function will export data as a CSV for additional analysis """
 
-        # Make Sure The File Isn't Already Open
         try:
             # Check To See If File Already Exists | Delete If True
             if os.path.exists(out_path):
@@ -134,7 +139,7 @@ class FileCrawler:
             data_df = pd.DataFrame.from_dict(self.crawler_storage["Data"])
 
             # Create Add Notes To CSV File
-            with open(out_path, 'a', encoding='UTF8') as csv_f:
+            with open(out_path, 'a') as csv_f:
                 data_df.to_csv(out_path, index=False)
                 writer = csv.writer(csv_f)
                 cur_date = self.crawler_storage["Date"]
@@ -145,7 +150,8 @@ class FileCrawler:
                 writer.writerow(["# Of Main Paths Searched: ", str(len(paths_crawled))])
                 writer.writerow(["Main Paths Searched: ", paths_crawled])
 
-        except PermissionError as err:
+        except Exception as err:
+            print("An Error Has Occured")
             print(err)
 
 
