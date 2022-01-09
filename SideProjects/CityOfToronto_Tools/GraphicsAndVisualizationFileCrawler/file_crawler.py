@@ -15,9 +15,9 @@ class FileCrawler:
 
     def __init__(self):
         """ On instantiation create a dictionary that will store parsed """
-        self.all_cols = ["Item_Path", "File Name", "Object Type", "File Type", "File Size (KB)", "Last Accessed", "Last Modified"]
+        self.all_cols = ["Full Item Path", "Folder Path", "File Name", "Object Type", "File Type", "File Size (KB)", "Last Accessed", "Last Modified", "Days Since Last Accessed", "Days Since Last Modified"]
         self.crawler_storage = {
-                                "Date": str(datetime.date.today().strftime("%d/%m/%Y")),
+                                "Date": str(datetime.date.today().strftime("%Y-%m-%d")).split(" ")[0],
                                 "PathsCrawled": [],
                                 "Data": {}
                                 }
@@ -64,7 +64,6 @@ class FileCrawler:
         mtime = str(stat_dict["st_mtime"])
         fsize = str(stat_dict["st_size"])
 
-
         # Clean Timestamps Just Incase
         if atime[-1].isalpha() and mtime[-1].isalpha():
             atime = atime[:-1]
@@ -74,14 +73,24 @@ class FileCrawler:
         if fsize[-1].isalpha():
             fsize = fsize[:-1]
 
+        # Final Bits Of Formatting
         last_acc = str(datetime.datetime.fromtimestamp(int(atime)))
         last_mod = str(datetime.datetime.fromtimestamp(int(mtime)))
         file_size = (int(fsize) / 1000)
-
-        # Parse File Name
         filename = item_path.split("\\")[-1]
 
-        return last_acc, last_mod, file_size, filename
+        # Get Days Since For Last Accessed & Last Modified
+        date_format = "%Y-%m-%d"
+        d_la = datetime.datetime.strptime(last_acc.split(" ", maxsplit=1)[0], date_format)
+        d_lm = datetime.datetime.strptime(last_acc.split(" ", maxsplit=1)[0], date_format)
+
+        dsla = datetime.datetime.strptime(self.crawler_storage["Date"], date_format) - d_la
+        dslm = datetime.datetime.strptime(self.crawler_storage["Date"], date_format) - d_lm
+
+        cleaned_dsla = str(dsla).split(" ", maxsplit=1)[0]
+        cleaned_dslm = str(dslm).split(" ", maxsplit=1)[0]
+
+        return last_acc, last_mod, file_size, filename, cleaned_dsla, cleaned_dslm
 
 
     def __write_data(self, obj_type, item_path):
@@ -90,13 +99,16 @@ class FileCrawler:
         # Determine The File Type & Basic Details
         if obj_type == "File":
             file_type = "." + item_path.split(".")[-1].upper()
-            last_acc, last_mod, file_size, filename= self.__str2data(item_path)
+            last_acc, last_mod, file_size, filename, dsla, dslm = self.__str2data(item_path)
+            path_elem = item_path.split("\\")[:-1]
+            folder_path = "\\".join(path_elem)
 
         else:
-            file_type = last_acc = last_mod = file_size = filename = ""
+            file_type = last_acc = last_mod = file_size = filename = dsla = dslm = ""
+            folder_path = item_path
 
         # Write Data To Internal Crawler Storage
-        all_data = [item_path, filename, obj_type, file_type, file_size, last_acc, last_mod]
+        all_data = [item_path, folder_path, filename, obj_type, file_type, file_size, last_acc, last_mod, dsla, dslm]
         for name, data_entry in zip(self.all_cols, all_data):
             self.crawler_storage["Data"][name].append(data_entry)
 
@@ -151,8 +163,9 @@ class FileCrawler:
                 writer.writerow(["Main Paths Searched: ", paths_crawled])
 
         except Exception as err:
-            print("An Error Has Occured")
+            print("An Error Has Occured: " )
             print(err)
+
 
 
 
@@ -163,6 +176,6 @@ if __name__ == "__main__":
 
     # Create Instance Of File Crawler, Gather, & Export
     crawler = FileCrawler()
-    crawler.gather_data(r"C:\Users\rmatade\Desktop")
-    # crawler.view_data()
-    crawler.export_data(r"C:\Users\rmatade\Desktop\FolderDataPull.csv")
+    crawler.gather_data(r"C:\Users\renac\Desktop\IH_Project")
+    # # crawler.view_data()
+    crawler.export_data(r"C:\Users\renac\Desktop\FolderDataPull.csv")
