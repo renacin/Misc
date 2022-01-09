@@ -155,6 +155,7 @@ class FileCrawler:
             print(err)
 
 
+
 # ----------------------------------------------------------------------------------------------------------------------
 
 # Main Entry Point
@@ -162,6 +163,6 @@ if __name__ == "__main__":
 
     # Create Instance Of File Crawler, Gather, & Export
     crawler = FileCrawler()
-    crawler.gather_data(r"")
-    crawler.view_data()
-    crawler.export_data(r"")
+    crawler.gather_data(r"C:\Users\rmatade\Desktop")
+    # crawler.view_data()
+    crawler.export_data(r"C:\Users\rmatade\Desktop\FolderDataPull.csv")
