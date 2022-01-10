@@ -176,6 +176,6 @@ if __name__ == "__main__":
 
     # Create Instance Of File Crawler, Gather, & Export
     crawler = FileCrawler()
-    crawler.gather_data(r"C:\Users\renac\Desktop\IH_Project")
+    crawler.gather_data(r"C:\Users\renac\Documents")
     # # crawler.view_data()
-    crawler.export_data(r"C:\Users\renac\Desktop\FolderDataPull.csv")
+    crawler.export_data(r"C:\Users\renac\Desktop\FileCrawler_DataPull.csv")
