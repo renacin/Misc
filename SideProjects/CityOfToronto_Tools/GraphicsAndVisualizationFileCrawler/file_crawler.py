@@ -37,9 +37,14 @@ class FileCrawler:
 
             # If The Item Is A Folder Call Recursive Function
             if os.path.isdir(item_path):
-                # Gather Some Data On Folders
-                self.__write_data("Folder", item_path)
-                self.__recursive_crawl(item_path)
+
+                try:
+                    # Gather Some Data On Folders
+                    self.__write_data("Folder", item_path)
+                    self.__recursive_crawl(item_path)
+
+                except PermissionError:
+                    print("PermissionError: " + item_path)
 
             # The Item Is A File | Scrape All Data
             else:
