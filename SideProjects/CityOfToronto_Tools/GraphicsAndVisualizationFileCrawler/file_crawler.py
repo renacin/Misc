@@ -95,6 +95,9 @@ class FileCrawler:
         cleaned_dsla = str(dsla).split(" ", maxsplit=1)[0]
         cleaned_dslm = str(dslm).split(" ", maxsplit=1)[0]
 
+        if (cleaned_dsla == "00:00:00") or (cleaned_dsla == "00:00:00"):
+            print(last_acc, last_mod)
+
         return last_acc, last_mod, file_size, filename, cleaned_dsla, cleaned_dslm
 
 
