@@ -20,9 +20,26 @@ class QC_Checker:
 
     # ------------------------------------------------------------------------------------------------------------------
     #   PRIVATE METHODS
-    def __filechecker(self, var):
-        """ Details """
+    def __filechecker(self, file_path) -> bool:
+        """
+        Notes:
+            Checks are conducted to ensure the files provided fit the appropriate format:
+                + XLSX
+                + Contain Headers & Footers
+                + Same Columns & Datatypes between files
 
+        Input:
+            file_path: string --> Path To File
+
+        Output:
+            bool: True/False --> Is the file appropriate, given requirements?
+        """
+
+        # Make Sure Path Points To File, Filename Is Appropriate, Is XLSX Doc, & Has Appropriate Headers/Footers
+        if os.path.isdir(file_path) == False:
+            if " ".join(file_path.split(".")[0].split()[3:]) == "All Applications Received - Extract":
+                if (file_path.split(".")[-1] in ["xlsx", "XLSX"]):
+                    print(file_path)
 
     # ------------------------------------------------------------------------------------------------------------------
     #   PUBLIC METHODS
@@ -34,11 +51,6 @@ class QC_Checker:
             Dataframe cached as class static variable.
             applications.
 
-            Checks are conducted to ensure the files provided fit the appropriate format:
-                + XLSX
-                + Contain Headers & Footers
-                + Same Columns & Datatypes between files
-
         Input:
             data_path: string --> Path To Folder Containing All XLSX documents
 
@@ -48,8 +60,8 @@ class QC_Checker:
 
         # Given Path, Loop Through Folder & Combine XLSX Files | Ensure Checks For Appropriate Files!
         directory_ = os.listdir(data_path)
-        for item in directory_:
-            print(item)
+        for file_path in directory_:
+            self.__filechecker(file_path)
 
         #
         # print(data_path)
