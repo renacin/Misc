@@ -6,6 +6,7 @@
 import os
 import datetime
 import pandas as pd
+import csv
 # ----------------------------------------------------------------------------------------------------------------------
 
 
@@ -20,7 +21,7 @@ class QC_Checker:
 
     # ------------------------------------------------------------------------------------------------------------------
     #   PRIVATE METHODS
-    def __filechecker(self, file_path) -> bool:
+    def __filechecker(self, file_, data_path) -> bool:
         """
         Notes:
             Checks are conducted to ensure the files provided fit the appropriate format:
@@ -35,19 +36,24 @@ class QC_Checker:
             bool: True/False --> Is the file appropriate, given requirements?
         """
 
-        # Make Sure Path Points To File, Filename Is Appropriate, Is XLSX Doc, & Has Appropriate Headers/Footers
-        if os.path.isdir(file_path) == False:
-            if " ".join(file_path.split(".")[0].split()[3:]) == "All Applications Received - Extract":
-                if (file_path.split(".")[-1] in ["xlsx", "XLSX"]):
-                    print(file_path)
+        # Make Sure Path Points To File, Filename Is Appropriate, Is CSV Doc, & Has Appropriate Headers/Footers
+        if os.path.isdir(file_) is False:
+            if " ".join(file_.split(".")[0].split()[3:]) == "All Applications Received - Extract":
+                if (file_.split(".")[-1] in ["csv", "CSV"]):
+                    with open((data_path + "\\" + file_), mode ='r') as file:
+                        csv_file = csv.reader(file)
+                        for line in csv_file:
+                            if line[0] == "IBMS Reports":
+                                return True
+        return False
 
     # ------------------------------------------------------------------------------------------------------------------
     #   PUBLIC METHODS
     def gather_data(self, data_path: str) -> "None":
         """
         Notes:
-            Given the path of the folder that contains all XLSX documents that contain addresses passed through
-            the graphics request FME automation script, combine all XLSX documents into one Pandas Dataframe.
+            Given the path of the folder that contains all CSV documents that contain addresses passed through
+            the graphics request FME automation script, combine all CSV documents into one Pandas Dataframe.
             Dataframe cached as class static variable.
             applications.
 
@@ -60,8 +66,15 @@ class QC_Checker:
 
         # Given Path, Loop Through Folder & Combine XLSX Files | Ensure Checks For Appropriate Files!
         directory_ = os.listdir(data_path)
-        for file_path in directory_:
-            self.__filechecker(file_path)
+        for file_ in directory_:
+            print(file_)
+            if self.__filechecker(file_, data_path):
+                df = pd.read_csv((data_path + "\\" + file_), skiprows= 6)
+                print(df)
+                break
+
+            else:
+                print("Error")
 
         #
         # print(data_path)
