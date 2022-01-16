@@ -13,11 +13,8 @@ import csv
 class QC_Checker:
     """ This class stores all functions of the Graphics & Visualization """
 
-    # ------------------------------------------------------------------------------------------------------------------
-    #   STATIC VARIABLES
-    raw_data = None
+    rd = None
     current_date = str(datetime.date.today().strftime("%Y-%m-%d")).split(" ")[0]
-
 
     # ------------------------------------------------------------------------------------------------------------------
     #   PRIVATE METHODS
@@ -45,7 +42,10 @@ class QC_Checker:
                         for line in csv_file:
                             if line[0] == "IBMS Reports":
                                 return True
+
+        print(f"File Error Detected: {file_}")
         return False
+
 
     # ------------------------------------------------------------------------------------------------------------------
     #   PUBLIC METHODS
@@ -61,24 +61,58 @@ class QC_Checker:
             data_path: string --> Path To Folder Containing All XLSX documents
 
         Output:
-            None: None --> Resulting dataframe is stored within Class as static variable. Use method to access.
+            None --> Resulting dataframe is stored within Class as static variable. Use method to access.
         """
 
-        # Given Path, Loop Through Folder & Combine XLSX Files | Ensure Checks For Appropriate Files!
+        # Given Path, Loop Through Folder & Combine CSV Files | Ensure Checks For Appropriate Files!
+        frames = []
         directory_ = os.listdir(data_path)
         for file_ in directory_:
-            print(file_)
             if self.__filechecker(file_, data_path):
-                df = pd.read_csv((data_path + "\\" + file_), skiprows= 6)
-                print(df)
-                break
+                add_df = pd.read_csv(data_path + "\\" + file_, skiprows= 6)
+                for col in add_df.columns:
+                    add_df[col] = add_df[col].astype(str)
+                frames.append(add_df)
 
-            else:
-                print("Error")
+        QC_Checker.rd = pd.concat(frames)
 
-        #
-        # print(data_path)
-        # print(QC_Checker.current_date)
+
+    def export_data(self, export_path: str) -> "CSV":
+        """
+        Notes:
+            Given an export path, filter cached data by district name & create appropriate CSVs. If none are already
+            there create new ones. If past versions are present combine & keep any new data provided by users.
+            Caution, rows must be compared to master file already in file.
+
+        Input:
+            export_path: string --> Path To Folder Where Data Will Be Exported
+
+        Output:
+            CSVs --> A CSV For Each District
+        """
+
+        # Logic Check First | Export Data Based On District Type
+        if str(type(QC_Checker.rd)) != "<class 'NoneType'>":
+            for district in QC_Checker.rd["District"].unique():
+
+                # Filter Data
+                temp_df = QC_Checker.rd[QC_Checker.rd["District"] == district]
+                full_ex_path = export_path + "\\" + QC_Checker.current_date + "_QC_MasterFile_" + district.strip() + ".csv"
+
+                # Drop Unneeded Columns
+                col_to_keep = ["File Number", "Address", "InDate", "Folder Name"]
+                for col in temp_df.columns:
+                    if col not in col_to_keep:
+                        temp_df.drop(col, axis=1, inplace=True)
+
+                # Add Additional Columns
+                for new_col in ["QC_Status", "Comments", "Actions"]:
+                    temp_df[new_col] = ""
+                temp_df.to_csv(full_ex_path, index=False)
+                del temp_df
+            return
+
+        print("Sequence Error Detected: First Load Data Into QC_Checker")
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -87,8 +121,10 @@ class QC_Checker:
 if __name__ == "__main__":
 
     # Needed Variables
-    df_path = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\GraphicsReportAutomation_QCQA\Data\WeeklyApplicationsLists"
+    data_path = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\GraphicsReportAutomation_QCQA\Data\WeeklyApplicationsLists"
+    export_folder = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\GraphicsReportAutomation_QCQA\Data\MasterOutputs"
 
     # Main Logic Of QC Checker
     qc_init = QC_Checker()
-    qc_init.gather_data(df_path)
+    qc_init.gather_data(data_path)
+    qc_init.export_data(export_folder)
