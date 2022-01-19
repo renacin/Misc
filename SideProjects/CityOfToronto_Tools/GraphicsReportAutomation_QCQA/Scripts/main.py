@@ -110,6 +110,9 @@ class QC_Checker:
                     temp_df[new_col] = ""
                 temp_df.to_csv(full_ex_path, index=False)
                 del temp_df
+
+                # TODO REMOVE DUPLICATES | HOW MANY REMOVED?????
+
             return
 
         print("Sequence Error Detected: First Load Data Into QC_Checker")
