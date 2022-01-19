@@ -3,9 +3,11 @@
 # Title                        City Of Toronto: Graphics & Visualization File Crawler
 #
 # ----------------------------------------------------------------------------------------------------------------------
+import pandas as pd
+pd.options.mode.chained_assignment = None  # default='warn'
+
 import os
 import datetime
-import pandas as pd
 import csv
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -74,7 +76,9 @@ class QC_Checker:
                     add_df[col] = add_df[col].astype(str)
                 frames.append(add_df)
 
-        QC_Checker.rd = pd.concat(frames)
+        merged_df = pd.concat(frames)
+        merged_df = merged_df.drop_duplicates(subset = ["File Number"], keep = "first")
+        QC_Checker.rd = merged_df
 
 
     def export_data(self, export_path: str) -> "CSV":
@@ -107,7 +111,11 @@ class QC_Checker:
 
                 # Add Additional Columns
                 for new_col in ["QC_Status", "Comments", "Actions"]:
-                    temp_df[new_col] = ""
+                    if new_col == "QC_Status":
+                        temp_df[new_col] = "Not Checked"
+                    else:
+                        temp_df[new_col] = ""
+
                 temp_df.to_csv(full_ex_path, index=False)
                 del temp_df
 
