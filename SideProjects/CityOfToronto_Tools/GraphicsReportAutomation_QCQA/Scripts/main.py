@@ -57,14 +57,17 @@ class QC_Checker:
         Notes:
             Given the path of the folder that contains all CSV documents that contain addresses passed through
             the graphics request FME automation script, combine all CSV documents into one Pandas Dataframe.
-            Dataframe cached as class static variable.
-            applications.
+            Dataframe cached as class static variable. If other older files are stored in the master output folder
+            this function will compare the cached dataframe with the older data in that folder. If new columns, or cells
+            are identified, they will be added to the cached dataframe.
 
         Input:
             data_path: string --> Path To Folder Containing All XLSX documents
 
         Output:
             None --> Resulting dataframe is stored within Class as static variable. Use method to access.
+
+        GENERAL CAUTION: OLDER MASTER FILES WILL BE DELETED
         """
 
         # Given Path, Loop Through Folder & Combine CSV Files | Ensure Checks For Appropriate Files!
@@ -140,18 +143,3 @@ if __name__ == "__main__":
     qc_init = QC_Checker()
     qc_init.gather_data(data_path)
     qc_init.export_data(export_folder)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
