@@ -140,3 +140,18 @@ if __name__ == "__main__":
     qc_init = QC_Checker()
     qc_init.gather_data(data_path)
     qc_init.export_data(export_folder)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
