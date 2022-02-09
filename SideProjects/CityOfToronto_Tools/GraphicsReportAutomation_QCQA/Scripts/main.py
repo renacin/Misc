@@ -4,6 +4,7 @@
 #
 # ----------------------------------------------------------------------------------------------------------------------
 import pandas as pd
+from openpyxl.workbook import Workbook
 pd.options.mode.chained_assignment = None  # default='warn'
 
 import os
@@ -81,26 +82,31 @@ class QC_Checker:
         QC_Checker.rd = merged_df
 
 
-def check_data(self, export_path: str) -> "CSV":
-    """
-    Notes:
-        Given an export path, filter cached data by district name & create appropriate CSVs. If none are already
-        there create new ones. If past versions are present combine & keep any new data provided by users.
-        Caution, rows must be compared to master file already in file.If other older files are stored in the master
-        output folder this function will compare the cached dataframe with the older data in that folder.
-        If new columns, or cells are identified, they will be added to the cached dataframe.
+    def check_data(self, export_path: str) -> "CSV":
+        """
+        Notes:
+            If other older files are stored in the master output folder this function will compare the cached
+            dataframe with the older data in that folder. If new columns, or cells are identified, they will be
+            added to the cached dataframe.
 
-    Input:
-        export_path: string --> Path To Folder Where Data Will Be Exported
+        Input:
+            export_path: string --> Path To Folder Where Data Will Be Exported
 
-    Output:
-        CSVs --> A CSV For Each District
+        Output:
+            None --> Cached Dataframe is modified
 
-    GENERAL CAUTION: IF PRESENT OLDER MASTER FILES WILL BE DELETED
-    """
+        GENERAL CAUTION: IF PRESENT OLDER MASTER FILES WILL BE DELETED
+        """
 
-    # Check If Older Master Files Are In Folder
-    print(export_path)
+        # Look For Older Files In Export Folder
+        directory_ = os.listdir(export_path)
+        for file_ in directory_:
+            split_name = file_.split("_")
+            if file_.__contains__("COMMENTS"):
+                print("_".join(split_name))
+
+
+        # FIX THIS PLEASE!!!!!!!
 
 
     def export_data(self, export_path: str) -> "CSV":
@@ -122,7 +128,7 @@ def check_data(self, export_path: str) -> "CSV":
 
                 # Filter Data
                 temp_df = QC_Checker.rd[QC_Checker.rd["District"] == district]
-                full_ex_path = export_path + "\\" + QC_Checker.current_date + "_QC_MasterFile_" + district.strip() + ".csv"
+                full_ex_path = export_path + "\\" + QC_Checker.current_date + "_QC_MasterFile_" + district.strip() + ".xlsx"
 
                 # Drop Unneeded Columns
                 col_to_keep = ["File Number", "Address", "InDate", "Folder Name"]
@@ -131,16 +137,15 @@ def check_data(self, export_path: str) -> "CSV":
                         temp_df.drop(col, axis=1, inplace=True)
 
                 # Add Additional Columns
-                for new_col in ["QC_Status", "Comments", "Actions"]:
+                for new_col in ["QC_Status", "Comments", "Actions", "StaffName"]:
                     if new_col == "QC_Status":
-                        temp_df[new_col] = "Not Checked"
+                        temp_df[new_col] = "Awaiting"
                     else:
                         temp_df[new_col] = ""
 
-                temp_df.to_csv(full_ex_path, index=False)
+                temp_df.to_csv()
+                temp_df.to_excel(full_ex_path, index=False)
                 del temp_df
-
-                # TODO REMOVE DUPLICATES | HOW MANY REMOVED?????
 
             return
         print("Sequence Error Detected: First Load Data Into QC_Checker")
@@ -158,4 +163,5 @@ if __name__ == "__main__":
     # Main Logic Of QC Checker
     qc_init = QC_Checker()
     qc_init.gather_data(data_path)
+    # qc_init.check_data(export_folder)
     qc_init.export_data(export_folder)
