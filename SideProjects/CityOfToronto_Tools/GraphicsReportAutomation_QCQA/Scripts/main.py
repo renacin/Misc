@@ -81,56 +81,69 @@ class QC_Checker:
         QC_Checker.rd = merged_df
 
 
+def check_data(self, export_path: str) -> "CSV":
+    """
+    Notes:
+        Given an export path, filter cached data by district name & create appropriate CSVs. If none are already
+        there create new ones. If past versions are present combine & keep any new data provided by users.
+        Caution, rows must be compared to master file already in file.If other older files are stored in the master
+        output folder this function will compare the cached dataframe with the older data in that folder.
+        If new columns, or cells are identified, they will be added to the cached dataframe.
+
+    Input:
+        export_path: string --> Path To Folder Where Data Will Be Exported
+
+    Output:
+        CSVs --> A CSV For Each District
+
+    GENERAL CAUTION: IF PRESENT OLDER MASTER FILES WILL BE DELETED
+    """
+
+    # Check If Older Master Files Are In Folder
+    print(export_path)
+
+
     def export_data(self, export_path: str) -> "CSV":
         """
         Notes:
             Given an export path, filter cached data by district name & create appropriate CSVs. If none are already
             there create new ones. If past versions are present combine & keep any new data provided by users.
-            Caution, rows must be compared to master file already in file.If other older files are stored in the master
-            output folder this function will compare the cached dataframe with the older data in that folder.
-            If new columns, or cells are identified, they will be added to the cached dataframe.
-
+            Caution, rows must be compared to master file already in file.
         Input:
             export_path: string --> Path To Folder Where Data Will Be Exported
 
         Output:
             CSVs --> A CSV For Each District
-
-        GENERAL CAUTION: IF PRESENT OLDER MASTER FILES WILL BE DELETED
         """
 
-        # Check If Older Master Files Are In Folder
-        print(export_path)
+        # Logic Check First | Export Data Based On District Type
+        if str(type(QC_Checker.rd)) != "<class 'NoneType'>":
+            for district in QC_Checker.rd["District"].unique():
 
+                # Filter Data
+                temp_df = QC_Checker.rd[QC_Checker.rd["District"] == district]
+                full_ex_path = export_path + "\\" + QC_Checker.current_date + "_QC_MasterFile_" + district.strip() + ".csv"
 
-        # # Logic Check First | Export Data Based On District Type
-        # if str(type(QC_Checker.rd)) != "<class 'NoneType'>":
-        #     for district in QC_Checker.rd["District"].unique():
-        #
-        #         # Filter Data
-        #         temp_df = QC_Checker.rd[QC_Checker.rd["District"] == district]
-        #         full_ex_path = export_path + "\\" + QC_Checker.current_date + "_QC_MasterFile_" + district.strip() + ".csv"
-        #
-        #         # Drop Unneeded Columns
-        #         col_to_keep = ["File Number", "Address", "InDate", "Folder Name"]
-        #         for col in temp_df.columns:
-        #             if col not in col_to_keep:
-        #                 temp_df.drop(col, axis=1, inplace=True)
-        #
-        #         # Add Additional Columns
-        #         for new_col in ["QC_Status", "Comments", "Actions"]:
-        #             if new_col == "QC_Status":
-        #                 temp_df[new_col] = "Not Checked"
-        #             else:
-        #                 temp_df[new_col] = ""
-        #
-        #         temp_df.to_csv(full_ex_path, index=False)
-        #         del temp_df
-        #
-        #         # TODO REMOVE DUPLICATES | HOW MANY REMOVED?????
-        #
-        #     return
-        # print("Sequence Error Detected: First Load Data Into QC_Checker")
+                # Drop Unneeded Columns
+                col_to_keep = ["File Number", "Address", "InDate", "Folder Name"]
+                for col in temp_df.columns:
+                    if col not in col_to_keep:
+                        temp_df.drop(col, axis=1, inplace=True)
+
+                # Add Additional Columns
+                for new_col in ["QC_Status", "Comments", "Actions"]:
+                    if new_col == "QC_Status":
+                        temp_df[new_col] = "Not Checked"
+                    else:
+                        temp_df[new_col] = ""
+
+                temp_df.to_csv(full_ex_path, index=False)
+                del temp_df
+
+                # TODO REMOVE DUPLICATES | HOW MANY REMOVED?????
+
+            return
+        print("Sequence Error Detected: First Load Data Into QC_Checker")
 
 
 # ----------------------------------------------------------------------------------------------------------------------
