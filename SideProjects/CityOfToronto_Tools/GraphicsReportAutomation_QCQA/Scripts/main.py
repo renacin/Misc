@@ -113,6 +113,22 @@ class QC_Checker:
                                                    'value': -99999999999,
                                                    'format': workspace_fmt})
 
+
+            # Add Data Validation | QC Status: E
+            row_range = f"E2:E{df_len + 1}"
+            worksheet.data_validation(row_range, {
+                                      'validate': 'list',
+                                      'source': ["Not Checked", "In Progress", "Checked"]
+                                      })
+
+            # Add Data Validation | QC Status: E
+            row_range = f"H2:H{df_len + 1}"
+            worksheet.data_validation(row_range, {
+                                      'validate': 'list',
+                                      'source': ["Scott", "Roger", "Rudy", "Ren"]
+                                      })
+
+
             del temp_df, writer
 
 
