@@ -50,6 +50,74 @@ class QC_Checker:
         return False
 
 
+    #   PRIVATE METHODS
+    def __formatexcel(self, full_ex_path, temp_df) -> bool:
+        """
+        FILL IN LATER
+        """
+
+        # Write Data To Excel | Add Formatting!!!
+        with pd.ExcelWriter(full_ex_path, engine='xlsxwriter') as writer:
+
+            # Write Dataframe To Excel, Initial Formatting
+            df_len = len(temp_df)
+            temp_df.to_excel(writer, sheet_name="Formatted_Applications", index=False)
+
+            # Grab Workbook & Sheet
+            workbook  = writer.book
+            worksheet = writer.sheets["Formatted_Applications"]
+
+            # Add a header format & alternating format
+            header_format = workbook.add_format({
+                'italic': True,
+                'bold': True,
+                'bg_color': '#CCCCCC'
+                })
+
+            alt1 = workbook.add_format({
+                'bg_color': '#EEEEEE'
+                })
+
+            alt2 = workbook.add_format({
+                'bg_color': '#DDDDDD'
+                })
+
+            workspace_fmt = workbook.add_format({
+                'border': True
+                })
+
+            # Write the column headers with the defined format
+            header_range = "A1:H1"
+            worksheet.conditional_format(header_range, {'type': 'cell',
+                                                   'criteria': '>',
+                                                   'value': -99999999999,
+                                                   'format': header_format})
+
+            # Format Alternating Rows
+            formats = cycle([alt1, alt2])
+            for row in range(2, df_len + 2):
+                data_format = next(formats)
+
+                # Focus Row Range
+                x_row_range = f"A{row}:H{row}"
+                worksheet.conditional_format(x_row_range, {'type': 'cell',
+                                                       'criteria': '>',
+                                                       'value': -99999999999,
+                                                       'format': data_format})
+
+            # Final WorkSheet Fomatting
+            worksheet.freeze_panes(1, 0)
+            total_range = f"A1:H{df_len + 1}"
+            worksheet.conditional_format(total_range, {'type': 'cell',
+                                                   'criteria': '>',
+                                                   'value': -99999999999,
+                                                   'format': workspace_fmt})
+
+            del temp_df, writer
+
+
+
+
     # ------------------------------------------------------------------------------------------------------------------
     #   PUBLIC METHODS
     def gather_data(self, data_path: str) -> "None":
@@ -140,58 +208,8 @@ class QC_Checker:
                 for new_col in col_to_add:
                     temp_df[new_col] = ""
 
-                # Write Data To Excel | Add Formatting!!!
-                with pd.ExcelWriter(full_ex_path, engine='xlsxwriter') as writer:
-
-                    # Write Dataframe To Excel, Initial Formatting
-                    df_len = len(temp_df)
-                    temp_df.to_excel(writer, sheet_name="Formatted_Applications", index=False, startrow=1, header=False)
-
-                    # Grab Workbook & Sheet
-                    workbook  = writer.book
-                    worksheet = writer.sheets["Formatted_Applications"]
-
-                    # Add a header format & alternating format
-                    header_format = workbook.add_format({
-                        'font_name': "Arial",
-                        'font_size': 14,
-                        'italic': True,
-                        'bold': True,
-                        'bottom': 1
-                        })
-
-                    alt1 = workbook.add_format({
-                        'font_name': "Arial",
-                        'font_size': 10,
-                        'bg_color': '#EEEEEE'
-                        })
-
-                    alt2 = workbook.add_format({
-                        'font_name': "Arial",
-                        'font_size': 10,
-                        'bg_color': '#DDDDDD'
-                        })
-
-                    # Write the column headers with the defined format
-                    combined_list = col_to_keep + col_to_add
-                    for col_num, value in enumerate(combined_list):
-                        worksheet.write(0, col_num, value, header_format)
-
-                    # Format Alternating Rows
-                    formats = cycle([alt1, alt2])
-                    for row in range(2, df_len + 2):
-                        data_format = next(formats)
-
-                        # Focus Row Range
-                        x_row_range = f"A{row}:H{row}"
-                        worksheet.conditional_format(x_row_range, {'type': 'cell',
-                                                               'criteria': '>',
-                                                               'value': -99999999999,
-                                                               'format': data_format})
-
-                    worksheet.freeze_panes(1, 0)
-
-                    del temp_df, writer
+                # Format Data
+                self.__formatexcel(full_ex_path, temp_df)
 
             return
         print("Sequence Error Detected: First Load Data Into QC_Checker")
