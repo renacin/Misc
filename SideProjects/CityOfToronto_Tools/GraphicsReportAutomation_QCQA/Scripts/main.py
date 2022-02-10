@@ -3,14 +3,13 @@
 # Title                        City Of Toronto: Graphics & Visualization File Crawler
 #
 # ----------------------------------------------------------------------------------------------------------------------
-import pandas as pd
-from openpyxl.workbook import Workbook
-pd.options.mode.chained_assignment = None  # default='warn'
+import os, datetime, csv
 
-import os
-import datetime
-import csv
-import logging
+from itertools import cycle
+from openpyxl.workbook import Workbook
+
+import pandas as pd
+pd.options.mode.chained_assignment = None  # default='warn'
 # ----------------------------------------------------------------------------------------------------------------------
 
 
@@ -137,15 +136,62 @@ class QC_Checker:
                         temp_df.drop(col, axis=1, inplace=True)
 
                 # Add Additional Columns
-                for new_col in ["QC_Status", "Comments", "Actions", "StaffName"]:
-                    if new_col == "QC_Status":
-                        temp_df[new_col] = "Awaiting"
-                    else:
-                        temp_df[new_col] = ""
+                col_to_add = ["QC_Status", "Comments", "Actions", "StaffName"]
+                for new_col in col_to_add:
+                    temp_df[new_col] = ""
 
-                temp_df.to_csv()
-                temp_df.to_excel(full_ex_path, index=False)
-                del temp_df
+                # Write Data To Excel | Add Formatting!!!
+                with pd.ExcelWriter(full_ex_path, engine='xlsxwriter') as writer:
+
+                    # Write Dataframe To Excel, Initial Formatting
+                    df_len = len(temp_df)
+                    temp_df.to_excel(writer, sheet_name="Formatted_Applications", index=False, startrow=1, header=False)
+
+                    # Grab Workbook & Sheet
+                    workbook  = writer.book
+                    worksheet = writer.sheets["Formatted_Applications"]
+
+                    # Add a header format & alternating format
+                    header_format = workbook.add_format({
+                        'font_name': "Arial",
+                        'font_size': 14,
+                        'italic': True,
+                        'bold': True,
+                        'bottom': 1
+                        })
+
+                    alt1 = workbook.add_format({
+                        'font_name': "Arial",
+                        'font_size': 10,
+                        'bg_color': '#EEEEEE'
+                        })
+
+                    alt2 = workbook.add_format({
+                        'font_name': "Arial",
+                        'font_size': 10,
+                        'bg_color': '#DDDDDD'
+                        })
+
+                    # Write the column headers with the defined format
+                    combined_list = col_to_keep + col_to_add
+                    for col_num, value in enumerate(combined_list):
+                        worksheet.write(0, col_num, value, header_format)
+
+                    # Format Alternating Rows
+                    formats = cycle([alt1, alt2])
+                    for row in range(2, df_len + 2):
+                        data_format = next(formats)
+
+                        # Focus Row Range
+                        x_row_range = f"A{row}:H{row}"
+                        worksheet.conditional_format(x_row_range, {'type': 'cell',
+                                                               'criteria': '>',
+                                                               'value': -99999999999,
+                                                               'format': data_format})
+
+                    worksheet.freeze_panes(1, 0)
+
+                    del temp_df, writer
 
             return
         print("Sequence Error Detected: First Load Data Into QC_Checker")
