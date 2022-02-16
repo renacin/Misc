@@ -87,7 +87,7 @@ class QC_Checker:
                 })
 
             # Write the column headers with the defined format
-            header_range = "A1:H1"
+            header_range = "A1:I1"
             worksheet.conditional_format(header_range, {'type': 'cell',
                                                    'criteria': '>',
                                                    'value': -99999999999,
@@ -99,7 +99,7 @@ class QC_Checker:
                 data_format = next(formats)
 
                 # Focus Row Range
-                x_row_range = f"A{row}:H{row}"
+                x_row_range = f"A{row}:I{row}"
                 worksheet.conditional_format(x_row_range, {'type': 'cell',
                                                        'criteria': '>',
                                                        'value': -99999999999,
@@ -107,7 +107,7 @@ class QC_Checker:
 
             # Final WorkSheet Fomatting
             worksheet.freeze_panes(1, 0)
-            total_range = f"A1:H{df_len + 1}"
+            total_range = f"A1:I{df_len + 1}"
             worksheet.conditional_format(total_range, {'type': 'cell',
                                                    'criteria': '>',
                                                    'value': -99999999999,
@@ -220,7 +220,7 @@ class QC_Checker:
                         temp_df.drop(col, axis=1, inplace=True)
 
                 # Add Additional Columns
-                col_to_add = ["QC_Status", "Comments", "Actions", "StaffName"]
+                col_to_add = ["QC_Status", "Comments", "Actions", "StaffName", "CheckedByValen"]
                 for new_col in col_to_add:
                     temp_df[new_col] = ""
 
