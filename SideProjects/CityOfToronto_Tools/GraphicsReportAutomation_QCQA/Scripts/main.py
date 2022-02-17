@@ -114,19 +114,35 @@ class QC_Checker:
                                                    'format': workspace_fmt})
 
 
-            # Add Data Validation | QC Status: E
+            # Add Data Validation | Column E QC Status
             row_range = f"E2:E{df_len + 1}"
             worksheet.data_validation(row_range, {
                                       'validate': 'list',
                                       'source': ["Not Checked", "In Progress", "Checked"]
                                       })
 
-            # Add Data Validation | QC Status: E
+            # Add Data Validation | Column G Actions Taken
+            row_range = f"G2:G{df_len + 1}"
+            worksheet.data_validation(row_range, {
+                                      'validate': 'list',
+                                      'source': ["Completed edits - ready to go", "Working on edits", "Edits not started"]
+                                      })
+
+            # Add Data Validation | Column H Design Tech Name
             row_range = f"H2:H{df_len + 1}"
             worksheet.data_validation(row_range, {
                                       'validate': 'list',
                                       'source': ["Scott", "Roger", "Rudy", "Ren"]
                                       })
+
+
+            # Add Data Validation | Column H Design Tech Name
+            row_range = f"I2:I{df_len + 1}"
+            worksheet.data_validation(row_range, {
+                                      'validate': 'list',
+                                      'source': ["Not Checked", "In Progress", "Checked"]
+                                      })
+
 
 
             del temp_df, writer
