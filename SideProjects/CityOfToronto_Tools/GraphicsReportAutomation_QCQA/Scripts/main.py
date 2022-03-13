@@ -53,7 +53,7 @@ class QC_Checker:
     #   PRIVATE METHODS
     def __formatexcel(self, full_ex_path, temp_df) -> bool:
         """
-        FILL IN LATER
+        Add basic excel formatting for easier end user experience
         """
 
         # Write Data To Excel | Add Formatting!!!
@@ -126,13 +126,6 @@ class QC_Checker:
             worksheet.data_validation(row_range, {
                                       'validate': 'list',
                                       'source': ["Completed edits - ready to go", "Working on edits", "Edits not started"]
-                                      })
-
-            # Add Data Validation | Column H Design Tech Name
-            row_range = f"H2:H{df_len + 1}"
-            worksheet.data_validation(row_range, {
-                                      'validate': 'list',
-                                      'source': ["Scott", "Roger", "Rudy", "Ren"]
                                       })
 
 
