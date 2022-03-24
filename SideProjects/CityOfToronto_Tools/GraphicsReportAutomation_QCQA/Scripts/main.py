@@ -68,30 +68,14 @@ class QC_Checker:
             worksheet = writer.sheets["Formatted_Applications"]
 
             # Add a header format & alternating format
-            header_format = workbook.add_format({
-                'italic': True,
-                'bold': True,
-                'bg_color': '#CCCCCC'
-                })
-
-            alt1 = workbook.add_format({
-                'bg_color': '#EEEEEE'
-                })
-
-            alt2 = workbook.add_format({
-                'bg_color': '#DDDDDD'
-                })
-
-            workspace_fmt = workbook.add_format({
-                'border': True
-                })
+            header_format = workbook.add_format({'italic': True, 'bold': True, 'bg_color': '#CCCCCC' })
+            alt1 = workbook.add_format({'bg_color': '#EEEEEE'})
+            alt2 = workbook.add_format({'bg_color': '#DDDDDD'})
+            workspace_fmt = workbook.add_format({'border': True})
 
             # Write the column headers with the defined format
             header_range = "A1:I1"
-            worksheet.conditional_format(header_range, {'type': 'cell',
-                                                   'criteria': '>',
-                                                   'value': -99999999999,
-                                                   'format': header_format})
+            worksheet.conditional_format(header_range, {'type': 'cell', 'criteria': '>', 'value': -99999999999, 'format': header_format})
 
             # Format Alternating Rows
             formats = cycle([alt1, alt2])
@@ -100,48 +84,27 @@ class QC_Checker:
 
                 # Focus Row Range
                 x_row_range = f"A{row}:I{row}"
-                worksheet.conditional_format(x_row_range, {'type': 'cell',
-                                                       'criteria': '>',
-                                                       'value': -99999999999,
-                                                       'format': data_format})
+                worksheet.conditional_format(x_row_range, {'type': 'cell', 'criteria': '>', 'value': -99999999999, 'format': data_format})
 
             # Final WorkSheet Fomatting
             worksheet.freeze_panes(1, 0)
             total_range = f"A1:I{df_len + 1}"
-            worksheet.conditional_format(total_range, {'type': 'cell',
-                                                   'criteria': '>',
-                                                   'value': -99999999999,
-                                                   'format': workspace_fmt})
-
+            worksheet.conditional_format(total_range, {'type': 'cell', 'criteria': '>', 'value': -99999999999, 'format': workspace_fmt})
 
             # Add Data Validation | Column E QC Status
             row_range = f"E2:E{df_len + 1}"
-            worksheet.data_validation(row_range, {
-                                      'validate': 'list',
-                                      'source': ["Not Checked", "In Progress", "Checked"]
-                                      })
+            worksheet.data_validation(row_range, {'validate': 'list', 'source': ["Not Checked", "In Progress", "Checked"]})
 
             # Add Data Validation | Column G Actions Taken
             row_range = f"G2:G{df_len + 1}"
-            worksheet.data_validation(row_range, {
-                                      'validate': 'list',
-                                      'source': ["Completed edits - ready to go", "Working on edits", "Edits not started"]
-                                      })
+            worksheet.data_validation(row_range, {'validate': 'list', 'source': ["Completed edits - ready to go", "Working on edits", "Edits not started"]})
 
 
             # Add Data Validation | Column H Design Tech Name
             row_range = f"I2:I{df_len + 1}"
-            worksheet.data_validation(row_range, {
-                                      'validate': 'list',
-                                      'source': ["Not Checked", "In Progress", "Checked"]
-                                      })
-
-
+            worksheet.data_validation(row_range, {'validate': 'list', 'source': ["Not Checked", "In Progress", "Checked"]})
 
             del temp_df, writer
-
-
-
 
     # ------------------------------------------------------------------------------------------------------------------
     #   PUBLIC METHODS
@@ -254,3 +217,19 @@ if __name__ == "__main__":
     qc_init.gather_data(data_path)
     # qc_init.check_data(export_folder)
     qc_init.export_data(export_folder)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Blah
