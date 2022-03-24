@@ -78,7 +78,7 @@ def gather_data(data_path: str, export_folder: str) -> "None":
         export_folder:   string -->    Path To Folde Containing 4 District Output Files
 
     Output:
-        None --> Resulting dataframe is stored within Class as static variable. Use method to access.
+        Pandas DF --> Resulting dataframe, must up to date version
 
     Update:
         [2022-03-24 | Renacin Matadeen ] - Added Functionality To Create 1 masterfile from both weekly
@@ -100,6 +100,12 @@ def gather_data(data_path: str, export_folder: str) -> "None":
     weekly_merged_df = w_merged_df.drop_duplicates(subset = ["File Number"], keep = "first")
     weekly_merged_df["InDate"] = __standardize_date(weekly_merged_df["InDate"])
 
+    # Drop Unneeded Columns
+    col_to_keep = ["File Number", "Address", "InDate", "Folder Name"]
+    for col in weekly_merged_df.columns:
+        if col not in col_to_keep:
+            weekly_merged_df.drop(col, axis=1, inplace=True)
+
 
     # Look For All 4 District Files & Concatinate Back Into 1 File
     m_frames = []
@@ -119,7 +125,19 @@ def gather_data(data_path: str, export_folder: str) -> "None":
     districts_merged_df = districts_merged_df.replace("nan", "")
     districts_merged_df = districts_merged_df.drop_duplicates(subset = ["File Number"], keep = "first")
     districts_merged_df["InDate"] = __standardize_date(districts_merged_df["InDate"])
-    districts_merged_df.to_csv(r"C:\Users\renac\Desktop\TEST.csv", index = False)
+
+    # Merge Both Files, Keep Note Of What Is Common, And What Is New
+    combined_df = weekly_merged_df.merge(districts_merged_df, on=["File Number", "Address", "InDate"], how='outer', indicator=True)
+    new_data_df = combined_df[combined_df["_merge"] == "left_only"]
+    new_data_df.drop("_merge", axis=1, inplace=True)
+    new_data_df.drop("Folder Name_y", axis=1, inplace=True)
+    new_data_df.rename(columns = {"Folder Name_x": "Folder Name"}, inplace = True)
+
+    # Final Database With New Content, Rows, & User Inputs
+    final_df = pd.concat([new_data_df, districts_merged_df])
+
+    return final_df
+
 
 
 
@@ -131,9 +149,13 @@ if __name__ == "__main__":
     # Needed Variables
     data_path = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\GraphicsReportAutomation_QCQA\Data\WeeklyApplicationsLists"
     export_folder = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\GraphicsReportAutomation_QCQA\Data\MasterOutputs"
+    masterfile_export = r"C:\Users\renac\Desktop"
 
-    # Main Logic Of QC Checker
-    gather_data(data_path, export_folder)
+    # Gather Data & Write Master File
+    all_data = gather_data(data_path, export_folder)
+    all_data.to_csv(r"C:\Users\renac\Desktop\TEST.csv", index = False)
+
+
 
 
 
@@ -141,21 +163,3 @@ if __name__ == "__main__":
     # qc_init.export_data(export_folder)
 
     # current_date = str(datetime.date.today().strftime("%Y-%m-%d")).split(" ")[0]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Blah
