@@ -1,17 +1,14 @@
 # Name:                                            Renacin Matadeen
-# Date:                                               01/17/2022
-# Title                        City Of Toronto: Graphics & Visualization File Crawler
+# Date:                                               03/24/2022
+# Title                     City Of Toronto: Graphics & Visualization Report Automation QA/QC Tool
 #
 # ----------------------------------------------------------------------------------------------------------------------
 import os, datetime, csv
-
 from itertools import cycle
 from openpyxl.workbook import Workbook
-
 import pandas as pd
 pd.options.mode.chained_assignment = None  # default='warn'
 # ----------------------------------------------------------------------------------------------------------------------
-
 
 class QC_Checker:
     """ This class stores all functions of the Graphics & Visualization """
@@ -52,7 +49,7 @@ class QC_Checker:
 
     # ------------------------------------------------------------------------------------------------------------------
     #   PUBLIC METHODS
-    def gather_data(self, data_path: str) -> "None":
+    def gather_data(self, data_path: str, export_folder: str) -> "None":
         """
         Notes:
             Given the path of the folder that contains all CSV documents that contain addresses passed through
@@ -60,10 +57,16 @@ class QC_Checker:
             Dataframe cached as class static variable.
 
         Input:
-            data_path: string --> Path To Folder Containing All XLSX documents
+            data_path:       string -->    Path To Folder Containing Weekly Update Xlsx Files
+            export_folder:   string -->    Path To Folde Containing 4 District Output Files
 
         Output:
             None --> Resulting dataframe is stored within Class as static variable. Use method to access.
+
+        Update:
+            [2022-03-24 | Renacin Matadeen] - Added Functionality To Create 1 masterfile from both weekly
+                                              application list, as well as all 4 district outputs
+
         """
 
         # Given Path, Loop Through Folder & Combine CSV Files | Ensure Checks For Appropriate Files!
@@ -79,6 +82,10 @@ class QC_Checker:
         merged_df = pd.concat(frames)
         merged_df = merged_df.drop_duplicates(subset = ["File Number"], keep = "first")
         QC_Checker.rd = merged_df
+
+
+        # Look For All 4 District Files & Concatinate Back Into 1 File
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 
