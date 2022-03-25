@@ -19,7 +19,7 @@ def __standardize_date(in_dates: list) -> list:
 
         Date Formats Found:
             1) [YYYY-MM-DD]
-            2) [DD/MM/YYYY]
+            2) [MM/DD/YYYY]
             3) [MM-DD-YYYY]
 
         Standardized Date Format:
@@ -35,12 +35,12 @@ def __standardize_date(in_dates: list) -> list:
     cleaned_dates = []
     for date_ in in_dates.values.tolist():
 
-        # [DD/MM/YYYY]
+        # [MM/DD/YYYY]
         if "/" in date_:
             sep_date = date_.split("/")
             year_ = sep_date[-1]
-            month_ = sep_date[1]
-            day_ = sep_date[0]
+            month_ = sep_date[0]
+            day_ = sep_date[1]
 
         else:
             sep_date = date_.split("-")
@@ -61,6 +61,72 @@ def __standardize_date(in_dates: list) -> list:
         cleaned_dates.append(f"{year_}-{month_}-{day_}")
 
     return cleaned_dates
+
+
+#   PRIVATE METHODS
+def __formatexcel(full_ex_path, temp_df) -> bool:
+    """
+    Notes:
+        Given an export path, as well as a pandas dataframe containing cleaned & up-to-date excel data
+        this function will add additional formatting
+
+    Input:
+        full_ex_path:        Export Path String  -->    Where will the district excel file be written to
+        temp_df:             Pandas Dataframe    -->    List of dates that needs to be standardized
+
+    Output:
+        out_dates:       list          -->    Cleaned list of dates
+    """
+
+    # Write Data To Excel | Add Formatting!!!
+    with pd.ExcelWriter(full_ex_path, engine='xlsxwriter') as writer:
+
+        # Write Dataframe To Excel, Initial Formatting
+        df_len = len(temp_df)
+        temp_df.to_excel(writer, sheet_name="Formatted_Applications", index=False)
+
+        # Grab Workbook & Sheet
+        workbook  = writer.book
+        worksheet = writer.sheets["Formatted_Applications"]
+
+        # Add a header format & alternating format
+        header_format = workbook.add_format({'italic': True, 'bold': True, 'bg_color': '#CCCCCC' })
+        alt1 = workbook.add_format({'bg_color': '#EEEEEE'})
+        alt2 = workbook.add_format({'bg_color': '#DDDDDD'})
+        workspace_fmt = workbook.add_format({'border': True})
+
+        # Write the column headers with the defined format
+        header_range = "A1:I1"
+        worksheet.conditional_format(header_range, {'type': 'cell', 'criteria': '>', 'value': -99999999999, 'format': header_format})
+
+        # Format Alternating Rows
+        formats = cycle([alt1, alt2])
+        for row in range(2, df_len + 2):
+            data_format = next(formats)
+
+            # Focus Row Range
+            x_row_range = f"A{row}:I{row}"
+            worksheet.conditional_format(x_row_range, {'type': 'cell', 'criteria': '>', 'value': -99999999999, 'format': data_format})
+
+        # Final WorkSheet Fomatting
+        worksheet.freeze_panes(1, 0)
+        total_range = f"A1:I{df_len + 1}"
+        worksheet.conditional_format(total_range, {'type': 'cell', 'criteria': '>', 'value': -99999999999, 'format': workspace_fmt})
+
+        # Add Data Validation | Column E QC Status
+        row_range = f"E2:E{df_len + 1}"
+        worksheet.data_validation(row_range, {'validate': 'list', 'source': ["Not Checked", "In Progress", "Checked"]})
+
+        # Add Data Validation | Column G Actions Taken
+        row_range = f"G2:G{df_len + 1}"
+        worksheet.data_validation(row_range, {'validate': 'list', 'source': ["Completed edits - ready to go", "Working on edits", "Edits not started"]})
+
+
+        # Add Data Validation | Column H Design Tech Name
+        row_range = f"I2:I{df_len + 1}"
+        worksheet.data_validation(row_range, {'validate': 'list', 'source': ["Not Checked", "In Progress", "Checked"]})
+
+        del temp_df, writer
 
 
 
@@ -133,12 +199,54 @@ def gather_data(data_path: str, export_folder: str) -> "None":
     new_data_df.drop("Folder Name_y", axis=1, inplace=True)
     new_data_df.rename(columns = {"Folder Name_x": "Folder Name"}, inplace = True)
 
-    # Final Database With New Content, Rows, & User Inputs
+    # Final Database With New Content, Rows, & User Inputs | Sort Dataframe By InDate
     final_df = pd.concat([new_data_df, districts_merged_df])
+    final_df["InDate"] = pd.to_datetime(final_df["InDate"])
+    final_df.sort_values(by="InDate", inplace=True)
 
     return final_df
 
 
+
+
+
+def export_data(self, export_path: str) -> "CSV":
+    """
+    Notes:
+        Given an export path, filter cached data by district name & create appropriate CSVs. If none are already
+        there create new ones. If past versions are present combine & keep any new data provided by users.
+        Caution, rows must be compared to master file already in file.
+    Input:
+        export_path: string --> Path To Folder Where Data Will Be Exported
+
+    Output:
+        CSVs --> A CSV For Each District
+    """
+
+    # Logic Check First | Export Data Based On District Type
+    if str(type(QC_Checker.rd)) != "<class 'NoneType'>":
+        for district in QC_Checker.rd["District"].unique():
+
+            # Filter Data
+            temp_df = QC_Checker.rd[QC_Checker.rd["District"] == district]
+            full_ex_path = export_path + "\\" + QC_Checker.current_date + "_QC_MasterFile_" + district.strip() + ".xlsx"
+
+            # Drop Unneeded Columns
+            col_to_keep = ["File Number", "Address", "InDate", "Folder Name"]
+            for col in temp_df.columns:
+                if col not in col_to_keep:
+                    temp_df.drop(col, axis=1, inplace=True)
+
+            # Add Additional Columns
+            col_to_add = ["QC_Status", "Comments", "Actions", "StaffName", "CheckedByValen"]
+            for new_col in col_to_add:
+                temp_df[new_col] = ""
+
+            # Format Data
+            self.__formatexcel(full_ex_path, temp_df)
+
+        return
+    print("Sequence Error Detected: First Load Data Into QC_Checker")
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -147,19 +255,14 @@ def gather_data(data_path: str, export_folder: str) -> "None":
 if __name__ == "__main__":
 
     # Needed Variables
+    current_date = str(datetime.date.today().strftime("%Y-%m-%d")).split(" ")[0]
     data_path = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\GraphicsReportAutomation_QCQA\Data\WeeklyApplicationsLists"
     export_folder = r"C:\Users\renac\Documents\Programming\Python\Misc\SideProjects\CityOfToronto_Tools\GraphicsReportAutomation_QCQA\Data\MasterOutputs"
-    masterfile_export = r"C:\Users\renac\Desktop"
+    masterfile_export = r"C:\Users\renac\Desktop\\"
 
     # Gather Data & Write Master File
     all_data = gather_data(data_path, export_folder)
-    all_data.to_csv(r"C:\Users\renac\Desktop\TEST.csv", index = False)
+    m_path = masterfile_export + current_date + "_MasterCSV.csv"
+    all_data.to_csv(m_path, index = False)
 
-
-
-
-
-    # # qc_init.check_data(export_folder)
-    # qc_init.export_data(export_folder)
-
-    # current_date = str(datetime.date.today().strftime("%Y-%m-%d")).split(" ")[0]
+    # With Master Data Split Into Districts & Format Excel Files
