@@ -29,7 +29,7 @@ def __standardize_date(in_dates: list) -> list:
         in_dates:        Pandas Column -->    List of dates that needs to be standardized
 
     Output:
-        out_dates:       list          -->    Cleaned list of dates
+        out_dates:              list   -->    Cleaned list of dates
     """
 
     cleaned_dates = []
@@ -64,7 +64,7 @@ def __standardize_date(in_dates: list) -> list:
 
 
 #   PRIVATE METHODS
-def __formatexcel(full_ex_path, temp_df) -> bool:
+def __formatexcel(full_ex_path, temp_df):
     """
     Notes:
         Given an export path, as well as a pandas dataframe containing cleaned & up-to-date excel data
@@ -72,10 +72,10 @@ def __formatexcel(full_ex_path, temp_df) -> bool:
 
     Input:
         full_ex_path:        Export Path String  -->    Where will the district excel file be written to
-        temp_df:             Pandas Dataframe    -->    List of dates that needs to be standardized
+        temp_df:             Pandas Dataframe    -->    The data that will be used to create the excel file
 
     Output:
-        out_dates:       list          -->    Cleaned list of dates
+        Output Excel:          ExcelFile XLSX    -->    The final excel file ready for district updates
     """
 
     # Write Data To Excel | Add Formatting!!!
@@ -140,11 +140,11 @@ def gather_data(data_path: str, export_folder: str) -> "None":
         Dataframe cached as class static variable.
 
     Input:
-        data_path:       string -->    Path To Folder Containing Weekly Update Xlsx Files
-        export_folder:   string -->    Path To Folde Containing 4 District Output Files
+        data_path:                   string -->    Path To Folder Containing Weekly Update Xlsx Files
+        export_folder:               string -->    Path To Folde Containing 4 District Output Files
 
     Output:
-        Pandas DF --> Resulting dataframe, must up to date version
+        Pandas DF:         Pandas Dataframe -->    Resulting dataframe, must up to date version
 
     Update:
         [2022-03-24 | Renacin Matadeen ] - Added Functionality To Create 1 masterfile from both weekly
@@ -204,18 +204,25 @@ def gather_data(data_path: str, export_folder: str) -> "None":
     final_df["InDate"] = pd.to_datetime(final_df["InDate"])
     final_df.sort_values(by="InDate", inplace=True)
 
+    # Create A Column That Identifies District
+    district_list = []
+    fold_num_list = final_df["File Number"].values.tolist()
+    for f_num in fold_num_list:
+        f_num_s = f_num.split(" ")
+        district_list.append(f_num_s[2])
+
+    final_df["District"] = district_list
     return final_df
 
 
 
-
-
-def export_data(self, export_path: str) -> "CSV":
+def export_data(master_df, export_path, current_date):
     """
     Notes:
         Given an export path, filter cached data by district name & create appropriate CSVs. If none are already
         there create new ones. If past versions are present combine & keep any new data provided by users.
         Caution, rows must be compared to master file already in file.
+
     Input:
         export_path: string --> Path To Folder Where Data Will Be Exported
 
@@ -223,33 +230,29 @@ def export_data(self, export_path: str) -> "CSV":
         CSVs --> A CSV For Each District
     """
 
-    # Logic Check First | Export Data Based On District Type
-    if str(type(QC_Checker.rd)) != "<class 'NoneType'>":
-        for district in QC_Checker.rd["District"].unique():
+    for district in master_df["District"].unique():
+        if str(district) != "nan":
 
-            # Filter Data
-            temp_df = QC_Checker.rd[QC_Checker.rd["District"] == district]
-            full_ex_path = export_path + "\\" + QC_Checker.current_date + "_QC_MasterFile_" + district.strip() + ".xlsx"
+            # Filter By District
+            temp_df = master_df[master_df["District"] == district]
+            full_ex_path = export_path + "\\" + current_date + "_QC_MasterFile_" + district.strip() + ".xlsx"
 
             # Drop Unneeded Columns
-            col_to_keep = ["File Number", "Address", "InDate", "Folder Name"]
-            for col in temp_df.columns:
-                if col not in col_to_keep:
-                    temp_df.drop(col, axis=1, inplace=True)
+            temp_df.drop("District", axis=1, inplace=True)
 
-            # Add Additional Columns
-            col_to_add = ["QC_Status", "Comments", "Actions", "StaffName", "CheckedByValen"]
-            for new_col in col_to_add:
-                temp_df[new_col] = ""
+            # Add Additional Columns If Not Already Present
+            new_cols = ["QC_Status", "Comments", "Actions", "StaffName", "CheckedByValen"]
+            for n_col in new_cols:
+                if n_col not in temp_df.columns:
+                    temp_df[n_col] = ""
 
             # Format Data
-            self.__formatexcel(full_ex_path, temp_df)
+            __formatexcel(full_ex_path, temp_df)
 
-        return
-    print("Sequence Error Detected: First Load Data Into QC_Checker")
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+
 
 # Main Entry Point
 if __name__ == "__main__":
@@ -266,3 +269,4 @@ if __name__ == "__main__":
     all_data.to_csv(m_path, index = False)
 
     # With Master Data Split Into Districts & Format Excel Files
+    export_data(all_data, export_folder, current_date)
