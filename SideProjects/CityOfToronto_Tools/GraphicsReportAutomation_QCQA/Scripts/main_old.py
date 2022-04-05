@@ -157,7 +157,7 @@ def gather_data(data_path: str, export_folder: str) -> "None":
     directory_ = os.listdir(data_path)
     for file_ in directory_:
         if "~$" not in str(file_):
-            weekly_df = pd.read_csv(data_path + "\\" + file_, skiprows= 6)
+            weekly_df = pd.read_excel(data_path + "\\" + file_, skiprows= 6)
             for col in weekly_df.columns:
                 weekly_df[col] = weekly_df[col].astype(str)
             frames.append(weekly_df)
@@ -265,9 +265,8 @@ if __name__ == "__main__":
 
     # Gather Data & Write Master File
     all_data = gather_data(data_path, export_folder)
-    print(all_data)
-    # m_path = masterfile_export + current_date + "_MasterCSV.csv"
-    # all_data.to_csv(m_path, index = False)
-    #
-    # # With Master Data Split Into Districts & Format Excel Files
-    # export_data(all_data, export_folder, current_date)
+    m_path = masterfile_export + current_date + "_MasterCSV.csv"
+    all_data.to_csv(m_path, index = False)
+
+    # With Master Data Split Into Districts & Format Excel Files
+    export_data(all_data, export_folder, current_date)
