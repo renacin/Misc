@@ -265,8 +265,9 @@ if __name__ == "__main__":
 
     # Gather Data & Write Master File
     all_data = gather_data(data_path, export_folder)
-    m_path = masterfile_export + current_date + "_MasterCSV.csv"
-    all_data.to_csv(m_path, index = False)
-
-    # With Master Data Split Into Districts & Format Excel Files
-    export_data(all_data, export_folder, current_date)
+    print(all_data)
+    # m_path = masterfile_export + current_date + "_MasterCSV.csv"
+    # all_data.to_csv(m_path, index = False)
+    #
+    # # With Master Data Split Into Districts & Format Excel Files
+    # export_data(all_data, export_folder, current_date)
