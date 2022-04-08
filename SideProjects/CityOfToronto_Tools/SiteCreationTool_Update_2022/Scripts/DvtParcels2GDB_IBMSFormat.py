@@ -23,6 +23,8 @@ def findField(fc, fi):
     return True
   else:
     return False
+
+
 # Turn off geoprocessing logging history
 arcpy.SetLogHistory(False)
 
@@ -34,9 +36,9 @@ selected_features = arcpy.GetParameterAsText (0) # selected features from parcel
 # TO DO: AddWarning if pcount >100 and pcount <1499:
 # Check if pcount = count of target database
 # https://gis.stackexchange.com/questions/108036/using-get-count-with-if-statment
-arcpy.AddMessage('\n\n\n') 
+arcpy.AddMessage('\n\n\n')
 pCount = int(arcpy.GetCount_management(selected_features).getOutput(0))
-	
+
 # File path check
 available_drives = ['%s:' % d for d in string.ascii_uppercase if os.path.exists('%s:' % d)]
 for drive in available_drives:
@@ -45,7 +47,7 @@ for drive in available_drives:
 	c = os.path.join(drive,"\pln\urbandesign\GRAPHICS\zResource\StoredParcels\DevApp.gdb")
 	d = os.path.join(drive,"\pln\pln\Urbandesign\GRAPHICS\zResource\StoredParcels\DevApp.gdb")
 	e = os.path.join(drive,"\GRAPHICS\zResource\StoredParcels\DevApp.gdb")
-	
+
 	if os.path.exists(a):
 		out_location = a
 	elif os.path.exists(b):
@@ -128,22 +130,22 @@ elif year >18 and ward ==25:
 else:
 	wardName = ward44dict.get(ward)
 
-#arcpy.AddMessage ("Ward Neigbhourhood is " + wardName)			
+#arcpy.AddMessage ("Ward Neigbhourhood is " + wardName)
 # Check selected input layer
 arcpy.AddMessage("Attempting to save " + str(pCount) + " parcel(s) in \n---> " + out_location )
 arcpy.AddMessage("There are currently " + str(destCount) + " parcels in the target location")
-print "Attempting to save" + str(pCount) + " parcel(s) in \n---> " + out_location 
-print "There are currently " + str(destCount) + " parcels in the target location" 
+print "Attempting to save" + str(pCount) + " parcel(s) in \n---> " + out_location
+print "There are currently " + str(destCount) + " parcels in the target location"
 
 if pCount == destCount:   # Selecting the fc without a selection
 	arcpy.AddMessage("Detected that you have not made a selection. Please check your input layer to see if a selection has been made and try again.")
 	arcpy.AddMessage("Program Terminated")
-	print pythonaddins.MessageBox("Detected that you have not made a selection. Please check your input layer to see if a selection has been made and try again.", 0)  
+	print pythonaddins.MessageBox("Detected that you have not made a selection. Please check your input layer to see if a selection has been made and try again.", 0)
 	sys.exit()
 elif pCount >1500:  # Too large of a selection
 	arcpy.AddMessage("Too many parcels have been selected, please check your input layer to see if a selection has been made and try again.")
 	arcpy.AddMessage("Program Terminated")
-	print pythonaddins.MessageBox("Detected that too many parcels have been selected. Please ensure you have selected less than 1500 parcels", "ERROR - Too many parcels selected", 0)  
+	print pythonaddins.MessageBox("Detected that too many parcels have been selected. Please ensure you have selected less than 1500 parcels", "ERROR - Too many parcels selected", 0)
 	sys.exit()
 else:
 	arcpy.AddMessage("Number of parcel(s) selected: " + str(pCount))
@@ -173,11 +175,11 @@ try:
 
 
 
-	# Delete unwanted fields 
+	# Delete unwanted fields
 		# Manually enter field names to keep here
 		# Include mandatory fields name such as OBJECTID (or FID...), and Shape in keepfields
 		# Not keeping AROLL, as there could be multiple parcels being used for selection
-	fields = arcpy.ListFields(table)	
+	fields = arcpy.ListFields(table)
 	keepFields = ["OBJECTID","Shape","FID","AROLL","SHAPE", "Shape" "SHAPE_Length", "SHAPE_Area", "Shape_Length", "Shape_Area","SHAPE.AREA","SHAPE.LEN"]
 	dropFields = [x.name for x in fields if x.name not in keepFields]
 	arcpy.DeleteField_management(table, dropFields)
@@ -187,7 +189,7 @@ try:
 
 	# Add Fields
 		# Domains attached to DISTRICT, STATUS and TYPE fields (domain name = field name)
-		# Make sure filter list in script matches current domains 
+		# Make sure filter list in script matches current domains
 		# [FieldEdit]
 	fields = [
 		("FILE_NUMBER", "TEXT", "40", "", "", "", "NULLABLE", "NON_REQUIRED",""),
@@ -208,7 +210,7 @@ try:
 	arcpy.AddMessage("\tAdding new fields...")
 	for f in fields:
 		arcpy.AddField_management(*(table,) + f)
-	
+
 	# arcpy.AddField_management(table,"FILE_NUMBER", "TEXT", "40", "", "", "", "NULLABLE", "NON_REQUIRED","")
 	# arcpy.AddField_management(table,"DISTRICT", "TEXT", "20", "", "", "", "NULLABLE", "NON_REQUIRED", "")
 	# arcpy.AddField_management(table,"WARD", "SHORT", "", "", "", "", "NULLABLE", "NON_REQUIRED", ""),
@@ -222,19 +224,19 @@ try:
 	# arcpy.AddField_management(table,"TRUE_DATE", "DATE", "", "", "", "", "NULLABLE", "NON_REQUIRED", "" )
 	# arcpy.AddField_management(table,"DESCRIPTION", "TEXT", "4000", "", "", "", "NULLABLE", "NON_REQUIRED", "")
 	# arcpy.AddField_management(table,"CREATED_BY", "TEXT", "255", "", "", "", "NULLABLE", "NON_REQUIRED", "")
-	
-	
+
+
 	# zDsc = arcpy.Describe(table)
 	# fields = zDsc.fields
 	# for field_test in fields:
 		# arcpy.AddMessage("{0} is a type of {1} with a length of {2}".format(f.name, f.type, f.length))
 	# del zDsc
 	# del fields
-	
+
 	arcpy.AddMessage("\tChecking for AROLL field...")
 	if findField(table, "AROLL") == False:
 		arcpy.AddField_management(table, "AROLL", "TEXT", "20", "","","","NULLABLE", "NON_REQUIRED","")
-	
+
 	# listFields = arcpy.ListFields(table)
 	# for field in listFields:
 		# if field.name == "AROLL":
@@ -263,7 +265,7 @@ try:
 	arcpy.AddMessage("---" * 3)
 	arcpy.AddMessage("Processing Data")
 	arcpy.AddMessage("---" * 3)
-	arcpy.AddMessage("\tCalculating fields...")	
+	arcpy.AddMessage("\tCalculating fields...")
 
 	for field in calcFields:
 		arcpy.CalculateField_management(*(table,) + field)
@@ -275,7 +277,7 @@ try:
 			row[1] = getpass.getuser()
 			rows.updateRow(row)
 			#row[1] = arcpy.ConvertTimeField_management(table, "DATE_SUBMITTED", "MM/dd/yyyy HH:mm:ss","TRUE_DATE")
-			
+
 
 
 
@@ -305,16 +307,16 @@ try:
 			# Rename if necessary
 			if old_name.startswith("FIRST_"):
 				new_name = old_name.split('_', 1)[-1]
-				#arcpy.AddMessage("new name of First: " + str(new_name))	
-				
+				#arcpy.AddMessage("new name of First: " + str(new_name))
+
 			elif old_name.startswith("MEAN_"):
 				new_name = old_name.split('_',1)[-1]
-				#arcpy.AddMessage("new name of Mean: " + str(new_name))	
+				#arcpy.AddMessage("new name of Mean: " + str(new_name))
 			else:
 				new_name = old_name
-				#arcpy.AddMessage("new name of Existing: " + str(new_name))	
+				#arcpy.AddMessage("new name of Existing: " + str(new_name))
 
-			# Create new FieldMap object    
+			# Create new FieldMap object
 			new_f = arcpy.FieldMap()
 			new_f.addInputField(dtable,old_name) # Specify the input field to use
 			# Rename output field
@@ -340,13 +342,13 @@ try:
 	arcpy.mapping.AddLayer(df, player, "TOP") # Add to map
 	updateLayer = arcpy.mapping.ListLayers(mxd, player, df)[0]
 	sourceLayer = arcpy.mapping.Layer(r"\\VS-173-PLNGRA02\PLNGRA02\PLN\pln\Urbandesign\GRAPHICS\zResource\StoredParcels\zData\Site.lyr") # Site.lyr symbology layer
-	arcpy.ApplySymbologyFromLayer_management(updateLayer, sourceLayer) # Apply symbology from Site.lyr 
+	arcpy.ApplySymbologyFromLayer_management(updateLayer, sourceLayer) # Apply symbology from Site.lyr
 	arcpy.RefreshActiveView()
 	ext = player.getExtent() # Zoom to extent
 	df.extent = ext
-	del mxd, df, player, ext 
+	del mxd, df, player, ext
 
-		
+
 # TO DO: Raise exception if pcount of target = count of selected parcels
 
 except Exception as e:
@@ -358,5 +360,4 @@ finally:
 		arcpy.Delete_management("in_memory\tempLayer")
 	if arcpy.Exists("in_memory\tableLayer"):
 		arcpy.Delete_management("in_memory\tableLayer")
-	arcpy.RefreshActiveView()		
-
+	arcpy.RefreshActiveView()
