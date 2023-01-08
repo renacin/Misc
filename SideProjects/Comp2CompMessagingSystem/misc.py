@@ -44,7 +44,27 @@ def main():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+# Worker Should Be Able To Check In Constantly Given It's Own Thread
+def work(self):
+    """ Based On The Worker's main_worker_status variable, determine if the Worker Should Begin Work
 
-# Main Entry Point
-if __name__ == "__main__":
-    main()
+    Cases:
+        If main_worker_status = False, Don't Do Work    - Wait For Check-In To Return Different Value
+        If main_worker_status = True , Start Doing Work - Either Start At Begining, Or Pick Off Where Other Worker Left Off
+    """
+
+    try:
+        c_var = True
+        while c_var:
+
+            # If Worker Can Work
+            if self.main_worker_status == True:
+                pass
+
+            else:
+                print("Can't Work")
+
+            time.sleep(self.check_in_delay)
+
+    except (KeyboardInterrupt, SystemExit):
+        pass
